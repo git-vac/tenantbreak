@@ -1,0 +1,39 @@
+openapi: 3.1.1
+info:
+  title: LedgerCloud synthetic API
+  version: '1.0'
+servers:
+  - url: http://127.0.0.1:8080
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+paths:
+  /api/me:
+    get:
+      operationId: getCurrentIdentity
+      responses:
+        '200':
+          description: Authenticated subject, tenant and role
+  /api/invoices/{invoiceId}:
+    parameters:
+      - name: invoiceId
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: readInvoice
+      responses:
+        '200':
+          description: Invoice
+        '403':
+          description: Forbidden
+    delete:
+      operationId: deleteInvoice
+      responses:
+        '204':
+          description: Deleted

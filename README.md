@@ -6,11 +6,11 @@ TenantBreak runs an explicit access matrix across users, roles and tenants. A fi
 
 ![Synthetic lab: nine leaks before the fix, zero after](examples/overview.svg)
 
-[Vulnerable report](examples/vulnerable.html) · [Fixed report](examples/fixed.html) · [Example policy](examples/policy.json) · [How evidence works](docs/evidence.md)
+[Vulnerable report](examples/vulnerable.html) · [Fixed report](examples/fixed.html) · [Run comparison](examples/comparison.html) · [Focused finding](examples/focused.html) · [Example policy](examples/policy.json)
 
 ## Try the complete experiment
 
-Python 3.10+; no runtime dependencies, cloud account or API key.
+Python 3.10+; the core engine has no runtime dependencies and needs no cloud account or API key. YAML import has an optional parser dependency.
 
 ```bash
 git clone https://github.com/git-vac/tenantbreak.git
@@ -35,11 +35,67 @@ The lab demonstrates three boundaries:
 - **Tenant:** Charlie from Nova must not read Acme's invoices.
 - **Role:** Acme members must not retrieve its administrator export.
 
+## Reproduce a finding and verify the fix
+
+Focus a run on a resource, a principal, or an exact `RESOURCE:IDENTITY` case:
+
+```bash
+tenantbreak demo --case alice-invoice:bob --html reports/focused.html
+tenantbreak run private/policy.json --resource alice-invoice --identity bob --json reports/focused.json
+tenantbreak replay private/policy.json reports/focused.json --case alice-invoice:bob --html reports/replayed.html
+```
+
+Selectors are repeatable and intersect. Required identity checks and owner controls stay in the run even if their principals were not selected as probes. Only those accounts need environment credentials. Reports display the selected scope; omitted checks are **not run**, rather than passed.
+
+`replay` uses the supplied matching policy and fresh environment credentials. It never sends requests to a target taken from the saved report. Without `--case`, it selects confirmed leaks recorded in that report. Use `--base-url` to override the current policy's target explicitly.
+
+Compare two saved runs entirely offline:
+
+```bash
+tenantbreak demo --json reports/before.json
+tenantbreak demo --mode fixed --json reports/after.json
+tenantbreak compare reports/before.json reports/after.json --html reports/comparison.html --junit reports/comparison.xml
+```
+
+The first demo intentionally exits 1; run the next commands after observing that expected finding. The comparison establishes nine resolved leaks and exits 0. For an application, save JSON from `run` before and after its fix with the **same selected cases**. A focused replay of a full report has a smaller scope and cannot be compared directly with that full report.
+
+Changed policies, case selections, definitions, execution limits, or demo/application modes prevent misleading comparisons. Different application target origins also require `--allow-target-change`; this acknowledges the change without establishing deployment equivalence. Temporary ports for the same bundled demo fixture are handled automatically. Version 0.1 reports can be loaded for replay, but comparison requires fresh version 0.2 evidence.
+
+Comparison exits: **0** complete compatible evidence with no new or persistent leaks in the after run; **1** new or persistent leaks remain; **2** incomplete or incompatible evidence. [Replay and comparison details](docs/workflows.md).
+
+## Build a policy for your application
+
+Start from a scaffold or a local OpenAPI document:
+
+```bash
+tenantbreak init --base-url https://staging.example.test --out private/policy.draft.json
+# Alternatively, import selected GET routes:
+tenantbreak import-openapi examples/openapi.json --base-url http://127.0.0.1:8080 --operation readInvoice --out private/imported.draft.json
+```
+
+Edit the draft's `policy` object: resolve resource identifiers, configure identity verification, declare allowed identities, and supply specific resource evidence. Then produce a runnable policy:
+
+```bash
+tenantbreak finalize private/policy.draft.json --out private/policy.json
+tenantbreak validate private/policy.json
+```
+
+Setup commands make no API requests. Drafts are deliberately blocked by `run` until finalized. The importer extracts GET routes from OpenAPI 3.0, 3.1 and 3.2 JSON or YAML documents; it does not infer business permissions or copy credential/response examples. Supply the target origin explicitly and use `--path-prefix /v1` for a version prefix. Narrow large specifications with repeatable `--operation` or `--path` selectors.
+
+For YAML, install the optional extra from this checkout:
+
+```bash
+python -m pip install ".[openapi]"
+tenantbreak import-openapi examples/openapi.yaml --base-url http://127.0.0.1:8080 --operation readInvoice --out private/yaml.draft.json
+```
+
+Local references are resolved within bounded limits; external references are never fetched. Unsupported required headers, cookies, request bodies and collection semantics still need application-specific review. [Policy setup walkthrough](docs/onboarding.md) · [Generated draft](examples/policy.draft.json).
+
 ## Test your own API
 
 Use an API and test accounts you are authorized to examine. Start with staging fixtures whose ownership is known.
 
-1. Copy [examples/policy.json](examples/policy.json) and replace the target origin, identity checks, paths, ownership evidence and allowed identities.
+1. Complete a draft as above, or adapt [examples/policy.json](examples/policy.json) with your target origin, identity checks, paths, ownership evidence and allowed identities.
 2. Set each test account's bearer token in the environment variable named by `token_env`. Tokens are read from the environment; they are never placed in the policy or a CLI argument.
 3. Validate and run the policy:
 
@@ -48,7 +104,7 @@ tenantbreak validate private/policy.json
 tenantbreak run private/policy.json --html reports/audit.html --json reports/audit.json --junit reports/audit.xml
 ```
 
-`validate` checks structure without credentials or network requests. `run` first checks every identity against the configured identity endpoint, then establishes an allowed control for each resource, then exercises every identity/resource combination.
+`validate` checks structure without credentials or network requests. `run` checks the required identities against the configured identity endpoint, establishes an allowed control for each selected resource, and exercises the selected identity/resource combinations. Without selectors it runs the complete matrix.
 
 For a disposable target with a changing port:
 
@@ -80,7 +136,7 @@ Each resource names an explicit set of allowed identities. Every other configure
 
 `match` uses JSON Pointer equality checks. Choose identifying values that prove the protected resource was returned, such as its ID, tenant and a unique fixture marker. Generic fields such as `success: true` are weak evidence. TenantBreak requires at least two assertions, but their meaning and specificity remain the policy author's responsibility. Assertion values are omitted from reports.
 
-Identity `verify` assertions should independently check the authenticated subject, tenant and role. At least two fields are required, and each identity must have distinct verification assertions and a distinct token.
+Identity `verify` assertions should independently check the authenticated subject, tenant and role. At least two fields are required, and each identity must have distinct verification assertions and a distinct token. Credential values must stay separate from policy text and evidence labels; collisions are refused before requests so redaction cannot corrupt account/case identifiers.
 
 ## Interpret outcomes
 
@@ -108,11 +164,11 @@ The repository's [CI workflow](.github/workflows/tests.yml) installs the package
 
 ## Scope and limits
 
-This first release supports explicit **GET requests**, bearer-token identities, HTTP 200 owner controls, 403/404 denials and JSON equality assertions. It does not discover accounts, enumerate IDs, import OpenAPI, change resource state, refresh tokens, exercise browser sessions or generate policies automatically.
+The runner supports explicit **GET requests**, bearer-token identities, HTTP 200 owner controls, 403/404 denials and JSON equality assertions. The setup tools create drafts from local OpenAPI documents or a starter template. Access rules and ownership evidence require explicit configuration. The runner does not discover accounts, enumerate IDs, change resource state, refresh tokens or exercise browser sessions.
 
-Every policy is limited to 32 identities, 64 resources and 16 assertions per identity/resource. JSON input and responses are bounded to 1 MiB. Requests run sequentially. The socket timeout defaults to 5 seconds; a 120-second run budget is checked before requests and between response chunks. A blocking operation can overrun that budget by up to its socket timeout, and OS DNS resolution may take longer. Results are observations over time, not an atomic snapshot.
+Every policy is limited to 32 identities, 64 resources and 16 assertions per identity/resource. Policy JSON and responses are bounded to 1 MiB, saved reports to 16 MiB, and OpenAPI input to 8 MiB. Requests run sequentially. The socket timeout defaults to 5 seconds; a 120-second run budget is checked before requests and between response chunks. A blocking operation can overrun that budget by up to its socket timeout, and OS DNS resolution may take longer. Results are observations over time, not an atomic snapshot.
 
-Reports omit raw bodies and headers and redact exact supplied token values. Encoded/transformed token values are not a general redaction guarantee. Paths, tenant labels and response digests can still describe your application. `reports/`, `private/` and `.env*` are Git-ignored. Output files must be new; existing files and symlink targets are refused.
+Reports omit raw bodies and headers and redact exact supplied token values. Encoded/transformed token values are not a general redaction guarantee. Paths, tenant labels and response digests can still describe your application. Saved reports are structurally checked and their outcomes recomputed before replay/comparison; they are not authenticated attestations. `reports/`, `private/` and `.env*` are Git-ignored. Output files must be new; existing files and symlink targets are refused.
 
 ## Develop and extend
 
@@ -121,7 +177,7 @@ python -m pip install -e .
 python -m unittest discover -s tests -v
 ```
 
-[Architecture and evidence](docs/evidence.md) explains the decision rules. [Manual lab walkthrough](docs/lab.md) lets you test the CLI against a separate running API.
+[Architecture and evidence](docs/evidence.md) explains the decision rules. [Manual lab walkthrough](docs/lab.md) lets you test the CLI against a separate running API. Install `.[openapi]` to include optional YAML tests; the core tests run without it.
 
 Related work: [AuthMatrix](https://github.com/SecurityInnovation/AuthMatrix) provides authorization matrices inside Burp Suite. TenantBreak focuses on an explicit standalone policy, evidence checks and CI results. Background: [OWASP broken object-level authorization](https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/) and [JSON Pointer, RFC 6901](https://www.rfc-editor.org/rfc/rfc6901).
 

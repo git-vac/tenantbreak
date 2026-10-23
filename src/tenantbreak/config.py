@@ -161,17 +161,22 @@ def load(path):
             data = stream.read(1024 * 1024 + 1)
         if len(data) > 1024 * 1024:
             raise PolicyError("policy exceeds 1 MiB")
-        return validate(decode_json(data))
+        policy = decode_json(data)
+        if isinstance(policy, dict) and "draft_version" in policy:
+            raise PolicyError("this is a policy draft; complete it and use tenantbreak finalize before running")
+        return validate(policy)
     except (OSError, UnicodeError, ValueError, RecursionError) as exc:
         if isinstance(exc, PolicyError):
             raise
         raise PolicyError("cannot load policy: expected bounded, valid UTF-8 JSON") from exc
 
 
-def credentials(policy, environment=None):
+def credentials(policy, environment=None, identity_ids=None):
     environment = os.environ if environment is None else environment
     result = {}
     for identity in policy["identities"]:
+        if identity_ids is not None and identity["id"] not in identity_ids:
+            continue
         token = environment.get(identity["token_env"], "")
         if (not isinstance(token, str) or not 1 <= len(token) <= 8192
                 or any(ord(c) < 33 or ord(c) > 126 for c in token)):
@@ -179,6 +184,9 @@ def credentials(policy, environment=None):
         result[identity["id"]] = token
     if len(set(result.values())) != len(result):
         raise PolicyError("test identities must have distinct bearer tokens")
+    public_text = json.dumps(policy, ensure_ascii=False) + " TenantBreak GET run demo-vulnerable demo-fixed allowed denied confirmed-leak inconclusive error"
+    if any(token in public_text for token in result.values()):
+        raise PolicyError("bearer values must be separate from policy text and evidence labels; use opaque credentials")
     return result
 
 

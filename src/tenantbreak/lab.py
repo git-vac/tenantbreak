@@ -8,6 +8,7 @@ import secrets
 import threading
 
 from .config import decode_json, validate
+from . import __version__
 
 USERS = {
     "alice": {"id": "alice", "tenant": "acme", "role": "member"},
@@ -33,7 +34,7 @@ def handler(mode):
         raise ValueError("unknown lab mode")
 
     class Handler(BaseHTTPRequestHandler):
-        server_version = "TenantBreakLab/0.1"
+        server_version = "TenantBreakLab/" + __version__
         sys_version = ""
 
         def log_message(self, *_):

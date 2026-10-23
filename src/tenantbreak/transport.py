@@ -10,6 +10,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
 from .config import decode_json, request_path
+from . import __version__
 
 MAX_BODY = 1024 * 1024
 
@@ -46,7 +47,7 @@ class Transport:
             "Authorization": "Bearer " + token,
             "Accept": "application/json",
             "Accept-Encoding": "identity",
-            "User-Agent": "TenantBreak/0.1",
+            "User-Agent": "TenantBreak/" + __version__,
         }, method="GET")
         response = None
         result = Response()

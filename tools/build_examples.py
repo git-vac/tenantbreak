@@ -9,7 +9,9 @@ import json
 from pathlib import Path
 
 from tenantbreak.engine import exit_code, run
+from tenantbreak import comparison
 from tenantbreak.lab import TOKENS, demo_policy, server
+from tenantbreak.onboarding import from_openapi, read_spec
 from tenantbreak.report import html, junit, terminal
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,9 +72,25 @@ def main():
         raise RuntimeError("unexpected lab matrix")
     if reports["vulnerable"]["policy_sha256"] != reports["fixed"]["policy_sha256"]:
         raise RuntimeError("lab policy changed between implementations")
+    result = comparison.compare(reports["vulnerable"], reports["fixed"])
+    if comparison.exit_code(result) != 0 or result["counts"].get("resolved-leak") != 9:
+        raise RuntimeError("lab comparison did not establish the expected resolutions")
+    for extension, content in (("json", json.dumps(result, indent=2) + "\n"), ("html", comparison.html(result)),
+                               ("xml", comparison.junit(result)), ("txt", comparison.terminal(result))):
+        (destination / f"comparison.{extension}").write_text(content, encoding="utf-8", newline="\n")
+    with server("vulnerable") as address:
+        focused = run(demo_policy(), TOKENS, base_url=address, mode="demo-vulnerable", case_ids=["alice-invoice:bob"])
+    if len(focused["cases"]) != 1 or exit_code(focused) != 1 or len(focused["identities"]) != 2 or len(focused["controls"]) != 1:
+        raise RuntimeError("focused replay did not retain its dependencies")
+    (destination / "focused.html").write_text(html(focused), encoding="utf-8", newline="\n")
+    (destination / "focused.json").write_text(json.dumps(focused, indent=2) + "\n", encoding="utf-8", newline="\n")
+    document, digest = read_spec(destination / "openapi.json")
+    draft = from_openapi(document, base_url="http://127.0.0.1:8080", name="LedgerCloud authorization policy", operation_ids=["readInvoice"])
+    draft["source"]["document_sha256"] = digest
+    (destination / "policy.draft.json").write_text(json.dumps(draft, indent=2) + "\n", encoding="utf-8", newline="\n")
     (destination / "policy.json").write_text(json.dumps(demo_policy(), indent=2) + "\n", encoding="utf-8", newline="\n")
     (destination / "overview.svg").write_text(overview(reports["vulnerable"], reports["fixed"]), encoding="utf-8", newline="\n")
-    print("Verified actual HTTP lab: 9 leaks before; 6 allowed + 10 denied after. Examples regenerated.")
+    print("Verified HTTP lab: 9 leaks before; 6 allowed + 10 denied after; 9 resolutions; focused case retains controls. Examples regenerated.")
 
 
 if __name__ == "__main__":

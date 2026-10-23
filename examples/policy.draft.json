@@ -1,0 +1,77 @@
+{
+  "draft_version": 1,
+  "policy": {
+    "version": 1,
+    "name": "LedgerCloud authorization policy",
+    "base_url": "http://127.0.0.1:8080",
+    "identity_check": {
+      "path": "/__SET_IDENTITY_ENDPOINT__"
+    },
+    "identities": [
+      {
+        "id": "user-a",
+        "tenant": "__SET_TENANT_A__",
+        "role": "member",
+        "token_env": "TB_USER_A_TOKEN",
+        "verify": {
+          "/id": "__SET_SUBJECT_A__",
+          "/tenant": "__SET_TENANT_A__"
+        }
+      },
+      {
+        "id": "user-b",
+        "tenant": "__SET_TENANT_B__",
+        "role": "member",
+        "token_env": "TB_USER_B_TOKEN",
+        "verify": {
+          "/id": "__SET_SUBJECT_B__",
+          "/tenant": "__SET_TENANT_B__"
+        }
+      }
+    ],
+    "resources": [
+      {
+        "id": "get-readinvoice-c3a20d52",
+        "label": "GET /api/invoices/{invoiceId}",
+        "tenant": "__SET_RESOURCE_TENANT__",
+        "path": "/api/invoices/{invoiceId}",
+        "allow": [],
+        "control_identity": "user-a",
+        "match": {
+          "/id": "__SET_RESOURCE_ID__",
+          "/tenant": "__SET_RESOURCE_TENANT__"
+        }
+      }
+    ]
+  },
+  "review": [
+    "Set the target origin and the authenticated identity endpoint.",
+    "Replace identity subject, tenant and role values with your test-account expectations.",
+    "Resolve path parameters and required query parameters using known disposable resource identifiers.",
+    "Declare every resource's allowed identities and one allowed control identity.",
+    "Replace resource assertions with specific identifying evidence; do not put credentials in the policy.",
+    "Use finalize to validate the edited draft and produce a runnable policy. No API requests are made by setup commands.",
+    "Only GET routes were extracted. Server URLs, credentials, response examples and access rules were not copied.",
+    "Use --path-prefix for API version prefixes; per-operation server overrides are not applied.",
+    "Required custom headers, cookies and querystring bodies are unsupported by this bearer-only runner. Remove those operations unless compatible without them.",
+    "Collection endpoints need evidence supported by the current exact-object checks; route import does not add collection scanning."
+  ],
+  "source": {
+    "kind": "openapi",
+    "openapi_version": "3.1.1",
+    "operations": [
+      {
+        "resource": "get-readinvoice-c3a20d52",
+        "method": "GET",
+        "operation_id": "readInvoice",
+        "path_parameters": [
+          "invoiceId"
+        ],
+        "required_query_parameters": [],
+        "unsupported_required_parameter_locations": []
+      }
+    ],
+    "skipped_non_get_operations": 1,
+    "document_sha256": "49d40c474a4e6719a987796a117dad478d134bca3ba1883d054f065d1f133243"
+  }
+}

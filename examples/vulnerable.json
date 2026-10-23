@@ -1,15 +1,36 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "tool": "TenantBreak",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "name": "LedgerCloud authorization lab",
-  "created_at": "2026-10-23T07:04:37.108123+00:00",
+  "created_at": "2026-10-23T08:07:40.408873+00:00",
   "mode": "demo-vulnerable",
-  "base_url": "http://127.0.0.1:58971",
+  "base_url": "http://127.0.0.1:51697",
   "policy_sha256": "c4e9d643d1915468198936d68c9afcebcb7d437e0ef024d29594f2483af0f610",
   "limits": {
     "timeout": 5.0,
     "max_seconds": 120.0
+  },
+  "scope": {
+    "total_cases": 16,
+    "selected_cases": [
+      "alice-invoice:alice",
+      "alice-invoice:bob",
+      "alice-invoice:charlie",
+      "alice-invoice:admin-acme",
+      "bob-invoice:alice",
+      "bob-invoice:bob",
+      "bob-invoice:charlie",
+      "bob-invoice:admin-acme",
+      "charlie-invoice:alice",
+      "charlie-invoice:bob",
+      "charlie-invoice:charlie",
+      "charlie-invoice:admin-acme",
+      "acme-export:alice",
+      "acme-export:bob",
+      "acme-export:charlie",
+      "acme-export:admin-acme"
+    ]
   },
   "identities": [
     {
@@ -76,7 +97,7 @@
       "http_status": 200,
       "response_sha256": "2fcea76528739b92c97424723486f2a963a7a12d6ba24ee7107faa1f61cbea9e",
       "response_bytes": 53,
-      "elapsed_ms": 0,
+      "elapsed_ms": 15,
       "assertions": [
         {
           "pointer": "/id",
@@ -249,10 +270,11 @@
       "expected": "allow",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "d1cbca346d01698454a5b11499c4bf1b5ddf9a561c112cb8625add8ffdde638b",
       "http_status": 200,
       "response_sha256": "6baa4702dac9cce4700e7a8c321def84eb20183a683ec17c32b0914c9bd37604",
       "response_bytes": 103,
-      "elapsed_ms": 16,
+      "elapsed_ms": 0,
       "assertions": [
         {
           "pointer": "/id",
@@ -287,6 +309,7 @@
       "expected": "deny",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "664b2945510be83af235eb03a463ef5fa705124ca1edfc74bc5f1f54c2f229a1",
       "http_status": 200,
       "response_sha256": "6baa4702dac9cce4700e7a8c321def84eb20183a683ec17c32b0914c9bd37604",
       "response_bytes": 103,
@@ -325,6 +348,7 @@
       "expected": "deny",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "fe0d6c7402510d7ad6a86ef4b008a8dd719205fbb043b27f937fe85685a35708",
       "http_status": 200,
       "response_sha256": "6baa4702dac9cce4700e7a8c321def84eb20183a683ec17c32b0914c9bd37604",
       "response_bytes": 103,
@@ -363,10 +387,11 @@
       "expected": "allow",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "4445ee47b95b2f25b710db244f1744919af5f38de25cad0c959aec1704ea9a21",
       "http_status": 200,
       "response_sha256": "6baa4702dac9cce4700e7a8c321def84eb20183a683ec17c32b0914c9bd37604",
       "response_bytes": 103,
-      "elapsed_ms": 15,
+      "elapsed_ms": 0,
       "assertions": [
         {
           "pointer": "/id",
@@ -401,10 +426,11 @@
       "expected": "deny",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "4782e456eda8b0bdb6cceb88fd740d0443384f6707d762cc05b96abafa334773",
       "http_status": 200,
       "response_sha256": "f8fe2e8a6323d79f39707a90344a0d9d98d330ba060137c429940247b1875cb3",
       "response_bytes": 99,
-      "elapsed_ms": 16,
+      "elapsed_ms": 0,
       "assertions": [
         {
           "pointer": "/id",
@@ -439,6 +465,7 @@
       "expected": "allow",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "019f0c901f71766fe3290c26ca764465821eea55f33ca8d94ea2f859d5320e33",
       "http_status": 200,
       "response_sha256": "f8fe2e8a6323d79f39707a90344a0d9d98d330ba060137c429940247b1875cb3",
       "response_bytes": 99,
@@ -477,10 +504,11 @@
       "expected": "deny",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "b7a367346e02cdcd83318ac3522ec2d02724e9568d9e3bca2621a5bede921ae6",
       "http_status": 200,
       "response_sha256": "f8fe2e8a6323d79f39707a90344a0d9d98d330ba060137c429940247b1875cb3",
       "response_bytes": 99,
-      "elapsed_ms": 0,
+      "elapsed_ms": 16,
       "assertions": [
         {
           "pointer": "/id",
@@ -515,10 +543,11 @@
       "expected": "allow",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "6044371ba34c5b4240491d1a8ef37d5bc69a68864e3e6f2d5ab40fde091b2761",
       "http_status": 200,
       "response_sha256": "f8fe2e8a6323d79f39707a90344a0d9d98d330ba060137c429940247b1875cb3",
       "response_bytes": 99,
-      "elapsed_ms": 0,
+      "elapsed_ms": 16,
       "assertions": [
         {
           "pointer": "/id",
@@ -553,6 +582,7 @@
       "expected": "deny",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "76f5003350925b42474960c0ebcc59cb61892c66cb1f23b591d0b7b7b4f2a3d0",
       "http_status": 200,
       "response_sha256": "592c780a37ba86c37474ce8bbbb20d52999d48b575ba804097c56ed82bd5961a",
       "response_bytes": 107,
@@ -591,6 +621,7 @@
       "expected": "deny",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "ca91bbcc72e0d6454c6be898cd6ae16e07038b95d953a656d47e674edeb2450a",
       "http_status": 200,
       "response_sha256": "592c780a37ba86c37474ce8bbbb20d52999d48b575ba804097c56ed82bd5961a",
       "response_bytes": 107,
@@ -629,6 +660,7 @@
       "expected": "allow",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "ac5e162e1ee7fe5db300c91afb36abaac5f0d23a02afbb06eb625a817359d672",
       "http_status": 200,
       "response_sha256": "592c780a37ba86c37474ce8bbbb20d52999d48b575ba804097c56ed82bd5961a",
       "response_bytes": 107,
@@ -667,6 +699,7 @@
       "expected": "deny",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "1a247f4f751993e5c8a4eeed37937451c6de84f48422405c314fa0a422201cf1",
       "http_status": 200,
       "response_sha256": "592c780a37ba86c37474ce8bbbb20d52999d48b575ba804097c56ed82bd5961a",
       "response_bytes": 107,
@@ -705,6 +738,7 @@
       "expected": "deny",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "60d8100e7878898e67f447448c90cc9e6a98f34a2020968997c28658630abe24",
       "http_status": 200,
       "response_sha256": "b341c909df4c8c2830eb544bc934b6f4512f95f35ffc470a8b6f5576964f04c5",
       "response_bytes": 86,
@@ -743,10 +777,11 @@
       "expected": "deny",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "5812539493a3115ab1cad296431e9da1bacebe47d2286597b407d432c44ebd04",
       "http_status": 200,
       "response_sha256": "b341c909df4c8c2830eb544bc934b6f4512f95f35ffc470a8b6f5576964f04c5",
       "response_bytes": 86,
-      "elapsed_ms": 15,
+      "elapsed_ms": 0,
       "assertions": [
         {
           "pointer": "/id",
@@ -781,10 +816,11 @@
       "expected": "deny",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "d283f83547cbcd167ae4fbac704eafb1665013a58fde52bac2bcd32f9a331e50",
       "http_status": 403,
       "response_sha256": "387fe73d9abe7e6c32a0eb6113efea98dea609edefe9c3b4c9788fcaaef1603b",
       "response_bytes": 22,
-      "elapsed_ms": 0,
+      "elapsed_ms": 31,
       "assertions": [
         {
           "pointer": "/id",
@@ -819,6 +855,7 @@
       "expected": "allow",
       "control_valid": true,
       "identity_valid": true,
+      "definition_sha256": "9746e3d1fe48c365b225c175eedc333c167beb2e989fbeda658c4db1792e1085",
       "http_status": 200,
       "response_sha256": "b341c909df4c8c2830eb544bc934b6f4512f95f35ffc470a8b6f5576964f04c5",
       "response_bytes": 86,
@@ -854,5 +891,6 @@
     "Only the configured GET paths, identities and equality assertions were tested.",
     "Denials require verified identities and a successful owner control.",
     "Raw response bodies and authorization headers are not stored."
-  ]
+  ],
+  "fixture_id": "tenantbreak-ledgercloud-v1"
 }

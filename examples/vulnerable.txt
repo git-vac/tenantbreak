@@ -1,7 +1,7 @@
 
 TENANTBREAK / AUTHORIZATION EVIDENCE
 LedgerCloud authorization lab | demo-vulnerable
-Target: http://127.0.0.1:58971
+Target: http://127.0.0.1:51697
 Identities verified: 4/4 | Owner controls: 4/4
 
 RESOURCE                IDENTITY       EXPECTED  HTTP  RESULT

@@ -39,9 +39,9 @@ The 120-second default budget applies across identity checks, controls and probe
 
 ## Reproduction and CI
 
-Use the case's resource path and identity label with the original policy and freshly supplied credentials to reproduce a finding. Reports intentionally omit secrets and response contents; they are diagnostic artifacts, not standalone credential-bearing replay scripts.
+Use `replay` with a matching policy and freshly supplied environment credentials to reproduce a finding. Reports intentionally omit secrets and response contents; they are diagnostic artifacts, not standalone credential-bearing replay scripts. Focused selection retains the original policy and per-case fingerprints, and automatically includes required identity and owner controls.
 
-The policy fingerprint includes access rules, identity assertions, resource assertions and paths. It excludes the origin so disposable lab ports do not change the definition. It is not a report signature, does not establish that two deployments are equivalent and does not authenticate observed events.
+The policy fingerprint includes access rules, identity assertions, resource assertions and paths. It excludes the origin so disposable lab ports do not change the definition. Comparison checks target origins separately, requiring acknowledgement for changed application targets. It is not a report signature, does not establish that two deployments are equivalent and does not authenticate observed events.
 
 `exit_code` gives incomplete/error evidence precedence over confirmed leaks, matching JUnit error semantics. Confirmed findings remain in the report even when the overall exit is 2. A passing result only covers the supplied identities, paths, assertions and instant of observation.
 
@@ -52,6 +52,10 @@ The policy fingerprint includes access rules, identity assertions, resource asse
 | `config.py` | Strict bounded policy validation, credential resolution and fingerprints |
 | `transport.py` | Single-origin bounded HTTP reads |
 | `engine.py` | Identity verification, owner controls and access assessment |
+| `selection.py` | Probe selection, required controls and per-case fingerprints |
+| `saved.py` | Bounded saved-report validation, evidence derivation and replay checks |
+| `comparison.py` | Compatible run comparison and offline change reports |
+| `onboarding.py` | Offline starter/OpenAPI drafts and finalization |
 | `lab.py` | Synthetic HTTP API with vulnerable/fixed authorization |
 | `report.py` | Literal terminal output, escaped offline HTML and JUnit |
 | `cli.py` | User commands, output preflight and exit behavior |

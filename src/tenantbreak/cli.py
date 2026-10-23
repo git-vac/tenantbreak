@@ -1,4 +1,4 @@
-"""Small CLI: validate a policy, run it, or reproduce the bundled HTTP lab."""
+"""Policy setup, bounded API checks and offline evidence workflows."""
 
 import argparse
 import json
@@ -8,10 +8,14 @@ from pathlib import Path
 import time
 
 from . import __version__
+from . import comparison
 from .config import PolicyError, credentials, load, origin
 from .engine import exit_code, run
 from .lab import TOKENS, demo_policy, server
+from .onboarding import finalize, from_openapi, load_draft, read_spec, starter
 from .report import html, junit, terminal
+from .saved import load_report, replay_cases
+from .selection import dependencies, select
 
 
 def positive_seconds(value):
@@ -24,12 +28,19 @@ def positive_seconds(value):
         raise argparse.ArgumentTypeError("expected seconds greater than 0 and at most 3600") from exc
 
 
-def output_options(parser):
+def output_options(parser, network=True):
     parser.add_argument("--html", type=Path, help="write a self-contained evidence report (new file)")
     parser.add_argument("--json", type=Path, help="write machine-readable evidence (new file)")
     parser.add_argument("--junit", type=Path, help="write CI test results (new file)")
-    parser.add_argument("--timeout", type=positive_seconds, default=5.0, help="per-request timeout in seconds (default: 5)")
-    parser.add_argument("--max-seconds", type=positive_seconds, default=120.0, help="run budget in seconds (default: 120)")
+    if network:
+        parser.add_argument("--timeout", type=positive_seconds, default=5.0, help="socket timeout in seconds (default: 5)")
+        parser.add_argument("--max-seconds", type=positive_seconds, default=120.0, help="run budget in seconds (default: 120)")
+
+
+def selector_options(parser):
+    parser.add_argument("--identity", dest="identity_ids", action="append", help="select a probe identity; repeatable")
+    parser.add_argument("--resource", dest="resource_ids", action="append", help="select a resource; repeatable")
+    parser.add_argument("--case", dest="case_ids", action="append", help="select RESOURCE:IDENTITY; repeatable; filters intersect")
 
 
 def preflight(args):
@@ -44,13 +55,21 @@ def preflight(args):
         path.parent.mkdir(parents=True, exist_ok=True)
 
 
-def write_outputs(args, report):
+def write_outputs(args, report, render_html=html, render_junit=junit):
     # Generate every format before opening any output file.
-    outputs = [(args.html, html(report)), (args.json, json.dumps(report, indent=2, ensure_ascii=True) + "\n"), (args.junit, junit(report))]
+    outputs = [(args.html, render_html(report)), (args.json, json.dumps(report, indent=2, ensure_ascii=True) + "\n"), (args.junit, render_junit(report))]
     for path, content in outputs:
         if path is not None:
             with path.open("x", encoding="utf-8", newline="\n") as stream:
                 stream.write(content)
+
+
+def write_setup(path, value):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    contents = json.dumps(value, indent=2, ensure_ascii=True) + "\n"
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as stream:
+        stream.write(contents)
 
 
 def main(argv=None):
@@ -60,11 +79,40 @@ def main(argv=None):
     demo = sub.add_parser("demo", help="run against a temporary loopback API with synthetic data")
     demo.add_argument("--mode", choices=["vulnerable", "fixed"], default="vulnerable")
     output_options(demo)
+    selector_options(demo)
     live = sub.add_parser("run", help="evaluate your explicit read-only policy")
     live.add_argument("policy", type=Path)
     live.add_argument("--base-url", help="override the configured target origin")
     live.add_argument("--allow-http", action="store_true", help="permit plaintext HTTP outside loopback")
     output_options(live)
+    selector_options(live)
+    replay = sub.add_parser("replay", help="rerun recorded cases using a matching policy and fresh environment credentials")
+    replay.add_argument("policy", type=Path)
+    replay.add_argument("saved", type=Path)
+    replay.add_argument("--case", dest="case_ids", action="append", help="recorded RESOURCE:IDENTITY; default: confirmed leaks")
+    replay.add_argument("--base-url", help="explicit target override; saved-report URLs are never used for requests")
+    replay.add_argument("--allow-http", action="store_true")
+    output_options(replay)
+    diff = sub.add_parser("compare", help="compare saved evidence offline without making API requests")
+    diff.add_argument("before", type=Path)
+    diff.add_argument("after", type=Path)
+    diff.add_argument("--allow-target-change", action="store_true", help="acknowledge different target origins; definitions and scope must still match")
+    output_options(diff, network=False)
+    init = sub.add_parser("init", help="create an editable policy draft offline")
+    init.add_argument("--out", type=Path, required=True)
+    init.add_argument("--base-url", default="https://api.example.invalid")
+    init.add_argument("--name", default="API authorization policy")
+    importer = sub.add_parser("import-openapi", help="extract GET routes from a local OpenAPI JSON/YAML file into a draft")
+    importer.add_argument("specification", type=Path)
+    importer.add_argument("--out", type=Path, required=True)
+    importer.add_argument("--base-url", required=True, help="explicit target origin; specification server URLs are not used")
+    importer.add_argument("--name", default="API authorization policy")
+    importer.add_argument("--path-prefix", default="", help="explicit API version prefix, such as /v1")
+    importer.add_argument("--operation", dest="operation_ids", action="append", help="select a GET operationId; repeatable")
+    importer.add_argument("--path", dest="path_filters", action="append", help="select an exact OpenAPI path; repeatable; intersects --operation")
+    finish = sub.add_parser("finalize", help="validate an edited draft and write a runnable policy offline")
+    finish.add_argument("draft", type=Path)
+    finish.add_argument("--out", type=Path, required=True)
     check = sub.add_parser("validate", help="validate policy structure without reading credentials or contacting the API")
     check.add_argument("policy", type=Path)
     lab = sub.add_parser("lab", help="serve the synthetic API on loopback for manual experiments")
@@ -74,6 +122,19 @@ def main(argv=None):
                      help="new private .sh or .ps1 file for the lab's generated environment variables")
     args = parser.parse_args(argv)
     try:
+        if args.command in {"init", "import-openapi", "finalize"}:
+            if args.command == "init":
+                value = starter(base_url=args.base_url, name=args.name)
+            elif args.command == "import-openapi":
+                document, digest = read_spec(args.specification)
+                value = from_openapi(document, base_url=args.base_url, name=args.name,
+                                     path_prefix=args.path_prefix, operation_ids=args.operation_ids, path_filters=args.path_filters)
+                value["source"]["document_sha256"] = digest
+            else:
+                value = finalize(load_draft(args.draft))
+            write_setup(args.out, value)
+            print("Runnable policy written. No requests made." if args.command == "finalize" else "Editable draft written. Complete its policy values and review notes, then run tenantbreak finalize. No requests made.")
+            return 0
         if args.command == "validate":
             policy = load(args.policy)
             print(f"Policy valid: {len(policy['identities'])} identities x {len(policy['resources'])} resources. No requests made.")
@@ -100,16 +161,32 @@ def main(argv=None):
                 while True:
                     time.sleep(0.5)
         preflight(args)
+        if args.command == "compare":
+            before, before_sha = load_report(args.before)
+            after, after_sha = load_report(args.after)
+            result = comparison.compare(before, after, allow_target_change=args.allow_target_change, before_sha=before_sha, after_sha=after_sha)
+            write_outputs(args, result, comparison.html, comparison.junit)
+            print(comparison.terminal(result))
+            return comparison.exit_code(result)
         if args.command == "demo":
             with server(args.mode) as address:
                 report = run(demo_policy(), TOKENS, base_url=address, timeout=args.timeout,
-                             max_seconds=args.max_seconds, mode="demo-" + args.mode)
+                             max_seconds=args.max_seconds, mode="demo-" + args.mode,
+                             identity_ids=args.identity_ids, resource_ids=args.resource_ids, case_ids=args.case_ids)
         else:
             policy = load(args.policy)
+            source_sha = None
+            if args.command == "replay":
+                source, source_sha = load_report(args.saved)
+                selected = replay_cases(policy, source, args.case_ids)
+            else:
+                selected = select(policy, identity_ids=args.identity_ids, resource_ids=args.resource_ids, case_ids=args.case_ids)
             target = origin(args.base_url or policy["base_url"], allow_http=args.allow_http)
-            tokens = credentials(policy)
+            tokens = credentials(policy, identity_ids=dependencies(policy, selected))
             report = run(policy, tokens, base_url=target, timeout=args.timeout,
-                         max_seconds=args.max_seconds, allow_http=args.allow_http)
+                         max_seconds=args.max_seconds, allow_http=args.allow_http, case_ids=selected)
+            if source_sha:
+                report["replay_of"] = source_sha
         write_outputs(args, report)
         print(terminal(report))
         return exit_code(report)

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tenantbreak"
-version = "0.1.0"
+version = "0.2.0"
 description = "Evidence-based API authorization regression tests across users, roles, and tenants"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -17,6 +17,9 @@ classifiers = [
   "Environment :: Console",
 ]
 dependencies = []
+
+[project.optional-dependencies]
+openapi = ["PyYAML>=6.0.2,<7"]
 
 [project.scripts]
 tenantbreak = "tenantbreak.cli:main"
