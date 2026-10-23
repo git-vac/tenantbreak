@@ -1,0 +1,37 @@
+
+TENANTBREAK / AUTHORIZATION EVIDENCE
+LedgerCloud authorization lab | demo-vulnerable
+Target: http://127.0.0.1:58971
+Identities verified: 4/4 | Owner controls: 4/4
+
+RESOURCE                IDENTITY       EXPECTED  HTTP  RESULT
+---------------------------------------------------------------------------
+alice-invoice           alice          allow     200   ALLOW
+alice-invoice           bob            deny      200   LEAK
+alice-invoice           charlie        deny      200   LEAK
+alice-invoice           admin-acme     allow     200   ALLOW
+bob-invoice             alice          deny      200   LEAK
+bob-invoice             bob            allow     200   ALLOW
+bob-invoice             charlie        deny      200   LEAK
+bob-invoice             admin-acme     allow     200   ALLOW
+charlie-invoice         alice          deny      200   LEAK
+charlie-invoice         bob            deny      200   LEAK
+charlie-invoice         charlie        allow     200   ALLOW
+charlie-invoice         admin-acme     deny      200   LEAK
+acme-export             alice          deny      200   LEAK
+acme-export             bob            deny      200   LEAK
+acme-export             charlie        deny      403   DENY
+acme-export             admin-acme     allow     200   ALLOW
+
+16 checks | 9 confirmed leaks | 7 expected outcomes | 0 need attention
+  LEAK bob -> alice-invoice: all 3 protected-resource assertions matched
+  LEAK charlie -> alice-invoice: all 3 protected-resource assertions matched
+  LEAK alice -> bob-invoice: all 3 protected-resource assertions matched
+  LEAK charlie -> bob-invoice: all 3 protected-resource assertions matched
+  LEAK alice -> charlie-invoice: all 3 protected-resource assertions matched
+  LEAK bob -> charlie-invoice: all 3 protected-resource assertions matched
+  LEAK admin-acme -> charlie-invoice: all 3 protected-resource assertions matched
+  LEAK alice -> acme-export: all 3 protected-resource assertions matched
+  LEAK bob -> acme-export: all 3 protected-resource assertions matched
+
+A passing run covers only this policy's configured reads and evidence assertions.

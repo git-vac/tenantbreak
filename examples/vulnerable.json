@@ -1,0 +1,858 @@
+{
+  "schema_version": 1,
+  "tool": "TenantBreak",
+  "version": "0.1.0",
+  "name": "LedgerCloud authorization lab",
+  "created_at": "2026-10-23T07:04:37.108123+00:00",
+  "mode": "demo-vulnerable",
+  "base_url": "http://127.0.0.1:58971",
+  "policy_sha256": "c4e9d643d1915468198936d68c9afcebcb7d437e0ef024d29594f2483af0f610",
+  "limits": {
+    "timeout": 5.0,
+    "max_seconds": 120.0
+  },
+  "identities": [
+    {
+      "id": "alice",
+      "tenant": "acme",
+      "role": "member",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+      "response_bytes": 51,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/role",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    },
+    {
+      "id": "bob",
+      "tenant": "acme",
+      "role": "member",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "76c1f4af9126f16d3fc767c0bfb1704ac898fc6569aabc24aca982521b6156de",
+      "response_bytes": 49,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/role",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    },
+    {
+      "id": "charlie",
+      "tenant": "nova",
+      "role": "member",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "2fcea76528739b92c97424723486f2a963a7a12d6ba24ee7107faa1f61cbea9e",
+      "response_bytes": 53,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/role",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    },
+    {
+      "id": "admin-acme",
+      "tenant": "acme",
+      "role": "admin",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "10e1554fd50d0c8eb281dfd51085e5ae7095aa80ea9419f70dcfe638296f557d",
+      "response_bytes": 55,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/role",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    }
+  ],
+  "controls": [
+    {
+      "resource": "alice-invoice",
+      "identity": "alice",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "6baa4702dac9cce4700e7a8c321def84eb20183a683ec17c32b0914c9bd37604",
+      "response_bytes": 103,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    },
+    {
+      "resource": "bob-invoice",
+      "identity": "bob",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "f8fe2e8a6323d79f39707a90344a0d9d98d330ba060137c429940247b1875cb3",
+      "response_bytes": 99,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    },
+    {
+      "resource": "charlie-invoice",
+      "identity": "charlie",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "592c780a37ba86c37474ce8bbbb20d52999d48b575ba804097c56ed82bd5961a",
+      "response_bytes": 107,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    },
+    {
+      "resource": "acme-export",
+      "identity": "admin-acme",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "b341c909df4c8c2830eb544bc934b6f4512f95f35ffc470a8b6f5576964f04c5",
+      "response_bytes": 86,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    }
+  ],
+  "cases": [
+    {
+      "id": "alice-invoice:alice",
+      "resource": "alice-invoice",
+      "label": "Alice's private invoice",
+      "resource_tenant": "acme",
+      "identity": "alice",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices/inv-a104",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "6baa4702dac9cce4700e7a8c321def84eb20183a683ec17c32b0914c9bd37604",
+      "response_bytes": 103,
+      "elapsed_ms": 16,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    },
+    {
+      "id": "alice-invoice:bob",
+      "resource": "alice-invoice",
+      "label": "Alice's private invoice",
+      "resource_tenant": "acme",
+      "identity": "bob",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices/inv-a104",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "6baa4702dac9cce4700e7a8c321def84eb20183a683ec17c32b0914c9bd37604",
+      "response_bytes": 103,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "alice-invoice:charlie",
+      "resource": "alice-invoice",
+      "label": "Alice's private invoice",
+      "resource_tenant": "acme",
+      "identity": "charlie",
+      "identity_tenant": "nova",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices/inv-a104",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "6baa4702dac9cce4700e7a8c321def84eb20183a683ec17c32b0914c9bd37604",
+      "response_bytes": 103,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "alice-invoice:admin-acme",
+      "resource": "alice-invoice",
+      "label": "Alice's private invoice",
+      "resource_tenant": "acme",
+      "identity": "admin-acme",
+      "identity_tenant": "acme",
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/invoices/inv-a104",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "6baa4702dac9cce4700e7a8c321def84eb20183a683ec17c32b0914c9bd37604",
+      "response_bytes": 103,
+      "elapsed_ms": 15,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    },
+    {
+      "id": "bob-invoice:alice",
+      "resource": "bob-invoice",
+      "label": "Bob's private invoice",
+      "resource_tenant": "acme",
+      "identity": "alice",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices/inv-a105",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "f8fe2e8a6323d79f39707a90344a0d9d98d330ba060137c429940247b1875cb3",
+      "response_bytes": 99,
+      "elapsed_ms": 16,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "bob-invoice:bob",
+      "resource": "bob-invoice",
+      "label": "Bob's private invoice",
+      "resource_tenant": "acme",
+      "identity": "bob",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices/inv-a105",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "f8fe2e8a6323d79f39707a90344a0d9d98d330ba060137c429940247b1875cb3",
+      "response_bytes": 99,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    },
+    {
+      "id": "bob-invoice:charlie",
+      "resource": "bob-invoice",
+      "label": "Bob's private invoice",
+      "resource_tenant": "acme",
+      "identity": "charlie",
+      "identity_tenant": "nova",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices/inv-a105",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "f8fe2e8a6323d79f39707a90344a0d9d98d330ba060137c429940247b1875cb3",
+      "response_bytes": 99,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "bob-invoice:admin-acme",
+      "resource": "bob-invoice",
+      "label": "Bob's private invoice",
+      "resource_tenant": "acme",
+      "identity": "admin-acme",
+      "identity_tenant": "acme",
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/invoices/inv-a105",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "f8fe2e8a6323d79f39707a90344a0d9d98d330ba060137c429940247b1875cb3",
+      "response_bytes": 99,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    },
+    {
+      "id": "charlie-invoice:alice",
+      "resource": "charlie-invoice",
+      "label": "Charlie's private invoice",
+      "resource_tenant": "nova",
+      "identity": "alice",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices/inv-n201",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "592c780a37ba86c37474ce8bbbb20d52999d48b575ba804097c56ed82bd5961a",
+      "response_bytes": 107,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "charlie-invoice:bob",
+      "resource": "charlie-invoice",
+      "label": "Charlie's private invoice",
+      "resource_tenant": "nova",
+      "identity": "bob",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices/inv-n201",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "592c780a37ba86c37474ce8bbbb20d52999d48b575ba804097c56ed82bd5961a",
+      "response_bytes": 107,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "charlie-invoice:charlie",
+      "resource": "charlie-invoice",
+      "label": "Charlie's private invoice",
+      "resource_tenant": "nova",
+      "identity": "charlie",
+      "identity_tenant": "nova",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices/inv-n201",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "592c780a37ba86c37474ce8bbbb20d52999d48b575ba804097c56ed82bd5961a",
+      "response_bytes": 107,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    },
+    {
+      "id": "charlie-invoice:admin-acme",
+      "resource": "charlie-invoice",
+      "label": "Charlie's private invoice",
+      "resource_tenant": "nova",
+      "identity": "admin-acme",
+      "identity_tenant": "acme",
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/invoices/inv-n201",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "592c780a37ba86c37474ce8bbbb20d52999d48b575ba804097c56ed82bd5961a",
+      "response_bytes": 107,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "acme-export:alice",
+      "resource": "acme-export",
+      "label": "Acme administrator export",
+      "resource_tenant": "acme",
+      "identity": "alice",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/admin/tenants/acme/export",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "b341c909df4c8c2830eb544bc934b6f4512f95f35ffc470a8b6f5576964f04c5",
+      "response_bytes": 86,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "acme-export:bob",
+      "resource": "acme-export",
+      "label": "Acme administrator export",
+      "resource_tenant": "acme",
+      "identity": "bob",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/admin/tenants/acme/export",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "b341c909df4c8c2830eb544bc934b6f4512f95f35ffc470a8b6f5576964f04c5",
+      "response_bytes": 86,
+      "elapsed_ms": 15,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "acme-export:charlie",
+      "resource": "acme-export",
+      "label": "Acme administrator export",
+      "resource_tenant": "acme",
+      "identity": "charlie",
+      "identity_tenant": "nova",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/admin/tenants/acme/export",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 403,
+      "response_sha256": "387fe73d9abe7e6c32a0eb6113efea98dea609edefe9c3b4c9788fcaaef1603b",
+      "response_bytes": 22,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": false,
+          "matched": false
+        },
+        {
+          "pointer": "/tenant",
+          "present": false,
+          "matched": false
+        },
+        {
+          "pointer": "/marker",
+          "present": false,
+          "matched": false
+        }
+      ],
+      "transport_error": null,
+      "status": "denied",
+      "reason": "explicit-denial"
+    },
+    {
+      "id": "acme-export:admin-acme",
+      "resource": "acme-export",
+      "label": "Acme administrator export",
+      "resource_tenant": "acme",
+      "identity": "admin-acme",
+      "identity_tenant": "acme",
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/admin/tenants/acme/export",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "http_status": 200,
+      "response_sha256": "b341c909df4c8c2830eb544bc934b6f4512f95f35ffc470a8b6f5576964f04c5",
+      "response_bytes": 86,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    }
+  ],
+  "counts": {
+    "allowed": 6,
+    "confirmed-leak": 9,
+    "denied": 1
+  },
+  "notes": [
+    "Only the configured GET paths, identities and equality assertions were tested.",
+    "Denials require verified identities and a successful owner control.",
+    "Raw response bodies and authorization headers are not stored."
+  ]
+}

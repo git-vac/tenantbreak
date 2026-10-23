@@ -1,0 +1,28 @@
+
+TENANTBREAK / AUTHORIZATION EVIDENCE
+LedgerCloud authorization lab | demo-fixed
+Target: http://127.0.0.1:58996
+Identities verified: 4/4 | Owner controls: 4/4
+
+RESOURCE                IDENTITY       EXPECTED  HTTP  RESULT
+---------------------------------------------------------------------------
+alice-invoice           alice          allow     200   ALLOW
+alice-invoice           bob            deny      403   DENY
+alice-invoice           charlie        deny      403   DENY
+alice-invoice           admin-acme     allow     200   ALLOW
+bob-invoice             alice          deny      403   DENY
+bob-invoice             bob            allow     200   ALLOW
+bob-invoice             charlie        deny      403   DENY
+bob-invoice             admin-acme     allow     200   ALLOW
+charlie-invoice         alice          deny      403   DENY
+charlie-invoice         bob            deny      403   DENY
+charlie-invoice         charlie        allow     200   ALLOW
+charlie-invoice         admin-acme     deny      403   DENY
+acme-export             alice          deny      403   DENY
+acme-export             bob            deny      403   DENY
+acme-export             charlie        deny      403   DENY
+acme-export             admin-acme     allow     200   ALLOW
+
+16 checks | 0 confirmed leaks | 16 expected outcomes | 0 need attention
+
+A passing run covers only this policy's configured reads and evidence assertions.
