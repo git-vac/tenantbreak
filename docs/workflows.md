@@ -18,7 +18,7 @@ HTML marks missing cells in a sparse selection as NOT RUN. Terminal and HTML dis
 tenantbreak replay private/policy.json reports/before-focused.json --case alice-invoice:bob --json reports/after-focused.json
 ```
 
-Credentials come from the current environment. The target comes from the supplied policy, or an explicit `--base-url`; a saved report cannot redirect requests. The policy fingerprint, recorded request metadata and version 0.2 case definitions must match. A policy change requires a new `run` rather than replaying a different definition under an old finding.
+Credentials come from the current environment, optionally overridden by an explicit private `--credentials-file`. `replay` supports the same opt-in pre-run refresh flags as `run`; see [authentication](authentication.md). The target comes from the supplied policy, or an explicit `--base-url`; a saved report cannot redirect requests. The policy fingerprint, recorded request metadata and schema 2 case definitions must match. A policy change requires a new `run` rather than replaying a different definition under an old finding.
 
 Without `--case`, replay selects confirmed leaks. Explicit cases can also select recorded errors, denials or successful allowed reads for investigation. A run with no recorded leaks requires an explicit case selection. The replay report records the source file's SHA-256, excluding its filename and credentials.
 
@@ -28,7 +28,7 @@ Without `--case`, replay selects confirmed leaks. Explicit cases can also select
 tenantbreak compare reports/before-focused.json reports/after-focused.json --html reports/change.html --json reports/change.json --junit reports/change.xml
 ```
 
-Comparison makes no network requests and never rewrites its input files. It checks policy fingerprints, exact selected-case sets, per-case definitions, execution limits and demo/application context. Different application origins require `--allow-target-change`; target origins and timestamps remain visible. That flag does not override policy, scope, definition or evidence failures.
+Comparison makes no network requests and never rewrites its input files. It checks policy fingerprints, exact selected-case sets, per-case definitions, execution limits, refresh execution mode and demo/application context. Different application origins require `--allow-target-change`; target origins and timestamps remain visible. That flag does not override policy, scope, definition or evidence failures.
 
 The same bundled demo fixture may use different temporary loopback ports. Its vulnerable/fixed implementations remain explicitly labeled. Demo results cannot establish a change in an unrelated application.
 

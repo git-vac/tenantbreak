@@ -89,14 +89,31 @@ python -m pip install ".[openapi]"
 tenantbreak import-openapi examples/openapi.yaml --base-url http://127.0.0.1:8080 --operation readInvoice --out private/yaml.draft.json
 ```
 
-Local references are resolved within bounded limits; external references are never fetched. Unsupported required headers, cookies, request bodies and collection semantics still need application-specific review. [Policy setup walkthrough](docs/onboarding.md) · [Generated draft](examples/policy.draft.json).
+Local references are resolved within bounded limits; external references are never fetched. Authentication headers/cookies must be configured explicitly; request bodies and collection semantics still need application-specific review. [Policy setup walkthrough](docs/onboarding.md) · [Generated draft](examples/policy.draft.json).
+
+## Configure authentication
+
+Bearer tokens, custom headers and session cookies are supported per identity. Values come from environment variables or a private credential file. Existing `token_env` policies continue to work. To try the alternatives:
+
+```bash
+tenantbreak demo --auth headers --mode fixed
+tenantbreak demo --auth cookies --mode fixed
+```
+
+Bearer accounts may also configure a same-origin OAuth refresh-token endpoint. Refresh is opt-in, runs once before identity verification and saves returned credentials privately, including rotations:
+
+```bash
+tenantbreak run private/policy.json --refresh-auth --refresh-out private/refreshed.json --json reports/access.json
+```
+
+Credentials stay fixed during access probes. An expired session remains a test error. [Authentication configuration and refresh workflow](docs/authentication.md) includes complete policy examples, client authentication options and private credential reuse.
 
 ## Test your own API
 
 Use an API and test accounts you are authorized to examine. Start with staging fixtures whose ownership is known.
 
 1. Complete a draft as above, or adapt [examples/policy.json](examples/policy.json) with your target origin, identity checks, paths, ownership evidence and allowed identities.
-2. Set each test account's bearer token in the environment variable named by `token_env`. Tokens are read from the environment; they are never placed in the policy or a CLI argument.
+2. Set each test account's credentials in its configured environment variables. Values are never placed in the policy or a CLI argument.
 3. Validate and run the policy:
 
 ```bash
@@ -136,7 +153,7 @@ Each resource names an explicit set of allowed identities. Every other configure
 
 `match` uses JSON Pointer equality checks. Choose identifying values that prove the protected resource was returned, such as its ID, tenant and a unique fixture marker. Generic fields such as `success: true` are weak evidence. TenantBreak requires at least two assertions, but their meaning and specificity remain the policy author's responsibility. Assertion values are omitted from reports.
 
-Identity `verify` assertions should independently check the authenticated subject, tenant and role. At least two fields are required, and each identity must have distinct verification assertions and a distinct token. Credential values must stay separate from policy text and evidence labels; collisions are refused before requests so redaction cannot corrupt account/case identifiers.
+Identity `verify` assertions should independently check the authenticated subject, tenant and role. At least two fields are required, and each identity must have distinct verification assertions and distinct request credentials. Credential values must stay separate from policy text and evidence labels; collisions are refused so redaction cannot corrupt account/case identifiers.
 
 ## Interpret outcomes
 
@@ -164,11 +181,11 @@ The repository's [CI workflow](.github/workflows/tests.yml) installs the package
 
 ## Scope and limits
 
-The runner supports explicit **GET requests**, bearer-token identities, HTTP 200 owner controls, 403/404 denials and JSON equality assertions. The setup tools create drafts from local OpenAPI documents or a starter template. Access rules and ownership evidence require explicit configuration. The runner does not discover accounts, enumerate IDs, change resource state, refresh tokens or exercise browser sessions.
+Resource tests use explicit **GET requests**, bearer/header/cookie credentials, HTTP 200 owner controls, 403/404 denials and JSON equality assertions. Optional pre-run OAuth refresh makes a bounded POST to the configured same-origin token endpoint; it does not add resource write testing. The setup tools create drafts from local OpenAPI documents or a starter template. Access rules and ownership evidence require explicit configuration. The runner does not discover accounts, enumerate IDs, change resource state or automate browser logins.
 
 Every policy is limited to 32 identities, 64 resources and 16 assertions per identity/resource. Policy JSON and responses are bounded to 1 MiB, saved reports to 16 MiB, and OpenAPI input to 8 MiB. Requests run sequentially. The socket timeout defaults to 5 seconds; a 120-second run budget is checked before requests and between response chunks. A blocking operation can overrun that budget by up to its socket timeout, and OS DNS resolution may take longer. Results are observations over time, not an atomic snapshot.
 
-Reports omit raw bodies and headers and redact exact supplied token values. Encoded/transformed token values are not a general redaction guarantee. Paths, tenant labels and response digests can still describe your application. Saved reports are structurally checked and their outcomes recomputed before replay/comparison; they are not authenticated attestations. `reports/`, `private/` and `.env*` are Git-ignored. Output files must be new; existing files and symlink targets are refused.
+Reports omit raw bodies, headers and cookies and redact exact supplied/returned credential values. Encoded/transformed values are not a general redaction guarantee. Paths, tenant labels and response digests can still describe your application. Saved reports are structurally checked and their outcomes recomputed before replay/comparison; they are not authenticated attestations. Refresh snapshots contain credentials and must stay private. `reports/`, `private/` and `.env*` are Git-ignored. Output files must be new; existing files and symlink targets are refused.
 
 ## Develop and extend
 

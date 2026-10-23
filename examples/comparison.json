@@ -2,12 +2,12 @@
   "schema_version": 1,
   "kind": "comparison",
   "tool": "TenantBreak",
-  "created_at": "2026-10-23T08:07:41.580185+00:00",
+  "created_at": "2026-10-23T11:02:30.360786+00:00",
   "before": {
     "name": "LedgerCloud authorization lab",
-    "created_at": "2026-10-23T08:07:40.408873+00:00",
+    "created_at": "2026-10-23T11:02:29.287214+00:00",
     "mode": "demo-vulnerable",
-    "base_url": "http://127.0.0.1:51697",
+    "base_url": "http://127.0.0.1:50205",
     "policy_sha256": "c4e9d643d1915468198936d68c9afcebcb7d437e0ef024d29594f2483af0f610",
     "limits": {
       "timeout": 5.0,
@@ -19,9 +19,9 @@
   },
   "after": {
     "name": "LedgerCloud authorization lab",
-    "created_at": "2026-10-23T08:07:41.049741+00:00",
+    "created_at": "2026-10-23T11:02:29.847958+00:00",
     "mode": "demo-fixed",
-    "base_url": "http://127.0.0.1:51723",
+    "base_url": "http://127.0.0.1:50239",
     "policy_sha256": "c4e9d643d1915468198936d68c9afcebcb7d437e0ef024d29594f2483af0f610",
     "limits": {
       "timeout": 5.0,

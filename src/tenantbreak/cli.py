@@ -1,6 +1,7 @@
 """Policy setup, bounded API checks and offline evidence workflows."""
 
 import argparse
+from contextlib import nullcontext
 import json
 import math
 import os
@@ -10,8 +11,9 @@ import time
 from . import __version__
 from . import comparison
 from .config import PolicyError, credentials, load, origin
+from .credential_file import read_credentials, refresh_output
 from .engine import exit_code, run
-from .lab import TOKENS, demo_policy, server
+from .lab import TOKENS, demo_environment, demo_policy, server
 from .onboarding import finalize, from_openapi, load_draft, read_spec, starter
 from .report import html, junit, terminal
 from .saved import load_report, replay_cases
@@ -41,6 +43,12 @@ def selector_options(parser):
     parser.add_argument("--identity", dest="identity_ids", action="append", help="select a probe identity; repeatable")
     parser.add_argument("--resource", dest="resource_ids", action="append", help="select a resource; repeatable")
     parser.add_argument("--case", dest="case_ids", action="append", help="select RESOURCE:IDENTITY; repeatable; filters intersect")
+
+
+def auth_options(parser):
+    parser.add_argument("--credentials-file", type=Path, help="private credential JSON; entries override environment values")
+    parser.add_argument("--refresh-auth", action="store_true", help="refresh configured bearer accounts once before verification; requires --refresh-out")
+    parser.add_argument("--refresh-out", type=Path, help="new credential snapshot inside private/; contains secrets and must not be shared")
 
 
 def preflight(args):
@@ -78,6 +86,7 @@ def main(argv=None):
     sub = parser.add_subparsers(dest="command", required=True)
     demo = sub.add_parser("demo", help="run against a temporary loopback API with synthetic data")
     demo.add_argument("--mode", choices=["vulnerable", "fixed"], default="vulnerable")
+    demo.add_argument("--auth", choices=["bearer", "headers", "cookies"], default="bearer")
     output_options(demo)
     selector_options(demo)
     live = sub.add_parser("run", help="evaluate your explicit read-only policy")
@@ -86,6 +95,7 @@ def main(argv=None):
     live.add_argument("--allow-http", action="store_true", help="permit plaintext HTTP outside loopback")
     output_options(live)
     selector_options(live)
+    auth_options(live)
     replay = sub.add_parser("replay", help="rerun recorded cases using a matching policy and fresh environment credentials")
     replay.add_argument("policy", type=Path)
     replay.add_argument("saved", type=Path)
@@ -93,6 +103,7 @@ def main(argv=None):
     replay.add_argument("--base-url", help="explicit target override; saved-report URLs are never used for requests")
     replay.add_argument("--allow-http", action="store_true")
     output_options(replay)
+    auth_options(replay)
     diff = sub.add_parser("compare", help="compare saved evidence offline without making API requests")
     diff.add_argument("before", type=Path)
     diff.add_argument("after", type=Path)
@@ -117,6 +128,7 @@ def main(argv=None):
     check.add_argument("policy", type=Path)
     lab = sub.add_parser("lab", help="serve the synthetic API on loopback for manual experiments")
     lab.add_argument("--mode", choices=["vulnerable", "fixed"], default="vulnerable")
+    lab.add_argument("--auth", choices=["bearer", "headers", "cookies", "refresh"], default="bearer")
     lab.add_argument("--port", type=int, default=8080)
     lab.add_argument("--credentials-out", type=Path, required=True,
                      help="new private .sh or .ps1 file for the lab's generated environment variables")
@@ -148,11 +160,15 @@ def main(argv=None):
             if private_root.is_symlink() or not args.credentials_out.resolve().is_relative_to(private_root):
                 raise PolicyError("generated lab credentials must stay inside the current directory's private/ folder")
             args.credentials_out.parent.mkdir(parents=True, exist_ok=True)
-            with server(args.mode, args.port) as address:
+            with server(args.mode, args.port, auth=args.auth) as address:
                 lines = []
                 for identity in demo_policy()["identities"]:
                     key, value = identity["token_env"], TOKENS[identity["id"]]
                     lines.append(f"$env:{key} = '{value}'" if args.credentials_out.suffix == ".ps1" else f"export {key}='{value}'")
+                    if args.auth == "refresh":
+                        key += "_REFRESH"
+                        value = demo_environment()[key]
+                        lines.append(f"$env:{key} = '{value}'" if args.credentials_out.suffix == ".ps1" else f"export {key}='{value}'")
                 fd = os.open(args.credentials_out, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
                 with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as stream:
                     stream.write("\n".join(lines) + "\n")
@@ -169,12 +185,19 @@ def main(argv=None):
             print(comparison.terminal(result))
             return comparison.exit_code(result)
         if args.command == "demo":
-            with server(args.mode) as address:
-                report = run(demo_policy(), TOKENS, base_url=address, timeout=args.timeout,
+            policy = demo_policy(args.auth)
+            selected = select(policy, identity_ids=args.identity_ids, resource_ids=args.resource_ids, case_ids=args.case_ids)
+            tokens = credentials(policy, demo_environment(), dependencies(policy, selected))
+            with server(args.mode, auth=args.auth) as address:
+                report = run(policy, tokens, base_url=address, timeout=args.timeout,
                              max_seconds=args.max_seconds, mode="demo-" + args.mode,
                              identity_ids=args.identity_ids, resource_ids=args.resource_ids, case_ids=args.case_ids)
         else:
             policy = load(args.policy)
+            if args.refresh_auth != (args.refresh_out is not None):
+                raise PolicyError("use --refresh-auth together with --refresh-out private/NEW-FILE.json")
+            if args.refresh_out and any(args.refresh_out.resolve() == path.resolve() for path in (args.html, args.json, args.junit) if path):
+                raise PolicyError("private credentials and evidence must use different output files")
             source_sha = None
             if args.command == "replay":
                 source, source_sha = load_report(args.saved)
@@ -182,9 +205,16 @@ def main(argv=None):
             else:
                 selected = select(policy, identity_ids=args.identity_ids, resource_ids=args.resource_ids, case_ids=args.case_ids)
             target = origin(args.base_url or policy["base_url"], allow_http=args.allow_http)
-            tokens = credentials(policy, identity_ids=dependencies(policy, selected))
-            report = run(policy, tokens, base_url=target, timeout=args.timeout,
-                         max_seconds=args.max_seconds, allow_http=args.allow_http, case_ids=selected)
+            environment = dict(os.environ)
+            if args.credentials_file:
+                environment.update(read_credentials(args.credentials_file))
+            tokens = credentials(policy, environment, dependencies(policy, selected), args.refresh_auth)
+            with refresh_output(args.refresh_out) if args.refresh_out else nullcontext(None) as save:
+                report = run(policy, tokens, base_url=target, timeout=args.timeout,
+                             max_seconds=args.max_seconds, allow_http=args.allow_http, case_ids=selected,
+                             refresh_auth=args.refresh_auth, refresh_sink=save)
+            if args.refresh_out:
+                print("Refreshed credential state saved privately. The file contains secrets; do not share it. Identity verification results follow.")
             if source_sha:
                 report["replay_of"] = source_sha
         write_outputs(args, report)

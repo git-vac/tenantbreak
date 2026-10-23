@@ -1,7 +1,7 @@
 
 TENANTBREAK / RUN COMPARISON
-Before: http://127.0.0.1:51697 | demo-vulnerable
-After:  http://127.0.0.1:51723 | demo-fixed
+Before: http://127.0.0.1:50205 | demo-vulnerable
+After:  http://127.0.0.1:50239 | demo-fixed
 Scope: 16/16 -> 16/16 selected policy checks
 
 alice-invoice:alice                  ALLOW    -> ALLOW    UNCHANGED

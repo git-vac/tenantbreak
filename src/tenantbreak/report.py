@@ -22,6 +22,8 @@ def terminal(report):
              f"{'RESOURCE':<23} {'IDENTITY':<14} {'EXPECTED':<9} {'HTTP':<5} RESULT", "-" * 75]
     if report.get("scope", {}).get("total_cases", len(report["cases"])) != len(report["cases"]):
         lines.insert(4, f"Focused run: {len(report['cases'])}/{report['scope']['total_cases']} policy checks selected; unselected checks were not run.")
+    if report.get("authentication", {}).get("refresh_requested"):
+        lines.insert(4, "Authentication: pre-run refresh requested; no refresh or retries during access probes.")
     for case in report["cases"]:
         lines.append(f"{plain(case['resource']):<23} {plain(case['identity']):<14} {case['expected']:<9} {str(case['http_status'] or '-'):<5} {LABELS[case['status']]}")
     lines.extend(["", f"{len(report['cases'])} checks | {counts['confirmed-leak']} confirmed leaks | {counts['allowed'] + counts['denied']} expected outcomes | {counts['inconclusive'] + counts['error']} need attention"])
@@ -62,6 +64,8 @@ def html(report):
              f"<div class='stat'><strong class='warn'>{attention}</strong><span>NEED ATTENTION</span></div></section>"]
     if report["mode"].startswith("demo"):
         parts.append("<p class='notice'>Local lab run against an actual HTTP API with invented users and records. These findings describe the bundled fixture application.</p>")
+    if report.get("authentication", {}).get("refresh_requested"):
+        parts.append("<p class='notice'>Pre-run credential refresh was requested. No refresh or retries occur during access probes.</p>")
     if report.get("scope", {}).get("total_cases", len(report["cases"])) != len(report["cases"]):
         parts.append(f"<p class='notice'>Focused run: {len(report['cases'])} of {report['scope']['total_cases']} policy checks selected. Unselected checks were not run. Required identity checks and owner controls are retained.</p>")
     if attention or any(not c["valid"] for c in report["controls"]) or any(not i["valid"] for i in identities):
@@ -93,7 +97,8 @@ def html(report):
         parts.append(f"</ul><small>Response SHA-256</small><p><code>{e(case.get('response_sha256') or 'No complete response')}</code></p><small>Raw body and credential values are omitted.</small></details></article>")
     parts.append("<h2>Control checks</h2><div class='scroll'><table><thead><tr><th>CHECK</th><th>SUBJECT</th><th>RESULT</th><th>HTTP / DETAIL</th></tr></thead><tbody>")
     for identity in report["identities"]:
-        parts.append(f"<tr><td>Authenticated identity</td><td>{e(identity['id'])}</td><td class='{'good' if identity['valid'] else 'warn'}'>{'VERIFIED' if identity['valid'] else 'FAILED'}</td><td>{identity['http_status'] or '-'} / {e(identity['transport_error'] or 'identity assertions checked')}</td></tr>")
+        refresh = identity.get("refresh_status", "not-requested")
+        parts.append(f"<tr><td>Authenticated identity<small>{e(identity.get('auth_type', 'bearer'))}; refresh {e(refresh)}</small></td><td>{e(identity['id'])}</td><td class='{'good' if identity['valid'] else 'warn'}'>{'VERIFIED' if identity['valid'] else 'FAILED'}</td><td>{identity['http_status'] or '-'} / {e(identity['transport_error'] or 'identity assertions checked')}</td></tr>")
     for control in report["controls"]:
         parts.append(f"<tr><td>Owner can retrieve resource</td><td>{e(control['identity'])} / {e(control['resource'])}</td><td class='{'good' if control['valid'] else 'warn'}'>{'VERIFIED' if control['valid'] else 'FAILED'}</td><td>{control['http_status'] or '-'} / {e(control['transport_error'] or 'resource assertions checked')}</td></tr>")
     parts.append("</tbody></table></div><h2>Scope of this evidence</h2><ul>")
@@ -112,6 +117,7 @@ def junit(report):
     props = SubElement(suite, "properties")
     for name in ("mode", "base_url", "policy_sha256"):
         SubElement(props, "property", name=name, value=_xml_text(report[name]))
+    SubElement(props, "property", name="refresh_requested", value=str(report.get("authentication", {}).get("refresh_requested", False)).lower())
     total = report.get("scope", {}).get("total_cases", len(report["cases"]))
     for name, value in (("selected_cases", len(report["cases"])), ("policy_cases", total),
                         ("scope", "focused" if len(report["cases"]) != total else "complete")):

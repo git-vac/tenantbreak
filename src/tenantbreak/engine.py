@@ -5,9 +5,10 @@ from datetime import datetime, timezone
 import math
 
 from . import __version__
-from .config import credentials, fingerprint, origin, validate
+from .config import PolicyError, fingerprint, origin, validate
+from .auth import distinct, guard_secrets, refresh_one, supplied
 from .selection import case_fingerprint, dependencies, select
-from .transport import Transport
+from .transport import Response, Transport
 
 
 def assertions(data, expected):
@@ -75,25 +76,40 @@ def assess(*, allowed, identity_valid, control_valid, http_status, checks, trans
 
 
 def run(policy, tokens, *, base_url=None, timeout=5.0, max_seconds=120.0, allow_http=False, mode="run",
-        identity_ids=None, resource_ids=None, case_ids=None):
+        identity_ids=None, resource_ids=None, case_ids=None, refresh_auth=False, refresh_sink=None):
     validate(policy)
     if mode not in {"run", "demo-vulnerable", "demo-fixed"}:
         raise ValueError("unsupported run mode")
     selected = select(policy, identity_ids=identity_ids, resource_ids=resource_ids, case_ids=case_ids)
     needed = dependencies(policy, selected)
-    tokens = credentials(policy, {identity["token_env"]: tokens.get(identity["id"], "") for identity in policy["identities"]}, needed)
+    tokens = supplied(policy, tokens, needed, refresh_auth)
+    if refresh_auth and not callable(refresh_sink):
+        raise PolicyError("refresh requires a private credential output before requests begin")
     if any(not isinstance(value, (int, float)) or not math.isfinite(value) or not 0 < value <= 3600 for value in (timeout, max_seconds)):
         raise ValueError("request timeout and run budget must be between 0 and 3600 seconds")
     base_url = origin(base_url or policy["base_url"], allow_http=allow_http)
     transport = Transport(base_url, timeout, max_seconds)
+    refresh_errors = {}
+    for identity in policy["identities"]:
+        credential = tokens.get(identity["id"])
+        if credential is not None and credential.refresh:
+            error = refresh_one(transport, identity, credential, refresh_sink)
+            if error:
+                refresh_errors[identity["id"]] = error
+    guard_secrets(policy, [value for credential in tokens.values() for value in credential.secrets])
+    distinct(tokens)
     identity_results = []
     for identity in policy["identities"]:
         if identity["id"] not in needed:
             continue
-        response = transport.get(policy["identity_check"]["path"], tokens[identity["id"]])
+        credential = tokens[identity["id"]]
+        response = (Response(error=refresh_errors[identity["id"]]) if identity["id"] in refresh_errors
+                    else transport.get(policy["identity_check"]["path"], credential.headers))
         checks = assertions(response.data, identity["verify"])
         valid = not response.error and response.status == 200 and matched(checks)
         identity_results.append({"id": identity["id"], "tenant": identity["tenant"], "role": identity["role"],
+                                 "auth_type": credential.kind,
+                                 "refresh_status": ("failed" if identity["id"] in refresh_errors else "succeeded") if credential.refresh else "not-requested",
                                  "valid": valid, **evidence(response, checks)})
     verified = {item["id"]: item["valid"] for item in identity_results}
     controls, cases = [], []
@@ -102,7 +118,7 @@ def run(policy, tokens, *, base_url=None, timeout=5.0, max_seconds=120.0, allow_
             continue
         controller = resource["control_identity"]
         if verified[controller]:
-            response = transport.get(resource["path"], tokens[controller])
+            response = transport.get(resource["path"], tokens[controller].headers)
             checks = assertions(response.data, resource["match"])
             valid = not response.error and response.status == 200 and matched(checks)
             control = {"resource": resource["id"], "identity": controller, "valid": valid, **evidence(response, checks)}
@@ -124,7 +140,7 @@ def run(policy, tokens, *, base_url=None, timeout=5.0, max_seconds=120.0, allow_
                 case.update(status="inconclusive", reason="identity-unverified" if not verified[identity["id"]] else "owner-control-failed",
                             http_status=None, assertions=[], transport_error=None)
             else:
-                response = transport.get(resource["path"], tokens[identity["id"]])
+                response = transport.get(resource["path"], tokens[identity["id"]].headers)
                 checks = assertions(response.data, resource["match"])
                 case.update(evidence(response, checks))
                 status, reason = assess(allowed=allowed, identity_valid=True, control_valid=True,
@@ -134,16 +150,18 @@ def run(policy, tokens, *, base_url=None, timeout=5.0, max_seconds=120.0, allow_
     report = {"schema_version": 2, "tool": "TenantBreak", "version": __version__, "name": policy["name"],
               "created_at": datetime.now(timezone.utc).isoformat(), "mode": mode, "base_url": base_url,
               "policy_sha256": fingerprint(policy), "limits": {"timeout": timeout, "max_seconds": max_seconds},
+              "authentication": {"refresh_requested": bool(refresh_auth)},
               "scope": {"total_cases": len(policy["identities"]) * len(policy["resources"]), "selected_cases": selected},
               "identities": identity_results, "controls": controls, "cases": cases,
               "counts": dict(Counter(case["status"] for case in cases)),
               "notes": ["Only the configured GET paths, identities and equality assertions were tested.",
                         "Denials require verified identities and a successful owner control.",
-                        "Raw response bodies and authorization headers are not stored."]}
+                        "Raw response bodies and authentication headers/cookies are not stored."]}
     if mode in {"demo-vulnerable", "demo-fixed"}:
         report["fixture_id"] = "tenantbreak-ledgercloud-v1"
     # Configuration strings can themselves accidentally contain credential values.
-    return _scrub(report, sorted(set(tokens.values()), key=len, reverse=True))
+    secrets = {value for credential in tokens.values() for value in credential.secrets}
+    return _scrub(report, sorted(secrets, key=len, reverse=True))
 
 
 def exit_code(report):

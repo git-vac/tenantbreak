@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0
+
+- Configure custom authentication headers or session cookies per identity, retaining bearer-policy compatibility and account verification.
+- Refresh bearer credentials explicitly before a run through a bounded, same-origin OAuth refresh-token grant with basic/body/public client support.
+- Save rotated credentials to new private files and reuse them without putting values in policies, command arguments or evidence reports.
+- Keep credentials fixed during probes; authentication failures are not retried or reduced to passing denials.
+- Add header, cookie and rotating-token lab modes, policy examples and HTTP integration tests.
+- Replace the demo overview and comparison headlines with direct descriptions.
+
 ## 0.2.0
 
 - Select probes by identity, resource or case while retaining required identity verification and owner controls.

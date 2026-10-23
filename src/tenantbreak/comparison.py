@@ -24,6 +24,8 @@ def compare(before, after, *, allow_target_change=False, before_sha=None, after_
         issues.append("policy-case-counts-differ")
     if before["limits"] != after["limits"]:
         issues.append("execution-limits-differ")
+    if before.get("authentication", {"refresh_requested": False}) != after.get("authentication", {"refresh_requested": False}):
+        issues.append("authentication-execution-differs")
     both_demo = before["mode"].startswith("demo-") and after["mode"].startswith("demo-")
     if before["mode"].startswith("demo-") != after["mode"].startswith("demo-"):
         issues.append("demo-and-application-runs-differ")
@@ -92,7 +94,7 @@ def html(comparison):
     parts = ["<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'>",
              "<meta http-equiv='Content-Security-Policy' content=\"default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'\">",
              f"<title>TenantBreak | Run comparison</title><style>{STYLE}</style></head><body><main><header><div class='eyebrow'>TENANTBREAK / RUN COMPARISON</div>",
-             "<h1>Verify the change.</h1><p class='muted'>Recorded access outcomes, with policy, scope and evidence compatibility checks.</p></header><section class='stats'>"]
+             "<h1>Run comparison</h1><p class='muted'>Access results before and after the change.</p></header><section class='stats'>"]
     for label, key, cls in (("NEW LEAKS", "new-leak", "bad"), ("PERSISTENT LEAKS", "persistent-leak", "bad"), ("RESOLVED LEAKS", "resolved-leak", "good")):
         parts.append(f"<div class='stat'><strong class='{cls}'>{counts[key]}</strong><span>{label}</span></div>")
     parts.append(f"<div class='stat'><strong class='warn'>{counts['not-comparable'] + counts['inconclusive']}</strong><span>NEED ATTENTION</span></div></section>")

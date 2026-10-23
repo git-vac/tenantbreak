@@ -11,7 +11,7 @@ flowchart LR
 
 ## The policy is the authority
 
-An identity has a subject label, tenant label, role label, token environment variable and JSON Pointer assertions for the configured identity endpoint. A resource has a path, explicit allow list, an allowed control identity and evidence assertions. The labels explain the matrix; only the allow lists determine expected permissions.
+An identity has subject/tenant/role labels, explicit authentication credential references and JSON Pointer assertions for the configured identity endpoint. A resource has a path, explicit allow list, an allowed control identity and evidence assertions. The labels explain the matrix; only the allow lists determine expected permissions.
 
 No access rule is guessed from a URL, role name, API specification or language model. An incorrect policy can generate an incorrect finding. In particular, a resource intended to be shared should list every permitted test identity.
 
@@ -31,11 +31,11 @@ An ordinary 403/404 is an expected denial only after controls succeed and no res
 
 ## Transport boundaries
 
-`transport.py` sends only GET requests to the configured origin. Paths cannot replace its authority. Authorization headers use only the identity selected for that request. Redirects are never followed, environment proxies are disabled, TLS verification uses Python's defaults and compressed responses are refused. There is no shell execution, subprocess scanner or external telemetry.
+Resource checks use GET requests to the configured origin. Optional OAuth refresh performs one bounded form POST per selected refresh account before verification, to a configured path on that same origin. Paths cannot replace its authority. Request credentials belong only to the selected identity, and `Set-Cookie` cannot change them. Redirects are never followed, environment proxies are disabled, TLS verification uses Python's defaults and compressed responses are refused. There is no shell execution, subprocess scanner or external telemetry. [Authentication details](authentication.md).
 
 Each response body is bounded to 1 MiB, hashed, parsed in memory and discarded after assertion checks. Reports retain the status, size, digest, timing and individual assertion outcomes. They contain neither complete bodies nor expected/actual scalar values. Credential echo redaction also covers configuration strings before report serialization.
 
-The 120-second default budget applies across identity checks, controls and probes. Checks occur before requests and between chunks; a blocking socket operation can consume up to its configured timeout beyond the deadline. DNS timing is controlled by the OS. Unexecuted checks become incomplete results.
+The 120-second default budget applies across refresh, identity checks, controls and probes. Checks occur before requests and between chunks; a blocking socket operation can consume up to its configured timeout beyond the deadline. DNS timing is controlled by the OS. Unexecuted checks become incomplete results.
 
 ## Reproduction and CI
 
@@ -50,6 +50,8 @@ The policy fingerprint includes access rules, identity assertions, resource asse
 | File | Responsibility |
 | --- | --- |
 | `config.py` | Strict bounded policy validation, credential resolution and fingerprints |
+| `auth.py` | Per-account bearer/header/cookie credentials and explicit OAuth refresh |
+| `credential_file.py` | Private credential input and rotation snapshots |
 | `transport.py` | Single-origin bounded HTTP reads |
 | `engine.py` | Identity verification, owner controls and access assessment |
 | `selection.py` | Probe selection, required controls and per-case fingerprints |
@@ -60,4 +62,4 @@ The policy fingerprint includes access rules, identity assertions, resource asse
 | `report.py` | Literal terminal output, escaped offline HTML and JUnit |
 | `cli.py` | User commands, output preflight and exit behavior |
 
-The project uses the Python standard library at runtime. HTML/CSS reports remain editable independently of the engine.
+The core engine uses the Python standard library. Optional YAML import uses PyYAML. HTML/CSS reports remain editable independently of the engine.

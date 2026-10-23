@@ -95,22 +95,21 @@ def validate(policy):
     if not isinstance(identities, list) or not 2 <= len(identities) <= 32:
         raise PolicyError("identities: supply 2 to 32 test identities")
     ids = set()
+    from .auth import validate_accounts, validate_auth
     for identity in identities:
-        _object(identity, {"id", "tenant", "role", "token_env", "verify"},
-                {"id", "tenant", "role", "token_env", "verify"}, "identity")
+        _object(identity, {"id", "tenant", "role", "token_env", "auth", "verify"},
+                {"id", "tenant", "role", "verify"}, "identity")
         _slug(identity["id"], "identity id")
         if identity["id"] in ids:
             raise PolicyError("identity ids must be unique")
         ids.add(identity["id"])
         _string(identity["tenant"], "tenant", 100)
         _string(identity["role"], "role", 100)
-        if not isinstance(identity["token_env"], str) or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{0,127}", identity["token_env"]):
-            raise PolicyError("token_env: expected an environment variable name")
+        validate_auth(identity)
         _matches(identity["verify"], "identity verify")
         if len(identity["verify"]) < 2:
             raise PolicyError("identity verify: assert both the subject and tenant (at least two fields)")
-    if len({i["token_env"] for i in identities}) != len(identities):
-        raise PolicyError("each identity needs a distinct token_env")
+    validate_accounts(identities)
     if len({json.dumps(i["verify"], sort_keys=True) for i in identities}) != len(identities):
         raise PolicyError("identity verification assertions must distinguish the test identities")
     resources = policy["resources"]
@@ -171,23 +170,10 @@ def load(path):
         raise PolicyError("cannot load policy: expected bounded, valid UTF-8 JSON") from exc
 
 
-def credentials(policy, environment=None, identity_ids=None):
+def credentials(policy, environment=None, identity_ids=None, refresh_auth=False):
+    from .auth import resolve
     environment = os.environ if environment is None else environment
-    result = {}
-    for identity in policy["identities"]:
-        if identity_ids is not None and identity["id"] not in identity_ids:
-            continue
-        token = environment.get(identity["token_env"], "")
-        if (not isinstance(token, str) or not 1 <= len(token) <= 8192
-                or any(ord(c) < 33 or ord(c) > 126 for c in token)):
-            raise PolicyError(f"missing or invalid bearer token in {identity['token_env']}")
-        result[identity["id"]] = token
-    if len(set(result.values())) != len(result):
-        raise PolicyError("test identities must have distinct bearer tokens")
-    public_text = json.dumps(policy, ensure_ascii=False) + " TenantBreak GET run demo-vulnerable demo-fixed allowed denied confirmed-leak inconclusive error"
-    if any(token in public_text for token in result.values()):
-        raise PolicyError("bearer values must be separate from policy text and evidence labels; use opaque credentials")
-    return result
+    return resolve(policy, environment, identity_ids, refresh_auth)
 
 
 def fingerprint(policy):

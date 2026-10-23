@@ -51,7 +51,7 @@ def _evidence(item):
 def _normalize(report):
     """Validate structure, copy it, and recompute flags/statuses/counts; not authentication."""
     _object(report, {"schema_version", "tool", "version", "name", "created_at", "mode", "base_url", "policy_sha256",
-                     "limits", "scope", "fixture_id", "replay_of", "identities", "controls", "cases", "counts", "notes"},
+                     "limits", "scope", "fixture_id", "replay_of", "authentication", "identities", "controls", "cases", "counts", "notes"},
             {"schema_version", "tool", "version", "name", "created_at", "mode", "base_url", "policy_sha256",
              "limits", "identities", "controls", "cases", "counts", "notes"}, "saved report")
     result = deepcopy(report)
@@ -69,6 +69,9 @@ def _normalize(report):
         _digest(result["replay_of"])
     if "fixture_id" in result:
         _require(result["fixture_id"] == "tenantbreak-ledgercloud-v1" and result["mode"].startswith("demo-"))
+    if "authentication" in result:
+        _object(result["authentication"], {"refresh_requested"}, {"refresh_requested"}, "report authentication")
+        _require(type(result["authentication"]["refresh_requested"]) is bool)
     _object(result["limits"], {"timeout", "max_seconds"}, {"timeout", "max_seconds"}, "report limits")
     for value in result["limits"].values():
         _require(type(value) in (int, float) and math.isfinite(value) and 0 < value <= 3600)
@@ -79,13 +82,22 @@ def _normalize(report):
     identity_map = {}
     evidence_keys = {"http_status", "response_sha256", "response_bytes", "elapsed_ms", "assertions", "transport_error"}
     for identity in result["identities"]:
-        _object(identity, {"id", "tenant", "role", "valid"} | evidence_keys,
+        _object(identity, {"id", "tenant", "role", "valid", "auth_type", "refresh_status"} | evidence_keys,
                 {"id", "tenant", "role", "valid", "http_status", "assertions", "transport_error"}, "report identity")
         _slug(identity["id"], "report identity")
         _require(identity["id"] not in identity_map and type(identity["valid"]) is bool)
         _string(identity["tenant"], "report tenant", 100)
         _string(identity["role"], "report role", 100)
         identity["valid"] = _evidence(identity)
+        if "auth_type" in identity:
+            _require(identity["auth_type"] in {"bearer", "headers", "cookies"})
+        if "refresh_status" in identity:
+            _require(identity["refresh_status"] in {"not-requested", "succeeded", "failed"})
+            if identity["refresh_status"] != "not-requested":
+                _require(result.get("authentication", {}).get("refresh_requested") is True and identity.get("auth_type") == "bearer")
+            if identity["refresh_status"] == "failed":
+                _require(not identity["valid"] and identity["http_status"] is None
+                         and isinstance(identity["transport_error"], str) and identity["transport_error"].startswith("refresh-"))
         identity_map[identity["id"]] = identity
     _require(isinstance(result["controls"], list) and 1 <= len(result["controls"]) <= 64)
     control_map = {}

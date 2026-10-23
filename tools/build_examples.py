@@ -10,7 +10,8 @@ from pathlib import Path
 
 from tenantbreak.engine import exit_code, run
 from tenantbreak import comparison
-from tenantbreak.lab import TOKENS, demo_policy, server
+from tenantbreak.lab import TOKENS, demo_environment, demo_policy, server
+from tenantbreak.config import credentials
 from tenantbreak.onboarding import from_openapi, read_spec
 from tenantbreak.report import html, junit, terminal
 
@@ -20,12 +21,12 @@ ROOT = Path(__file__).resolve().parents[1]
 def overview(before, after):
     e = escape
     svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="660" viewBox="0 0 1280 660" role="img" aria-labelledby="title desc">',
-           '<title id="title">TenantBreak: verify access, expose leaks, replay the fix</title>',
+           '<title id="title">TenantBreak authorization test results</title>',
            '<desc id="desc">The same four identities and four resources produce nine confirmed leaks against the vulnerable lab and zero against the fixed lab.</desc>',
            '<rect width="1280" height="660" rx="18" fill="#0b1220"/>',
            '<g font-family="system-ui,Segoe UI,sans-serif">',
            '<text x="40" y="46" fill="#72e6ba" font-family="monospace" font-size="13" letter-spacing="3">TENANTBREAK / AUTHORIZATION EVIDENCE</text>',
-           '<text x="40" y="103" fill="#e8eef7" font-size="36" font-weight="700">Same policy. Two implementations. Observable proof.</text>',
+           '<text x="40" y="103" fill="#e8eef7" font-size="36" font-weight="700">Authorization results before and after the fix</text>',
            '<text x="40" y="138" fill="#a8b8ce" font-size="17">Actual HTTP requests / invented fixture records / verified identities and owner controls</text>']
     for x, report, title, accent in ((40, before, "VULNERABLE API", "#ff939e"), (660, after, "FIXED API", "#72e6ba")):
         leak_count = sum(case["status"] == "confirmed-leak" for case in report["cases"])
@@ -90,6 +91,14 @@ def main():
     (destination / "policy.draft.json").write_text(json.dumps(draft, indent=2) + "\n", encoding="utf-8", newline="\n")
     (destination / "policy.json").write_text(json.dumps(demo_policy(), indent=2) + "\n", encoding="utf-8", newline="\n")
     (destination / "overview.svg").write_text(overview(reports["vulnerable"], reports["fixed"]), encoding="utf-8", newline="\n")
+    for auth in ("headers", "cookies", "refresh"):
+        policy = demo_policy(auth)
+        (destination / f"policy.{auth}.json").write_text(json.dumps(policy, indent=2) + "\n", encoding="utf-8", newline="\n")
+        tokens = credentials(policy, demo_environment(), refresh_auth=auth == "refresh")
+        with server("fixed", auth=auth) as address:
+            report = run(policy, tokens, base_url=address, refresh_auth=auth == "refresh", refresh_sink=lambda *_: None)
+        if exit_code(report) != 0 or report["counts"] != {"allowed": 6, "denied": 10}:
+            raise RuntimeError("lab authentication workflow failed")
     print("Verified HTTP lab: 9 leaks before; 6 allowed + 10 denied after; 9 resolutions; focused case retains controls. Examples regenerated.")
 
 

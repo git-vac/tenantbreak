@@ -1,6 +1,7 @@
 """Bounded GET requests to one configured origin; no redirects or ambient proxies."""
 
 from dataclasses import dataclass, field
+import base64
 import hashlib
 from http.client import HTTPException
 import socket
@@ -8,6 +9,7 @@ import ssl
 import time
 from urllib.error import HTTPError, URLError
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
+from urllib.parse import quote_plus, urlencode
 
 from .config import decode_json, request_path
 from . import __version__
@@ -38,17 +40,34 @@ class Transport:
         self.opener = build_opener(ProxyHandler({}), NoRedirects())
 
     def get(self, path, token):
+        headers = {"Authorization": "Bearer " + token} if isinstance(token, str) else token
+        return self._request(path, headers)
+
+    def refresh(self, path, form, client_id=None, client_secret=None, client_auth="none"):
+        form = dict(form)
+        headers = {"Content-Type": "application/x-www-form-urlencoded"}
+        if client_auth == "basic":
+            pair = quote_plus(client_id) + ":" + quote_plus(client_secret)
+            headers["Authorization"] = "Basic " + base64.b64encode(pair.encode("ascii")).decode("ascii")
+        else:
+            if client_id is not None:
+                form["client_id"] = client_id
+            if client_auth == "body":
+                form["client_secret"] = client_secret
+        return self._request(path, headers, urlencode(form).encode("ascii"), 65536)
+
+    def _request(self, path, headers, data=None, maximum=MAX_BODY):
         request_path(path)
         started = time.monotonic()
         remaining = self.deadline - started
         if remaining <= 0:
             return Response(error="run-budget-exhausted")
-        request = Request(self.base_url + path, headers={
-            "Authorization": "Bearer " + token,
+        request = Request(self.base_url + path, data=data, headers={
             "Accept": "application/json",
             "Accept-Encoding": "identity",
             "User-Agent": "TenantBreak/" + __version__,
-        }, method="GET")
+            **headers,
+        }, method="POST" if data is not None else "GET")
         response = None
         result = Response()
         try:
@@ -70,11 +89,11 @@ class Transport:
                 if time.monotonic() >= self.deadline:
                     result.error = "run-budget-exhausted"
                     return result
-                chunk = response.read1(min(65536, MAX_BODY + 1 - result.size))
+                chunk = response.read1(min(65536, maximum + 1 - result.size))
                 if not chunk:
                     break
                 result.size += len(chunk)
-                if result.size > MAX_BODY:
+                if result.size > maximum:
                     result.error = "response-too-large"
                     return result
                 chunks.append(chunk)

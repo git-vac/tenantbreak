@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "name": "LedgerCloud authorization lab",
+  "base_url": "http://127.0.0.1:8080",
+  "identity_check": {
+    "path": "/api/me"
+  },
+  "identities": [
+    {
+      "id": "alice",
+      "tenant": "acme",
+      "role": "member",
+      "verify": {
+        "/id": "alice",
+        "/tenant": "acme",
+        "/role": "member"
+      },
+      "auth": {
+        "type": "headers",
+        "values": {
+          "X-API-Key": "TB_ALICE_TOKEN"
+        }
+      }
+    },
+    {
+      "id": "bob",
+      "tenant": "acme",
+      "role": "member",
+      "verify": {
+        "/id": "bob",
+        "/tenant": "acme",
+        "/role": "member"
+      },
+      "auth": {
+        "type": "headers",
+        "values": {
+          "X-API-Key": "TB_BOB_TOKEN"
+        }
+      }
+    },
+    {
+      "id": "charlie",
+      "tenant": "nova",
+      "role": "member",
+      "verify": {
+        "/id": "charlie",
+        "/tenant": "nova",
+        "/role": "member"
+      },
+      "auth": {
+        "type": "headers",
+        "values": {
+          "X-API-Key": "TB_CHARLIE_TOKEN"
+        }
+      }
+    },
+    {
+      "id": "admin-acme",
+      "tenant": "acme",
+      "role": "admin",
+      "verify": {
+        "/id": "admin-acme",
+        "/tenant": "acme",
+        "/role": "admin"
+      },
+      "auth": {
+        "type": "headers",
+        "values": {
+          "X-API-Key": "TB_ADMIN_TOKEN"
+        }
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "alice-invoice",
+      "label": "Alice's private invoice",
+      "tenant": "acme",
+      "path": "/api/invoices/inv-a104",
+      "allow": [
+        "alice",
+        "admin-acme"
+      ],
+      "control_identity": "alice",
+      "match": {
+        "/id": "inv-a104",
+        "/tenant": "acme",
+        "/marker": "TB-FIXTURE-ALICE-104"
+      }
+    },
+    {
+      "id": "bob-invoice",
+      "label": "Bob's private invoice",
+      "tenant": "acme",
+      "path": "/api/invoices/inv-a105",
+      "allow": [
+        "bob",
+        "admin-acme"
+      ],
+      "control_identity": "bob",
+      "match": {
+        "/id": "inv-a105",
+        "/tenant": "acme",
+        "/marker": "TB-FIXTURE-BOB-105"
+      }
+    },
+    {
+      "id": "charlie-invoice",
+      "label": "Charlie's private invoice",
+      "tenant": "nova",
+      "path": "/api/invoices/inv-n201",
+      "allow": [
+        "charlie"
+      ],
+      "control_identity": "charlie",
+      "match": {
+        "/id": "inv-n201",
+        "/tenant": "nova",
+        "/marker": "TB-FIXTURE-CHARLIE-201"
+      }
+    },
+    {
+      "id": "acme-export",
+      "label": "Acme administrator export",
+      "tenant": "acme",
+      "path": "/api/admin/tenants/acme/export",
+      "allow": [
+        "admin-acme"
+      ],
+      "control_identity": "admin-acme",
+      "match": {
+        "/id": "export-acme",
+        "/tenant": "acme",
+        "/marker": "TB-FIXTURE-ACME-EXPORT"
+      }
+    }
+  ]
+}
