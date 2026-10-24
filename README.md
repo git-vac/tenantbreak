@@ -1,5 +1,9 @@
 # TenantBreak
 
+<p align="center">
+  <img src="assets/branding/tenantbreak-wordmark.png" width="640" alt="TenantBreak logo">
+</p>
+
 **Prove which users can read which API resources. Keep authorization bugs from coming back.**
 
 TenantBreak runs an explicit access matrix across users, roles and tenants. A finding requires a verified identity, a successful owner control, and matching resource evidence in a forbidden response. A `200 OK` alone never establishes a leak.
