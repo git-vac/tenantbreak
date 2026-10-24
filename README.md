@@ -1,7 +1,11 @@
 # TenantBreak
 
 <p align="center">
-  <img src="assets/branding/tenantbreak-wordmark.png" width="640" alt="TenantBreak logo">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/branding/tenantbreak-wordmark-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/branding/tenantbreak-wordmark-light.png">
+    <img src="assets/branding/tenantbreak-wordmark-light.png" width="640" alt="TenantBreak logo">
+  </picture>
 </p>
 
 **Prove which users can read which API resources. Keep authorization bugs from coming back.**
