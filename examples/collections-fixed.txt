@@ -1,0 +1,40 @@
+
+TENANTBREAK / AUTHORIZATION EVIDENCE
+LedgerCloud collection authorization | demo-fixed
+Target: http://127.0.0.1:52118
+Identities verified: 4/4 | Owner controls: 4/4
+
+RESOURCE                IDENTITY       EXPECTED  HTTP  RESULT
+---------------------------------------------------------------------------
+alice-invoice           alice          allow     200   ALLOW
+alice-invoice           bob            deny      200   DENY
+alice-invoice           charlie        deny      200   DENY
+alice-invoice           admin-acme     allow     200   ALLOW
+bob-invoice             alice          deny      200   DENY
+bob-invoice             bob            allow     200   ALLOW
+bob-invoice             charlie        deny      200   DENY
+bob-invoice             admin-acme     allow     200   ALLOW
+charlie-invoice         alice          deny      200   DENY
+charlie-invoice         bob            deny      200   DENY
+charlie-invoice         charlie        allow     200   ALLOW
+charlie-invoice         admin-acme     deny      200   DENY
+alice-summary           alice          allow     200   ALLOW
+alice-summary           bob            deny      403   DENY
+alice-summary           charlie        deny      403   DENY
+alice-summary           admin-acme     allow     200   ALLOW
+
+16 checks | 0 confirmed leaks | 16 expected outcomes | 0 need attention
+  alice-invoice:alice: collection pages 1; records 1; coverage complete
+  alice-invoice:bob: collection pages 1; records 1; coverage complete
+  alice-invoice:charlie: collection pages 1; records 1; coverage complete
+  alice-invoice:admin-acme: collection pages 2; records 2; coverage complete
+  bob-invoice:alice: collection pages 1; records 1; coverage complete
+  bob-invoice:bob: collection pages 1; records 1; coverage complete
+  bob-invoice:charlie: collection pages 1; records 1; coverage complete
+  bob-invoice:admin-acme: collection pages 2; records 2; coverage complete
+  charlie-invoice:alice: collection pages 1; records 1; coverage complete
+  charlie-invoice:bob: collection pages 1; records 1; coverage complete
+  charlie-invoice:charlie: collection pages 1; records 1; coverage complete
+  charlie-invoice:admin-acme: collection pages 2; records 2; coverage complete
+
+A passing run covers only this policy's configured operations and evidence assertions.

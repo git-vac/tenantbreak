@@ -23,15 +23,17 @@ An invalid identity prevents probes for that identity. An invalid resource contr
 
 ## Evidence has a narrow meaning
 
-A confirmed leak is a complete equality match of the configured protected-resource assertions in a forbidden response. It proves that those fields were returned under the observed request identity, subject to the correctness of the identity endpoint and policy. HTTP status alone cannot establish a leak.
+A confirmed leak matches all configured resource assertions, or all assertions in an explicitly declared exposure subset, in a forbidden response. Collection matches belong to a single row. The conclusion depends on the identity endpoint and policy being correct; HTTP status alone cannot establish a leak.
 
-The checks are structural JSON checks, including JSON Pointer escaping and array indexes. A boolean cannot match a numeric 1. Duplicate JSON keys and non-finite numbers are rejected. A partial protected-resource match is inconclusive, even with a denial status.
+The checks are structural JSON checks, including JSON Pointer escaping and array indexes. A boolean cannot match a numeric 1. Duplicate JSON keys and non-finite numbers are rejected. An undeclared partial match is inconclusive. [Collection checks](collections.md) retain per-page coverage and never interpret a truncated scan as absence.
 
 An ordinary 403/404 is an expected denial only after controls succeed and no resource assertion matches. A non-JSON 403/404 is treated as a denial by status without inspecting its body for secrets. This is deliberately narrower than a general data-leak scanner. A malformed response claiming to be JSON, or beginning with a JSON object/array, is an error rather than a clean denial.
 
 ## Transport boundaries
 
 Resource checks use GET requests to the configured origin. Optional OAuth refresh performs one bounded form POST per selected refresh account before verification, to a configured path on that same origin. Paths cannot replace its authority. Request credentials belong only to the selected identity, and `Set-Cookie` cannot change them. Redirects are never followed, environment proxies are disabled, TLS verification uses Python's defaults and compressed responses are refused. There is no shell execution, subprocess scanner or external telemetry. [Authentication details](authentication.md).
+
+The separate [write runner](writes.md) requires explicit opt-in, a disposable namespace guard and known fixture identifiers. It proves owner access, observes effects through independent reads and verifies reset. Cleanup failure or an ambiguous interrupted/timed-out mutation stops further writes. Its observations cover configured state, not an atomic transaction or every external side effect.
 
 Each response body is bounded to 1 MiB, hashed, parsed in memory and discarded after assertion checks. Reports retain the status, size, digest, timing and individual assertion outcomes. They contain neither complete bodies nor expected/actual scalar values. Credential echo redaction also covers configuration strings before report serialization.
 
@@ -54,11 +56,15 @@ The policy fingerprint includes access rules, identity assertions, resource asse
 | `credential_file.py` | Private credential input and rotation snapshots |
 | `transport.py` | Single-origin bounded HTTP reads |
 | `engine.py` | Identity verification, owner controls and access assessment |
+| `evidence.py` | Structural assertions and value-free response evidence |
+| `collections.py` | Bounded collection traversal, record isolation and exposure subsets |
+| `writes.py` | Disposable state-change tests, independent observations and reset verification |
 | `selection.py` | Probe selection, required controls and per-case fingerprints |
 | `saved.py` | Bounded saved-report validation, evidence derivation and replay checks |
 | `comparison.py` | Compatible run comparison and offline change reports |
 | `onboarding.py` | Offline starter/OpenAPI drafts and finalization |
 | `lab.py` | Synthetic HTTP API with vulnerable/fixed authorization |
+| `scenarios.py` | Collection, partial-field and disposable mutation lab fixtures |
 | `report.py` | Literal terminal output, escaped offline HTML and JUnit |
 | `cli.py` | User commands, output preflight and exit behavior |
 

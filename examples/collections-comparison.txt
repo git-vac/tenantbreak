@@ -1,0 +1,25 @@
+
+TENANTBREAK / RUN COMPARISON
+Before: http://127.0.0.1:52063 | demo-vulnerable
+After:  http://127.0.0.1:52118 | demo-fixed
+Scope: 16/16 -> 16/16 selected policy checks
+
+alice-invoice:alice                  ALLOW    -> ALLOW    UNCHANGED
+alice-invoice:bob                    LEAK     -> DENY     RESOLVED-LEAK
+alice-invoice:charlie                LEAK     -> DENY     RESOLVED-LEAK
+alice-invoice:admin-acme             ALLOW    -> ALLOW    UNCHANGED
+bob-invoice:alice                    LEAK     -> DENY     RESOLVED-LEAK
+bob-invoice:bob                      ALLOW    -> ALLOW    UNCHANGED
+bob-invoice:charlie                  LEAK     -> DENY     RESOLVED-LEAK
+bob-invoice:admin-acme               ALLOW    -> ALLOW    UNCHANGED
+charlie-invoice:alice                LEAK     -> DENY     RESOLVED-LEAK
+charlie-invoice:bob                  LEAK     -> DENY     RESOLVED-LEAK
+charlie-invoice:charlie              ALLOW    -> ALLOW    UNCHANGED
+charlie-invoice:admin-acme           LEAK     -> DENY     RESOLVED-LEAK
+alice-summary:alice                  ALLOW    -> ALLOW    UNCHANGED
+alice-summary:bob                    LEAK     -> DENY     RESOLVED-LEAK
+alice-summary:charlie                LEAK     -> DENY     RESOLVED-LEAK
+alice-summary:admin-acme             ALLOW    -> ALLOW    UNCHANGED
+
+0 new | 0 persistent | 9 resolved | 7 unchanged | 0 need attention
+Saved reports are local evidence records, not authenticated attestations. Results cover only the selected policy checks.

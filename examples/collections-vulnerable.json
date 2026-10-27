@@ -1,0 +1,3136 @@
+{
+  "schema_version": 2,
+  "tool": "TenantBreak",
+  "version": "0.4.0",
+  "name": "LedgerCloud collection authorization",
+  "created_at": "2026-10-27T08:45:28.333957+00:00",
+  "mode": "demo-vulnerable",
+  "base_url": "http://127.0.0.1:52063",
+  "policy_sha256": "71f2117ee4b22ca7522b9cff4d64a0fc35e304e9bedbeba96f27102e12d88c13",
+  "limits": {
+    "timeout": 5.0,
+    "max_seconds": 120.0
+  },
+  "authentication": {
+    "refresh_requested": false
+  },
+  "scope": {
+    "total_cases": 16,
+    "selected_cases": [
+      "alice-invoice:alice",
+      "alice-invoice:bob",
+      "alice-invoice:charlie",
+      "alice-invoice:admin-acme",
+      "bob-invoice:alice",
+      "bob-invoice:bob",
+      "bob-invoice:charlie",
+      "bob-invoice:admin-acme",
+      "charlie-invoice:alice",
+      "charlie-invoice:bob",
+      "charlie-invoice:charlie",
+      "charlie-invoice:admin-acme",
+      "alice-summary:alice",
+      "alice-summary:bob",
+      "alice-summary:charlie",
+      "alice-summary:admin-acme"
+    ]
+  },
+  "identities": [
+    {
+      "id": "alice",
+      "tenant": "acme",
+      "role": "member",
+      "auth_type": "bearer",
+      "refresh_status": "not-requested",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+      "response_bytes": 51,
+      "elapsed_ms": 31,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/role",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    },
+    {
+      "id": "bob",
+      "tenant": "acme",
+      "role": "member",
+      "auth_type": "bearer",
+      "refresh_status": "not-requested",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "76c1f4af9126f16d3fc767c0bfb1704ac898fc6569aabc24aca982521b6156de",
+      "response_bytes": 49,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/role",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    },
+    {
+      "id": "charlie",
+      "tenant": "nova",
+      "role": "member",
+      "auth_type": "bearer",
+      "refresh_status": "not-requested",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "2fcea76528739b92c97424723486f2a963a7a12d6ba24ee7107faa1f61cbea9e",
+      "response_bytes": 53,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/role",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    },
+    {
+      "id": "admin-acme",
+      "tenant": "acme",
+      "role": "admin",
+      "auth_type": "bearer",
+      "refresh_status": "not-requested",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "10e1554fd50d0c8eb281dfd51085e5ae7095aa80ea9419f70dcfe638296f557d",
+      "response_bytes": 55,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/role",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    }
+  ],
+  "controls": [
+    {
+      "resource": "alice-invoice",
+      "identity": "alice",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+      "response_bytes": 148,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      }
+    },
+    {
+      "resource": "bob-invoice",
+      "identity": "bob",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+      "response_bytes": 144,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      }
+    },
+    {
+      "resource": "charlie-invoice",
+      "identity": "charlie",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+      "response_bytes": 134,
+      "elapsed_ms": 16,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      }
+    },
+    {
+      "resource": "alice-summary",
+      "identity": "alice",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "6baa4702dac9cce4700e7a8c321def84eb20183a683ec17c32b0914c9bd37604",
+      "response_bytes": 103,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/amount",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/amount",
+          "present": true,
+          "matched": true
+        }
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "alice-invoice:alice",
+      "resource": "alice-invoice",
+      "label": "Alice's private invoice",
+      "resource_tenant": "acme",
+      "identity": "alice",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "2fc72d2806cef0f102049bef785db7928499630ed930622c3705148046924317",
+      "http_status": 200,
+      "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+      "response_bytes": 148,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      },
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    },
+    {
+      "id": "alice-invoice:bob",
+      "resource": "alice-invoice",
+      "label": "Alice's private invoice",
+      "resource_tenant": "acme",
+      "identity": "bob",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "c5b5def03eb31df9d056874b7a397d27120a9748dad9bfa0269b04efbf8fe0fd",
+      "http_status": 200,
+      "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+      "response_bytes": 148,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      },
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "alice-invoice:charlie",
+      "resource": "alice-invoice",
+      "label": "Alice's private invoice",
+      "resource_tenant": "acme",
+      "identity": "charlie",
+      "identity_tenant": "nova",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "9f656f2d2f71fea0c4a722c804ff92ddab626eed324b115c616be76bd1643a44",
+      "http_status": 200,
+      "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+      "response_bytes": 148,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      },
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "alice-invoice:admin-acme",
+      "resource": "alice-invoice",
+      "label": "Alice's private invoice",
+      "resource_tenant": "acme",
+      "identity": "admin-acme",
+      "identity_tenant": "acme",
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/invoices",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "6de061ef1348f2142176cc12659b9fbcc47b55a33fa346e5a39044fa8acbc5b8",
+      "http_status": 200,
+      "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+      "response_bytes": 148,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      },
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    },
+    {
+      "id": "bob-invoice:alice",
+      "resource": "bob-invoice",
+      "label": "Bob's private invoice",
+      "resource_tenant": "acme",
+      "identity": "alice",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "cf540dc8f25b2dfa72182fc064d0950b262d06080f39e9c1bf5eadbafbd69a6f",
+      "http_status": 200,
+      "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+      "response_bytes": 144,
+      "elapsed_ms": 15,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      },
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "bob-invoice:bob",
+      "resource": "bob-invoice",
+      "label": "Bob's private invoice",
+      "resource_tenant": "acme",
+      "identity": "bob",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "65e7addb4dd67ba42c874f3dd8f2729558609fa0bed0024fcbf43a3784c1d2aa",
+      "http_status": 200,
+      "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+      "response_bytes": 144,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      },
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    },
+    {
+      "id": "bob-invoice:charlie",
+      "resource": "bob-invoice",
+      "label": "Bob's private invoice",
+      "resource_tenant": "acme",
+      "identity": "charlie",
+      "identity_tenant": "nova",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "298ceaef63ba03794b4d731b2782521bb556f9d5584f1fa139b657ed555ba723",
+      "http_status": 200,
+      "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+      "response_bytes": 144,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 31,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      },
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "bob-invoice:admin-acme",
+      "resource": "bob-invoice",
+      "label": "Bob's private invoice",
+      "resource_tenant": "acme",
+      "identity": "admin-acme",
+      "identity_tenant": "acme",
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/invoices",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "d7b74c9c0f80bea3074bf3f2964e19431de8c8e547338ef02e0122ab3d3e89b4",
+      "http_status": 200,
+      "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+      "response_bytes": 144,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      },
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    },
+    {
+      "id": "charlie-invoice:alice",
+      "resource": "charlie-invoice",
+      "label": "Charlie's private invoice",
+      "resource_tenant": "nova",
+      "identity": "alice",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "97ba2ddcbaedc1527638dc094d6f39f98f60c868209ceab0067eb31ac1b2d6d3",
+      "http_status": 200,
+      "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+      "response_bytes": 134,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      },
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "charlie-invoice:bob",
+      "resource": "charlie-invoice",
+      "label": "Charlie's private invoice",
+      "resource_tenant": "nova",
+      "identity": "bob",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "6567750179b1d6377c78c44bfc11260e3b93f8497b82200f2212016ef57ea842",
+      "http_status": 200,
+      "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+      "response_bytes": 134,
+      "elapsed_ms": 15,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      },
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "charlie-invoice:charlie",
+      "resource": "charlie-invoice",
+      "label": "Charlie's private invoice",
+      "resource_tenant": "nova",
+      "identity": "charlie",
+      "identity_tenant": "nova",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoices",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "68fb04cea2def1fc11bfec52da67152eb1f6fc441726330db4ad7ff8b7677619",
+      "http_status": 200,
+      "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+      "response_bytes": 134,
+      "elapsed_ms": 16,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 31,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      },
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    },
+    {
+      "id": "charlie-invoice:admin-acme",
+      "resource": "charlie-invoice",
+      "label": "Charlie's private invoice",
+      "resource_tenant": "nova",
+      "identity": "admin-acme",
+      "identity_tenant": "acme",
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/invoices",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "ad8d11a645b0580c0bb18bd5ed44824241faa5efa135c770edc34a6d874e95cb",
+      "http_status": 200,
+      "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+      "response_bytes": 134,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [],
+      "identify_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "coverage_complete": true,
+      "collection": {
+        "max_pages": 4,
+        "max_items": 20,
+        "pages": [
+          {
+            "http_status": 200,
+            "response_sha256": "86a2b25aa42546eccd265bba2eeb61b220abf218e42dcc9ab301f9874718594e",
+            "response_bytes": 148,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "4a483e96472bcfc32f5785d70a30d200eae1ab458c2c444567c16709e8d6db18"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "7ab64b5088265c8c8c6fab31ba70c4888e9d6c43cb4f231ed9038c48efa0d97c",
+            "response_bytes": 144,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": false
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "more",
+            "path_sha256": "f9b9977879603cde31cbf34259db663d1e79590749479fd09d48445ebe330039"
+          },
+          {
+            "http_status": 200,
+            "response_sha256": "053e5d9a7ea284c2ed01fbc9c3b72a6435e0fc93df1f9ff351127452e81c39eb",
+            "response_bytes": 134,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null,
+            "leak_assertions": [],
+            "identify_assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "items_seen": 1,
+            "record_index": 0,
+            "next_state": "end",
+            "path_sha256": "c5b68a5b60cc4bfb3a351efa18a9c708f6155a2554ed85534928000822cf06be"
+          }
+        ]
+      },
+      "status": "confirmed-leak",
+      "reason": "protected-resource-returned"
+    },
+    {
+      "id": "alice-summary:alice",
+      "resource": "alice-summary",
+      "label": "Alice's invoice fields",
+      "resource_tenant": "acme",
+      "identity": "alice",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoice-summaries/inv-a104",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "9b05d09d09625a560b43844066f57d82a3bf3734ca081b393f98836706f0ba99",
+      "http_status": 200,
+      "response_sha256": "6baa4702dac9cce4700e7a8c321def84eb20183a683ec17c32b0914c9bd37604",
+      "response_bytes": 103,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/amount",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/amount",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    },
+    {
+      "id": "alice-summary:bob",
+      "resource": "alice-summary",
+      "label": "Alice's invoice fields",
+      "resource_tenant": "acme",
+      "identity": "bob",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoice-summaries/inv-a104",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "7d2222798db810b3fb197e9c49a8f89513dee78de17fc1725fd942947e8c99f0",
+      "http_status": 200,
+      "response_sha256": "e6cf42c0a7b1db68a1fd1dd44b7c1fc3d1264fc2d1ff1dbf8ff6d1c0d2947baf",
+      "response_bytes": 33,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": false,
+          "matched": false
+        },
+        {
+          "pointer": "/marker",
+          "present": false,
+          "matched": false
+        },
+        {
+          "pointer": "/amount",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/amount",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "status": "confirmed-leak",
+      "reason": "protected-fields-returned"
+    },
+    {
+      "id": "alice-summary:charlie",
+      "resource": "alice-summary",
+      "label": "Alice's invoice fields",
+      "resource_tenant": "acme",
+      "identity": "charlie",
+      "identity_tenant": "nova",
+      "role": "member",
+      "method": "GET",
+      "path": "/api/invoice-summaries/inv-a104",
+      "expected": "deny",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "540737935d905f13235e4b035577930a0c6ca383ab2f2083a7cdbfe9947b2044",
+      "http_status": 200,
+      "response_sha256": "e6cf42c0a7b1db68a1fd1dd44b7c1fc3d1264fc2d1ff1dbf8ff6d1c0d2947baf",
+      "response_bytes": 33,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": false,
+          "matched": false
+        },
+        {
+          "pointer": "/marker",
+          "present": false,
+          "matched": false
+        },
+        {
+          "pointer": "/amount",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/amount",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "status": "confirmed-leak",
+      "reason": "protected-fields-returned"
+    },
+    {
+      "id": "alice-summary:admin-acme",
+      "resource": "alice-summary",
+      "label": "Alice's invoice fields",
+      "resource_tenant": "acme",
+      "identity": "admin-acme",
+      "identity_tenant": "acme",
+      "role": "admin",
+      "method": "GET",
+      "path": "/api/invoice-summaries/inv-a104",
+      "expected": "allow",
+      "control_valid": true,
+      "identity_valid": true,
+      "definition_sha256": "5d26ca541a96acb4c27a3e15c61653d04b76cd9762fd646f313e37753916f3bb",
+      "http_status": 200,
+      "response_sha256": "6baa4702dac9cce4700e7a8c321def84eb20183a683ec17c32b0914c9bd37604",
+      "response_bytes": 103,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/amount",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "leak_assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/amount",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "status": "allowed",
+      "reason": "expected-resource-returned"
+    }
+  ],
+  "counts": {
+    "allowed": 7,
+    "confirmed-leak": 9
+  },
+  "notes": [
+    "Only the configured GET paths, identities and equality assertions were tested.",
+    "Denials require verified identities and a successful owner control.",
+    "Raw response bodies and authentication headers/cookies are not stored."
+  ],
+  "fixture_id": "tenantbreak-ledgercloud-v1"
+}

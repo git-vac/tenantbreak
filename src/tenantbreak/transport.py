@@ -3,6 +3,7 @@
 from dataclasses import dataclass, field
 import base64
 import hashlib
+import json
 from http.client import HTTPException
 import socket
 import ssl
@@ -54,9 +55,14 @@ class Transport:
                 form["client_id"] = client_id
             if client_auth == "body":
                 form["client_secret"] = client_secret
-        return self._request(path, headers, urlencode(form).encode("ascii"), 65536)
+        return self._request(path, headers, urlencode(form).encode("ascii"), 65536, method="POST")
 
-    def _request(self, path, headers, data=None, maximum=MAX_BODY):
+    def write(self, spec, headers):
+        body = json.dumps(spec["json"], ensure_ascii=True, allow_nan=False).encode() if "json" in spec else None
+        return self._request(spec["path"], {**headers, **({"Content-Type": "application/json"} if body is not None else {})},
+                             body, method=spec["method"], parse_body=False)
+
+    def _request(self, path, headers, data=None, maximum=MAX_BODY, method="GET", parse_body=True):
         request_path(path)
         started = time.monotonic()
         remaining = self.deadline - started
@@ -67,7 +73,7 @@ class Transport:
             "Accept-Encoding": "identity",
             "User-Agent": "TenantBreak/" + __version__,
             **headers,
-        }, method="POST" if data is not None else "GET")
+        }, method=method)
         response = None
         result = Response()
         try:
@@ -99,6 +105,8 @@ class Transport:
                 chunks.append(chunk)
             body = b"".join(chunks)
             result.digest = hashlib.sha256(body).hexdigest()
+            if not parse_body:
+                return result
             try:
                 result.data = decode_json(body)
             except (ValueError, UnicodeError, RecursionError):

@@ -1,0 +1,6305 @@
+{
+  "schema_version": 2,
+  "kind": "write",
+  "tool": "TenantBreak",
+  "version": "0.4.0",
+  "name": "LedgerCloud disposable write authorization",
+  "created_at": "2026-10-27T08:45:32.909084+00:00",
+  "mode": "demo-fixed",
+  "base_url": "http://127.0.0.1:52391",
+  "policy_sha256": "079208b305a2f05dd95ff0708317ea91ef9d5d08756b729f59fa12995146a0c6",
+  "limits": {
+    "timeout": 5.0,
+    "max_seconds": 120.0
+  },
+  "write_limits": {
+    "cleanup_seconds": 10.0
+  },
+  "authentication": {
+    "refresh_requested": false
+  },
+  "scope": {
+    "total_cases": 12,
+    "selected_cases": [
+      "update:alice",
+      "update:bob",
+      "update:charlie",
+      "update:admin-acme",
+      "delete:alice",
+      "delete:bob",
+      "delete:charlie",
+      "delete:admin-acme",
+      "create:alice",
+      "create:bob",
+      "create:charlie",
+      "create:admin-acme"
+    ]
+  },
+  "identities": [
+    {
+      "id": "alice",
+      "tenant": "acme",
+      "role": "member",
+      "auth_type": "bearer",
+      "refresh_status": "not-requested",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+      "response_bytes": 51,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/role",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    },
+    {
+      "id": "bob",
+      "tenant": "acme",
+      "role": "member",
+      "auth_type": "bearer",
+      "refresh_status": "not-requested",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "76c1f4af9126f16d3fc767c0bfb1704ac898fc6569aabc24aca982521b6156de",
+      "response_bytes": 49,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/role",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    },
+    {
+      "id": "charlie",
+      "tenant": "nova",
+      "role": "member",
+      "auth_type": "bearer",
+      "refresh_status": "not-requested",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "2fcea76528739b92c97424723486f2a963a7a12d6ba24ee7107faa1f61cbea9e",
+      "response_bytes": 53,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/role",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    },
+    {
+      "id": "admin-acme",
+      "tenant": "acme",
+      "role": "admin",
+      "auth_type": "bearer",
+      "refresh_status": "not-requested",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "10e1554fd50d0c8eb281dfd51085e5ae7095aa80ea9419f70dcfe638296f557d",
+      "response_bytes": 55,
+      "elapsed_ms": 15,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/role",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null
+    }
+  ],
+  "controls": [
+    {
+      "resource": "update",
+      "identity": "alice",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "7f8893dbe83fcc69047ed9fa3ca17462cf5e98d841df198fc7f8da15cfe2cc8f",
+      "response_bytes": 86,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/value",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 200,
+          "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+          "response_bytes": 87,
+          "elapsed_ms": 15,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 200,
+          "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+          "response_bytes": 19,
+          "elapsed_ms": 16,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 200,
+          "response_sha256": "7f8893dbe83fcc69047ed9fa3ca17462cf5e98d841df198fc7f8da15cfe2cc8f",
+          "response_bytes": 86,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 200,
+          "response_sha256": "7f8893dbe83fcc69047ed9fa3ca17462cf5e98d841df198fc7f8da15cfe2cc8f",
+          "response_bytes": 86,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": false
+            }
+          ],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 200,
+            "response_sha256": "7f8893dbe83fcc69047ed9fa3ca17462cf5e98d841df198fc7f8da15cfe2cc8f",
+            "response_bytes": 86,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": {
+            "http_status": 200,
+            "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+            "response_bytes": 19,
+            "elapsed_ms": 0,
+            "assertions": [],
+            "transport_error": null
+          },
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 31,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 200,
+            "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+            "response_bytes": 87,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/value",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          }
+        },
+        "before_status": 200,
+        "after_status": 200,
+        "interrupted": false
+      },
+      "cleanup_verified": true
+    },
+    {
+      "resource": "delete",
+      "identity": "alice",
+      "valid": true,
+      "http_status": 404,
+      "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+      "response_bytes": 22,
+      "elapsed_ms": 16,
+      "assertions": [],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 15,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 200,
+          "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 200,
+          "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+          "response_bytes": 19,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 16,
+          "assertions": [],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/tenant",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/marker",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/value",
+              "present": false,
+              "matched": false
+            }
+          ],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 404,
+            "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+            "response_bytes": 22,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": false,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": false,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": false,
+                "matched": false
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": {
+            "http_status": 200,
+            "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+            "response_bytes": 19,
+            "elapsed_ms": 16,
+            "assertions": [],
+            "transport_error": null
+          },
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 200,
+            "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+            "response_bytes": 87,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/value",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          }
+        },
+        "before_status": 200,
+        "after_status": 404,
+        "interrupted": false
+      },
+      "cleanup_verified": true
+    },
+    {
+      "resource": "create",
+      "identity": "alice",
+      "valid": true,
+      "http_status": 200,
+      "response_sha256": "ad86309addfd09796b26e3494434751034bbd4661845b5bf73d43f39d194a284",
+      "response_bytes": 86,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/value",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 16,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 15,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 201,
+          "response_sha256": "d13639a80e70c978b854121f8b05ab680dcade2ec0ecbbbc45e86d5f6a6e8285",
+          "response_bytes": 17,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 200,
+          "response_sha256": "ad86309addfd09796b26e3494434751034bbd4661845b5bf73d43f39d194a284",
+          "response_bytes": 86,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 200,
+          "response_sha256": "ad86309addfd09796b26e3494434751034bbd4661845b5bf73d43f39d194a284",
+          "response_bytes": 86,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 200,
+            "response_sha256": "ad86309addfd09796b26e3494434751034bbd4661845b5bf73d43f39d194a284",
+            "response_bytes": 86,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": {
+            "http_status": 200,
+            "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+            "response_bytes": 19,
+            "elapsed_ms": 0,
+            "assertions": [],
+            "transport_error": null
+          },
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 404,
+            "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+            "response_bytes": 22,
+            "elapsed_ms": 0,
+            "assertions": [],
+            "transport_error": null
+          }
+        },
+        "before_status": 404,
+        "after_status": 200,
+        "interrupted": false
+      },
+      "cleanup_verified": true
+    }
+  ],
+  "cases": [
+    {
+      "id": "update:alice",
+      "resource": "update",
+      "label": "Update disposable record",
+      "resource_tenant": "acme",
+      "identity": "alice",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "PATCH",
+      "path": "/api/fixtures/tenantbreak/records/update",
+      "expected": "allow",
+      "identity_valid": true,
+      "control_valid": true,
+      "definition_sha256": "f00d1a23343b1e9a18213b703825047ae2bcf61e9e1c9f24c53bb1b6620700dd",
+      "http_status": 200,
+      "response_sha256": "7f8893dbe83fcc69047ed9fa3ca17462cf5e98d841df198fc7f8da15cfe2cc8f",
+      "response_bytes": 86,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/value",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 200,
+          "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+          "response_bytes": 87,
+          "elapsed_ms": 15,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 200,
+          "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+          "response_bytes": 19,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 200,
+          "response_sha256": "7f8893dbe83fcc69047ed9fa3ca17462cf5e98d841df198fc7f8da15cfe2cc8f",
+          "response_bytes": 86,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 200,
+          "response_sha256": "7f8893dbe83fcc69047ed9fa3ca17462cf5e98d841df198fc7f8da15cfe2cc8f",
+          "response_bytes": 86,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": false
+            }
+          ],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 200,
+            "response_sha256": "7f8893dbe83fcc69047ed9fa3ca17462cf5e98d841df198fc7f8da15cfe2cc8f",
+            "response_bytes": 86,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": {
+            "http_status": 200,
+            "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+            "response_bytes": 19,
+            "elapsed_ms": 0,
+            "assertions": [],
+            "transport_error": null
+          },
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 200,
+            "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+            "response_bytes": 87,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/value",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          }
+        },
+        "before_status": 200,
+        "after_status": 200,
+        "interrupted": false
+      },
+      "status": "allowed",
+      "reason": "expected-state-change-observed",
+      "cleanup_verified": true,
+      "execution_complete": true
+    },
+    {
+      "id": "update:bob",
+      "resource": "update",
+      "label": "Update disposable record",
+      "resource_tenant": "acme",
+      "identity": "bob",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "PATCH",
+      "path": "/api/fixtures/tenantbreak/records/update",
+      "expected": "deny",
+      "identity_valid": true,
+      "control_valid": true,
+      "definition_sha256": "b88e796f0c7096215bd1839a7c5c0d2ca0b898b9f64ced4514d5d69035a1fe94",
+      "http_status": 200,
+      "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+      "response_bytes": 87,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/value",
+          "present": true,
+          "matched": false
+        }
+      ],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 200,
+          "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "76c1f4af9126f16d3fc767c0bfb1704ac898fc6569aabc24aca982521b6156de",
+          "response_bytes": 49,
+          "elapsed_ms": 15,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 403,
+          "response_sha256": "387fe73d9abe7e6c32a0eb6113efea98dea609edefe9c3b4c9788fcaaef1603b",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "76c1f4af9126f16d3fc767c0bfb1704ac898fc6569aabc24aca982521b6156de",
+          "response_bytes": 49,
+          "elapsed_ms": 31,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 200,
+          "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": false
+            }
+          ],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 200,
+          "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 200,
+            "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+            "response_bytes": 87,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": null,
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 200,
+            "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+            "response_bytes": 87,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/value",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          }
+        },
+        "before_status": 200,
+        "after_status": 200,
+        "interrupted": false
+      },
+      "status": "denied",
+      "reason": "write-denied-state-unchanged",
+      "cleanup_verified": true,
+      "execution_complete": true
+    },
+    {
+      "id": "update:charlie",
+      "resource": "update",
+      "label": "Update disposable record",
+      "resource_tenant": "acme",
+      "identity": "charlie",
+      "identity_tenant": "nova",
+      "role": "member",
+      "method": "PATCH",
+      "path": "/api/fixtures/tenantbreak/records/update",
+      "expected": "deny",
+      "identity_valid": true,
+      "control_valid": true,
+      "definition_sha256": "386a3b385fb3d8410fc4aa8bb3c6588f53e14ba085805fe31a4f56e8421286bc",
+      "http_status": 200,
+      "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+      "response_bytes": 87,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/value",
+          "present": true,
+          "matched": false
+        }
+      ],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 200,
+          "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "2fcea76528739b92c97424723486f2a963a7a12d6ba24ee7107faa1f61cbea9e",
+          "response_bytes": 53,
+          "elapsed_ms": 31,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 403,
+          "response_sha256": "387fe73d9abe7e6c32a0eb6113efea98dea609edefe9c3b4c9788fcaaef1603b",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "2fcea76528739b92c97424723486f2a963a7a12d6ba24ee7107faa1f61cbea9e",
+          "response_bytes": 53,
+          "elapsed_ms": 15,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 200,
+          "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": false
+            }
+          ],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 200,
+          "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 200,
+            "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+            "response_bytes": 87,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": null,
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 200,
+            "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+            "response_bytes": 87,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/value",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          }
+        },
+        "before_status": 200,
+        "after_status": 200,
+        "interrupted": false
+      },
+      "status": "denied",
+      "reason": "write-denied-state-unchanged",
+      "cleanup_verified": true,
+      "execution_complete": true
+    },
+    {
+      "id": "update:admin-acme",
+      "resource": "update",
+      "label": "Update disposable record",
+      "resource_tenant": "acme",
+      "identity": "admin-acme",
+      "identity_tenant": "acme",
+      "role": "admin",
+      "method": "PATCH",
+      "path": "/api/fixtures/tenantbreak/records/update",
+      "expected": "allow",
+      "identity_valid": true,
+      "control_valid": true,
+      "definition_sha256": "ff2adc72b95fcdcff3b830b1d9f18d5e514565666db6b9266f78d0791307d934",
+      "http_status": 200,
+      "response_sha256": "7f8893dbe83fcc69047ed9fa3ca17462cf5e98d841df198fc7f8da15cfe2cc8f",
+      "response_bytes": 86,
+      "elapsed_ms": 16,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/value",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 200,
+          "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "10e1554fd50d0c8eb281dfd51085e5ae7095aa80ea9419f70dcfe638296f557d",
+          "response_bytes": 55,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 200,
+          "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+          "response_bytes": 19,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "10e1554fd50d0c8eb281dfd51085e5ae7095aa80ea9419f70dcfe638296f557d",
+          "response_bytes": 55,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 200,
+          "response_sha256": "7f8893dbe83fcc69047ed9fa3ca17462cf5e98d841df198fc7f8da15cfe2cc8f",
+          "response_bytes": 86,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 200,
+          "response_sha256": "7f8893dbe83fcc69047ed9fa3ca17462cf5e98d841df198fc7f8da15cfe2cc8f",
+          "response_bytes": 86,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": false
+            }
+          ],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 31,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 200,
+            "response_sha256": "7f8893dbe83fcc69047ed9fa3ca17462cf5e98d841df198fc7f8da15cfe2cc8f",
+            "response_bytes": 86,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": {
+            "http_status": 200,
+            "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+            "response_bytes": 19,
+            "elapsed_ms": 0,
+            "assertions": [],
+            "transport_error": null
+          },
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 200,
+            "response_sha256": "daa2816220e68dee479aafa284794eb1137288a26907b5f67bcb2ae42e5908a9",
+            "response_bytes": 87,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/value",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          }
+        },
+        "before_status": 200,
+        "after_status": 200,
+        "interrupted": false
+      },
+      "status": "allowed",
+      "reason": "expected-state-change-observed",
+      "cleanup_verified": true,
+      "execution_complete": true
+    },
+    {
+      "id": "delete:alice",
+      "resource": "delete",
+      "label": "Delete disposable record",
+      "resource_tenant": "acme",
+      "identity": "alice",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "DELETE",
+      "path": "/api/fixtures/tenantbreak/records/delete",
+      "expected": "allow",
+      "identity_valid": true,
+      "control_valid": true,
+      "definition_sha256": "1fa37da505509942dbe3b373c7dc751111f086117fae603e5dfc308740540a2e",
+      "http_status": 404,
+      "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+      "response_bytes": 22,
+      "elapsed_ms": 0,
+      "assertions": [],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 200,
+          "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 200,
+          "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+          "response_bytes": 19,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/tenant",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/marker",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/value",
+              "present": false,
+              "matched": false
+            }
+          ],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 404,
+            "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+            "response_bytes": 22,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": false,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": false,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": false,
+                "matched": false
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": {
+            "http_status": 200,
+            "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+            "response_bytes": 19,
+            "elapsed_ms": 0,
+            "assertions": [],
+            "transport_error": null
+          },
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 200,
+            "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+            "response_bytes": 87,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/value",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          }
+        },
+        "before_status": 200,
+        "after_status": 404,
+        "interrupted": false
+      },
+      "status": "allowed",
+      "reason": "expected-state-change-observed",
+      "cleanup_verified": true,
+      "execution_complete": true
+    },
+    {
+      "id": "delete:bob",
+      "resource": "delete",
+      "label": "Delete disposable record",
+      "resource_tenant": "acme",
+      "identity": "bob",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "DELETE",
+      "path": "/api/fixtures/tenantbreak/records/delete",
+      "expected": "deny",
+      "identity_valid": true,
+      "control_valid": true,
+      "definition_sha256": "362a5fbc46cc58f6331f26377bd6f0e2d7b8ba2e1147c9a1e32eab386f854ec3",
+      "http_status": 200,
+      "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+      "response_bytes": 87,
+      "elapsed_ms": 15,
+      "assertions": [],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 200,
+          "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "76c1f4af9126f16d3fc767c0bfb1704ac898fc6569aabc24aca982521b6156de",
+          "response_bytes": 49,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 403,
+          "response_sha256": "387fe73d9abe7e6c32a0eb6113efea98dea609edefe9c3b4c9788fcaaef1603b",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "76c1f4af9126f16d3fc767c0bfb1704ac898fc6569aabc24aca982521b6156de",
+          "response_bytes": 49,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 200,
+          "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+          "response_bytes": 87,
+          "elapsed_ms": 15,
+          "assertions": [],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 200,
+          "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+          "response_bytes": 87,
+          "elapsed_ms": 15,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 200,
+            "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+            "response_bytes": 87,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": null,
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 200,
+            "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+            "response_bytes": 87,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/value",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          }
+        },
+        "before_status": 200,
+        "after_status": 404,
+        "interrupted": false
+      },
+      "status": "denied",
+      "reason": "write-denied-state-unchanged",
+      "cleanup_verified": true,
+      "execution_complete": true
+    },
+    {
+      "id": "delete:charlie",
+      "resource": "delete",
+      "label": "Delete disposable record",
+      "resource_tenant": "acme",
+      "identity": "charlie",
+      "identity_tenant": "nova",
+      "role": "member",
+      "method": "DELETE",
+      "path": "/api/fixtures/tenantbreak/records/delete",
+      "expected": "deny",
+      "identity_valid": true,
+      "control_valid": true,
+      "definition_sha256": "f1cc1dfd8c2337e8e09ec82bc606a7bae05c25e85b33133acdad0b6470e6811d",
+      "http_status": 200,
+      "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+      "response_bytes": 87,
+      "elapsed_ms": 0,
+      "assertions": [],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 200,
+          "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "2fcea76528739b92c97424723486f2a963a7a12d6ba24ee7107faa1f61cbea9e",
+          "response_bytes": 53,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 403,
+          "response_sha256": "387fe73d9abe7e6c32a0eb6113efea98dea609edefe9c3b4c9788fcaaef1603b",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "2fcea76528739b92c97424723486f2a963a7a12d6ba24ee7107faa1f61cbea9e",
+          "response_bytes": 53,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 200,
+          "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 200,
+          "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 200,
+            "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+            "response_bytes": 87,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": null,
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 31,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 200,
+            "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+            "response_bytes": 87,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/value",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          }
+        },
+        "before_status": 200,
+        "after_status": 404,
+        "interrupted": false
+      },
+      "status": "denied",
+      "reason": "write-denied-state-unchanged",
+      "cleanup_verified": true,
+      "execution_complete": true
+    },
+    {
+      "id": "delete:admin-acme",
+      "resource": "delete",
+      "label": "Delete disposable record",
+      "resource_tenant": "acme",
+      "identity": "admin-acme",
+      "identity_tenant": "acme",
+      "role": "admin",
+      "method": "DELETE",
+      "path": "/api/fixtures/tenantbreak/records/delete",
+      "expected": "allow",
+      "identity_valid": true,
+      "control_valid": true,
+      "definition_sha256": "3c7c7590971d79bcd51b93e7101701836519b9752fd1c875ea6105cdbaf90c9b",
+      "http_status": 404,
+      "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+      "response_bytes": 22,
+      "elapsed_ms": 0,
+      "assertions": [],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 15,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 200,
+          "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+          "response_bytes": 87,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "10e1554fd50d0c8eb281dfd51085e5ae7095aa80ea9419f70dcfe638296f557d",
+          "response_bytes": 55,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 200,
+          "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+          "response_bytes": 19,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "10e1554fd50d0c8eb281dfd51085e5ae7095aa80ea9419f70dcfe638296f557d",
+          "response_bytes": 55,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 31,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/tenant",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/marker",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/value",
+              "present": false,
+              "matched": false
+            }
+          ],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 404,
+            "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+            "response_bytes": 22,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": false,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": false,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": false,
+                "matched": false
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": {
+            "http_status": 200,
+            "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+            "response_bytes": 19,
+            "elapsed_ms": 0,
+            "assertions": [],
+            "transport_error": null
+          },
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 200,
+            "response_sha256": "306e960559dafaa96fd857093f63f8e45940c26ac3046572f142a148dc263963",
+            "response_bytes": 87,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/value",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          }
+        },
+        "before_status": 200,
+        "after_status": 404,
+        "interrupted": false
+      },
+      "status": "allowed",
+      "reason": "expected-state-change-observed",
+      "cleanup_verified": true,
+      "execution_complete": true
+    },
+    {
+      "id": "create:alice",
+      "resource": "create",
+      "label": "Create disposable record",
+      "resource_tenant": "acme",
+      "identity": "alice",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "POST",
+      "path": "/api/fixtures/tenantbreak/records",
+      "expected": "allow",
+      "identity_valid": true,
+      "control_valid": true,
+      "definition_sha256": "73cec60cd996447fc01086010ac91f62e3d08511ee7e308f12eb3c31f61f9455",
+      "http_status": 200,
+      "response_sha256": "ad86309addfd09796b26e3494434751034bbd4661845b5bf73d43f39d194a284",
+      "response_bytes": 86,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/value",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 201,
+          "response_sha256": "d13639a80e70c978b854121f8b05ab680dcade2ec0ecbbbc45e86d5f6a6e8285",
+          "response_bytes": 17,
+          "elapsed_ms": 15,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 200,
+          "response_sha256": "ad86309addfd09796b26e3494434751034bbd4661845b5bf73d43f39d194a284",
+          "response_bytes": 86,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 200,
+          "response_sha256": "ad86309addfd09796b26e3494434751034bbd4661845b5bf73d43f39d194a284",
+          "response_bytes": 86,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 200,
+            "response_sha256": "ad86309addfd09796b26e3494434751034bbd4661845b5bf73d43f39d194a284",
+            "response_bytes": 86,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": {
+            "http_status": 200,
+            "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+            "response_bytes": 19,
+            "elapsed_ms": 0,
+            "assertions": [],
+            "transport_error": null
+          },
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 404,
+            "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+            "response_bytes": 22,
+            "elapsed_ms": 16,
+            "assertions": [],
+            "transport_error": null
+          }
+        },
+        "before_status": 404,
+        "after_status": 200,
+        "interrupted": false
+      },
+      "status": "allowed",
+      "reason": "expected-state-change-observed",
+      "cleanup_verified": true,
+      "execution_complete": true
+    },
+    {
+      "id": "create:bob",
+      "resource": "create",
+      "label": "Create disposable record",
+      "resource_tenant": "acme",
+      "identity": "bob",
+      "identity_tenant": "acme",
+      "role": "member",
+      "method": "POST",
+      "path": "/api/fixtures/tenantbreak/records",
+      "expected": "deny",
+      "identity_valid": true,
+      "control_valid": true,
+      "definition_sha256": "f295c572da1f9d6d1a47d87cb9eb50a7a94d1c58aa5a416eda14d64fc754af1b",
+      "http_status": 404,
+      "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+      "response_bytes": 22,
+      "elapsed_ms": 16,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": false,
+          "matched": false
+        },
+        {
+          "pointer": "/tenant",
+          "present": false,
+          "matched": false
+        },
+        {
+          "pointer": "/marker",
+          "present": false,
+          "matched": false
+        },
+        {
+          "pointer": "/value",
+          "present": false,
+          "matched": false
+        }
+      ],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "76c1f4af9126f16d3fc767c0bfb1704ac898fc6569aabc24aca982521b6156de",
+          "response_bytes": 49,
+          "elapsed_ms": 15,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 403,
+          "response_sha256": "387fe73d9abe7e6c32a0eb6113efea98dea609edefe9c3b4c9788fcaaef1603b",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "76c1f4af9126f16d3fc767c0bfb1704ac898fc6569aabc24aca982521b6156de",
+          "response_bytes": 49,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/tenant",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/marker",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/value",
+              "present": false,
+              "matched": false
+            }
+          ],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 16,
+          "assertions": [],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 15,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 404,
+            "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+            "response_bytes": 22,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": false,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": false,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": false,
+                "matched": false
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": null,
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 16,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 404,
+            "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+            "response_bytes": 22,
+            "elapsed_ms": 15,
+            "assertions": [],
+            "transport_error": null
+          }
+        },
+        "before_status": 404,
+        "after_status": 200,
+        "interrupted": false
+      },
+      "status": "denied",
+      "reason": "write-denied-state-unchanged",
+      "cleanup_verified": true,
+      "execution_complete": true
+    },
+    {
+      "id": "create:charlie",
+      "resource": "create",
+      "label": "Create disposable record",
+      "resource_tenant": "acme",
+      "identity": "charlie",
+      "identity_tenant": "nova",
+      "role": "member",
+      "method": "POST",
+      "path": "/api/fixtures/tenantbreak/records",
+      "expected": "deny",
+      "identity_valid": true,
+      "control_valid": true,
+      "definition_sha256": "2ef5147d02fa492e4ff7a49fc67fe846db98815e6ec97567be0e9764b8837e88",
+      "http_status": 404,
+      "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+      "response_bytes": 22,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": false,
+          "matched": false
+        },
+        {
+          "pointer": "/tenant",
+          "present": false,
+          "matched": false
+        },
+        {
+          "pointer": "/marker",
+          "present": false,
+          "matched": false
+        },
+        {
+          "pointer": "/value",
+          "present": false,
+          "matched": false
+        }
+      ],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "2fcea76528739b92c97424723486f2a963a7a12d6ba24ee7107faa1f61cbea9e",
+          "response_bytes": 53,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 403,
+          "response_sha256": "387fe73d9abe7e6c32a0eb6113efea98dea609edefe9c3b4c9788fcaaef1603b",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "2fcea76528739b92c97424723486f2a963a7a12d6ba24ee7107faa1f61cbea9e",
+          "response_bytes": 53,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/tenant",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/marker",
+              "present": false,
+              "matched": false
+            },
+            {
+              "pointer": "/value",
+              "present": false,
+              "matched": false
+            }
+          ],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 404,
+            "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+            "response_bytes": 22,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": false,
+                "matched": false
+              },
+              {
+                "pointer": "/tenant",
+                "present": false,
+                "matched": false
+              },
+              {
+                "pointer": "/marker",
+                "present": false,
+                "matched": false
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": null,
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 404,
+            "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+            "response_bytes": 22,
+            "elapsed_ms": 0,
+            "assertions": [],
+            "transport_error": null
+          }
+        },
+        "before_status": 404,
+        "after_status": 200,
+        "interrupted": false
+      },
+      "status": "denied",
+      "reason": "write-denied-state-unchanged",
+      "cleanup_verified": true,
+      "execution_complete": true
+    },
+    {
+      "id": "create:admin-acme",
+      "resource": "create",
+      "label": "Create disposable record",
+      "resource_tenant": "acme",
+      "identity": "admin-acme",
+      "identity_tenant": "acme",
+      "role": "admin",
+      "method": "POST",
+      "path": "/api/fixtures/tenantbreak/records",
+      "expected": "allow",
+      "identity_valid": true,
+      "control_valid": true,
+      "definition_sha256": "1e91c530698aa5c19b03098ff23949825e1621147c86971983d1fd1a38fea181",
+      "http_status": 200,
+      "response_sha256": "ad86309addfd09796b26e3494434751034bbd4661845b5bf73d43f39d194a284",
+      "response_bytes": 86,
+      "elapsed_ms": 0,
+      "assertions": [
+        {
+          "pointer": "/id",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/tenant",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/marker",
+          "present": true,
+          "matched": true
+        },
+        {
+          "pointer": "/value",
+          "present": true,
+          "matched": true
+        }
+      ],
+      "transport_error": null,
+      "write": {
+        "observer_before": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_before": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "before": {
+          "http_status": 404,
+          "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+          "response_bytes": 22,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_before": {
+          "http_status": 200,
+          "response_sha256": "10e1554fd50d0c8eb281dfd51085e5ae7095aa80ea9419f70dcfe638296f557d",
+          "response_bytes": 55,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "request": {
+          "http_status": 201,
+          "response_sha256": "d13639a80e70c978b854121f8b05ab680dcade2ec0ecbbbc45e86d5f6a6e8285",
+          "response_bytes": 17,
+          "elapsed_ms": 16,
+          "assertions": [],
+          "transport_error": null
+        },
+        "actor_after": {
+          "http_status": 200,
+          "response_sha256": "10e1554fd50d0c8eb281dfd51085e5ae7095aa80ea9419f70dcfe638296f557d",
+          "response_bytes": 55,
+          "elapsed_ms": 15,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "observer_after": {
+          "http_status": 200,
+          "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+          "response_bytes": 51,
+          "elapsed_ms": 16,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/role",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "guard_after": {
+          "http_status": 200,
+          "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+          "response_bytes": 63,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/disposable",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "after": {
+          "http_status": 200,
+          "response_sha256": "ad86309addfd09796b26e3494434751034bbd4661845b5bf73d43f39d194a284",
+          "response_bytes": 86,
+          "elapsed_ms": 0,
+          "assertions": [
+            {
+              "pointer": "/id",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/tenant",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/marker",
+              "present": true,
+              "matched": true
+            },
+            {
+              "pointer": "/value",
+              "present": true,
+              "matched": true
+            }
+          ],
+          "transport_error": null
+        },
+        "unchanged": {
+          "http_status": 200,
+          "response_sha256": "ad86309addfd09796b26e3494434751034bbd4661845b5bf73d43f39d194a284",
+          "response_bytes": 86,
+          "elapsed_ms": 0,
+          "assertions": [],
+          "transport_error": null
+        },
+        "cleanup": {
+          "identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "current": {
+            "http_status": 200,
+            "response_sha256": "ad86309addfd09796b26e3494434751034bbd4661845b5bf73d43f39d194a284",
+            "response_bytes": 86,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/marker",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "reset": {
+            "http_status": 200,
+            "response_sha256": "900c4956a8aa002f7d1794fa83e7272a3b749e56bd7c3ed31b2e9a804409848b",
+            "response_bytes": 19,
+            "elapsed_ms": 0,
+            "assertions": [],
+            "transport_error": null
+          },
+          "final_identity": {
+            "http_status": 200,
+            "response_sha256": "66b4f9098ac4bb97eb80ef00fc9a8b46fc2968bd50c81c5b8d0f1b2021a1d878",
+            "response_bytes": 51,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/role",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final_guard": {
+            "http_status": 200,
+            "response_sha256": "91a40b34f75938254e37c79d9c33901bc23ec91b253e2ffede3e4e3ad0854189",
+            "response_bytes": 63,
+            "elapsed_ms": 0,
+            "assertions": [
+              {
+                "pointer": "/id",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/tenant",
+                "present": true,
+                "matched": true
+              },
+              {
+                "pointer": "/disposable",
+                "present": true,
+                "matched": true
+              }
+            ],
+            "transport_error": null
+          },
+          "final": {
+            "http_status": 404,
+            "response_sha256": "edc3eb965bbb9f431defb60c6a5610cc050bbb9e8a8765dff9cb380efe2f0aa0",
+            "response_bytes": 22,
+            "elapsed_ms": 0,
+            "assertions": [],
+            "transport_error": null
+          }
+        },
+        "before_status": 404,
+        "after_status": 200,
+        "interrupted": false
+      },
+      "status": "allowed",
+      "reason": "expected-state-change-observed",
+      "cleanup_verified": true,
+      "execution_complete": true
+    }
+  ],
+  "interrupted": false,
+  "counts": {
+    "allowed": 6,
+    "denied": 6
+  },
+  "notes": [
+    "Only the configured disposable fixture operations and observed state assertions were tested.",
+    "Write effects are verified through independent reads as the control account.",
+    "Cleanup has a separate bounded budget. Unverified cleanup stops subsequent writes.",
+    "Request bodies, response bodies and credential values are omitted."
+  ],
+  "fixture_id": "tenantbreak-ledgercloud-v1"
+}

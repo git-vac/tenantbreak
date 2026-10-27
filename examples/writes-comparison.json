@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "kind": "comparison",
+  "tool": "TenantBreak",
+  "created_at": "2026-10-27T08:45:33.444963+00:00",
+  "before": {
+    "name": "LedgerCloud disposable write authorization",
+    "created_at": "2026-10-27T08:45:30.997162+00:00",
+    "mode": "demo-vulnerable",
+    "base_url": "http://127.0.0.1:52146",
+    "policy_sha256": "079208b305a2f05dd95ff0708317ea91ef9d5d08756b729f59fa12995146a0c6",
+    "limits": {
+      "timeout": 5.0,
+      "max_seconds": 120.0
+    },
+    "source_sha256": null,
+    "kind": "write",
+    "selected_cases": 12,
+    "total_cases": 12
+  },
+  "after": {
+    "name": "LedgerCloud disposable write authorization",
+    "created_at": "2026-10-27T08:45:32.909084+00:00",
+    "mode": "demo-fixed",
+    "base_url": "http://127.0.0.1:52391",
+    "policy_sha256": "079208b305a2f05dd95ff0708317ea91ef9d5d08756b729f59fa12995146a0c6",
+    "limits": {
+      "timeout": 5.0,
+      "max_seconds": 120.0
+    },
+    "source_sha256": null,
+    "kind": "write",
+    "selected_cases": 12,
+    "total_cases": 12
+  },
+  "target_change_acknowledged": false,
+  "issues": [],
+  "rows": [
+    {
+      "id": "update:alice",
+      "resource": "update",
+      "identity": "alice",
+      "label": "Update disposable record",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    },
+    {
+      "id": "update:bob",
+      "resource": "update",
+      "identity": "bob",
+      "label": "Update disposable record",
+      "before": "confirmed-write",
+      "after": "denied",
+      "status": "resolved-write",
+      "reason": "forbidden-write-now-denied"
+    },
+    {
+      "id": "update:charlie",
+      "resource": "update",
+      "identity": "charlie",
+      "label": "Update disposable record",
+      "before": "confirmed-write",
+      "after": "denied",
+      "status": "resolved-write",
+      "reason": "forbidden-write-now-denied"
+    },
+    {
+      "id": "update:admin-acme",
+      "resource": "update",
+      "identity": "admin-acme",
+      "label": "Update disposable record",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    },
+    {
+      "id": "delete:alice",
+      "resource": "delete",
+      "identity": "alice",
+      "label": "Delete disposable record",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    },
+    {
+      "id": "delete:bob",
+      "resource": "delete",
+      "identity": "bob",
+      "label": "Delete disposable record",
+      "before": "confirmed-write",
+      "after": "denied",
+      "status": "resolved-write",
+      "reason": "forbidden-write-now-denied"
+    },
+    {
+      "id": "delete:charlie",
+      "resource": "delete",
+      "identity": "charlie",
+      "label": "Delete disposable record",
+      "before": "confirmed-write",
+      "after": "denied",
+      "status": "resolved-write",
+      "reason": "forbidden-write-now-denied"
+    },
+    {
+      "id": "delete:admin-acme",
+      "resource": "delete",
+      "identity": "admin-acme",
+      "label": "Delete disposable record",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    },
+    {
+      "id": "create:alice",
+      "resource": "create",
+      "identity": "alice",
+      "label": "Create disposable record",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    },
+    {
+      "id": "create:bob",
+      "resource": "create",
+      "identity": "bob",
+      "label": "Create disposable record",
+      "before": "confirmed-write",
+      "after": "denied",
+      "status": "resolved-write",
+      "reason": "forbidden-write-now-denied"
+    },
+    {
+      "id": "create:charlie",
+      "resource": "create",
+      "identity": "charlie",
+      "label": "Create disposable record",
+      "before": "confirmed-write",
+      "after": "denied",
+      "status": "resolved-write",
+      "reason": "forbidden-write-now-denied"
+    },
+    {
+      "id": "create:admin-acme",
+      "resource": "create",
+      "identity": "admin-acme",
+      "label": "Create disposable record",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    }
+  ],
+  "counts": {
+    "unchanged": 6,
+    "resolved-write": 6
+  }
+}

@@ -1,4 +1,4 @@
-"""An intentionally vulnerable, read-only API with entirely invented records."""
+"""Synthetic object API and server lifecycle for the authorization experiments."""
 
 from contextlib import contextmanager
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -123,8 +123,13 @@ def handler(mode, auth="bearer"):
 
 
 @contextmanager
-def server(mode="vulnerable", port=0, auth="bearer"):
-    httpd = ThreadingHTTPServer(("127.0.0.1", port), handler(mode, auth))
+def server(mode="vulnerable", port=0, auth="bearer", scenario="objects"):
+    if scenario == "objects":
+        handler_class = handler(mode, auth)
+    else:
+        from .scenarios import handler as scenario_handler
+        handler_class = scenario_handler(mode, scenario, auth)
+    httpd = ThreadingHTTPServer(("127.0.0.1", port), handler_class)
     httpd.daemon_threads = True
     thread = threading.Thread(target=httpd.serve_forever, daemon=True)
     thread.start()

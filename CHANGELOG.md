@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0
+
+- Check known protected records within paginated collections with explicit identification, row isolation and bounded coverage.
+- Confirm explicitly configured partial-field exposure while retaining complete owner controls.
+- Add a separate, opt-in disposable write runner for create/update/delete effects with independent state observations, owner positive controls and verified reset.
+- Stop later writes after unverified cleanup or ambiguous mutation timeouts/interruption; retain observed findings and incomplete outcomes.
+- Extend offline HTML/JSON/JUnit evidence and comparisons for collection coverage, state changes and cleanup.
+- Include executable collection and write policies, vulnerable/fixed HTTP experiments and regression tests.
+
 ## 0.3.0
 
 - Configure custom authentication headers or session cookies per identity, retaining bearer-policy compatibility and account verification.

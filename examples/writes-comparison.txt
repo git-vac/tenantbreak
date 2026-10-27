@@ -1,0 +1,21 @@
+
+TENANTBREAK / RUN COMPARISON
+Before: http://127.0.0.1:52146 | demo-vulnerable
+After:  http://127.0.0.1:52391 | demo-fixed
+Scope: 12/12 -> 12/12 selected policy checks
+
+update:alice                         ALLOW    -> ALLOW    UNCHANGED
+update:bob                           WRITE    -> DENY     RESOLVED-WRITE
+update:charlie                       WRITE    -> DENY     RESOLVED-WRITE
+update:admin-acme                    ALLOW    -> ALLOW    UNCHANGED
+delete:alice                         ALLOW    -> ALLOW    UNCHANGED
+delete:bob                           WRITE    -> DENY     RESOLVED-WRITE
+delete:charlie                       WRITE    -> DENY     RESOLVED-WRITE
+delete:admin-acme                    ALLOW    -> ALLOW    UNCHANGED
+create:alice                         ALLOW    -> ALLOW    UNCHANGED
+create:bob                           WRITE    -> DENY     RESOLVED-WRITE
+create:charlie                       WRITE    -> DENY     RESOLVED-WRITE
+create:admin-acme                    ALLOW    -> ALLOW    UNCHANGED
+
+0 new | 0 persistent | 6 resolved | 6 unchanged | 0 need attention
+Saved reports are local evidence records, not authenticated attestations. Results cover only the selected policy checks.

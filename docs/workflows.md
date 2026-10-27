@@ -22,6 +22,8 @@ Credentials come from the current environment, optionally overridden by an expli
 
 Without `--case`, replay selects confirmed leaks. Explicit cases can also select recorded errors, denials or successful allowed reads for investigation. A run with no recorded leaks requires an explicit case selection. The replay report records the source file's SHA-256, excluding its filename and credentials.
 
+Replay remains read-only. Write policies/reports are rejected; repeat a [write test](writes.md) explicitly with the write command and its opt-in flag.
+
 ## Compare evidence offline
 
 ```bash
@@ -42,6 +44,8 @@ The same bundled demo fixture may use different temporary loopback ports. Its vu
 | Not comparable | Definitions, selected cases or execution context do not match |
 
 A missing case is never resolved. Incompatible run contexts suppress directional conclusions. An individual incomplete case prevents a clean comparison exit; other complete rows retain their evidence. A successful compare does not cover unselected policy cases.
+
+Write reports use `new-write`, `persistent-write` and `resolved-write` with the same evidence requirements. Read/write contexts and cleanup budgets must match. Incomplete collection coverage, execution or cleanup prevents a resolved conclusion. Confirmed effects remain visible in the original reports even when comparison is inconclusive.
 
 Comparison exit 0 requires complete comparable evidence and no new or persistent leaks in the after run. Exit 1 means leaks remain. Exit 2 means incomplete/incompatible evidence and takes precedence even if other leaks were confirmed. JUnit uses failures for new/persistent leaks and errors for incomplete/incompatible rows.
 

@@ -1,0 +1,220 @@
+{
+  "version": 1,
+  "name": "LedgerCloud disposable write authorization",
+  "base_url": "http://127.0.0.1:8080",
+  "identity_check": {
+    "path": "/api/me"
+  },
+  "identities": [
+    {
+      "id": "alice",
+      "tenant": "acme",
+      "role": "member",
+      "token_env": "TB_ALICE_TOKEN",
+      "verify": {
+        "/id": "alice",
+        "/tenant": "acme",
+        "/role": "member"
+      }
+    },
+    {
+      "id": "bob",
+      "tenant": "acme",
+      "role": "member",
+      "token_env": "TB_BOB_TOKEN",
+      "verify": {
+        "/id": "bob",
+        "/tenant": "acme",
+        "/role": "member"
+      }
+    },
+    {
+      "id": "charlie",
+      "tenant": "nova",
+      "role": "member",
+      "token_env": "TB_CHARLIE_TOKEN",
+      "verify": {
+        "/id": "charlie",
+        "/tenant": "nova",
+        "/role": "member"
+      }
+    },
+    {
+      "id": "admin-acme",
+      "tenant": "acme",
+      "role": "admin",
+      "token_env": "TB_ADMIN_TOKEN",
+      "verify": {
+        "/id": "admin-acme",
+        "/tenant": "acme",
+        "/role": "admin"
+      }
+    }
+  ],
+  "resources": [
+    {
+      "id": "update",
+      "label": "Update disposable record",
+      "tenant": "acme",
+      "path": "/api/fixtures/tenantbreak/records/update",
+      "allow": [
+        "alice",
+        "admin-acme"
+      ],
+      "control_identity": "alice",
+      "match": {
+        "/id": "update",
+        "/tenant": "acme",
+        "/marker": "TB-DISPOSABLE-update"
+      },
+      "write": {
+        "scope": "/api/fixtures/tenantbreak/",
+        "fixture_pointer": "/marker",
+        "guard": {
+          "path": "/api/fixtures/tenantbreak/guard",
+          "disposable_pointer": "/disposable",
+          "match": {
+            "/id": "tenantbreak-lab",
+            "/tenant": "acme",
+            "/disposable": true
+          }
+        },
+        "before": {
+          "status": 200,
+          "match": {
+            "/value": "before"
+          }
+        },
+        "after": {
+          "status": 200,
+          "match": {
+            "/value": "after"
+          }
+        },
+        "request": {
+          "method": "PATCH",
+          "path": "/api/fixtures/tenantbreak/records/update",
+          "json": {
+            "value": "after"
+          }
+        },
+        "reset": {
+          "method": "PUT",
+          "path": "/api/fixtures/tenantbreak/records/update",
+          "json": {
+            "id": "update",
+            "tenant": "acme",
+            "marker": "TB-DISPOSABLE-update",
+            "value": "before"
+          }
+        }
+      }
+    },
+    {
+      "id": "delete",
+      "label": "Delete disposable record",
+      "tenant": "acme",
+      "path": "/api/fixtures/tenantbreak/records/delete",
+      "allow": [
+        "alice",
+        "admin-acme"
+      ],
+      "control_identity": "alice",
+      "match": {
+        "/id": "delete",
+        "/tenant": "acme",
+        "/marker": "TB-DISPOSABLE-delete"
+      },
+      "write": {
+        "scope": "/api/fixtures/tenantbreak/",
+        "fixture_pointer": "/marker",
+        "guard": {
+          "path": "/api/fixtures/tenantbreak/guard",
+          "disposable_pointer": "/disposable",
+          "match": {
+            "/id": "tenantbreak-lab",
+            "/tenant": "acme",
+            "/disposable": true
+          }
+        },
+        "before": {
+          "status": 200,
+          "match": {
+            "/value": "before"
+          }
+        },
+        "after": {
+          "status": 404
+        },
+        "request": {
+          "method": "DELETE",
+          "path": "/api/fixtures/tenantbreak/records/delete"
+        },
+        "reset": {
+          "method": "PUT",
+          "path": "/api/fixtures/tenantbreak/records/delete",
+          "json": {
+            "id": "delete",
+            "tenant": "acme",
+            "marker": "TB-DISPOSABLE-delete",
+            "value": "before"
+          }
+        }
+      }
+    },
+    {
+      "id": "create",
+      "label": "Create disposable record",
+      "tenant": "acme",
+      "path": "/api/fixtures/tenantbreak/records/create",
+      "allow": [
+        "alice",
+        "admin-acme"
+      ],
+      "control_identity": "alice",
+      "match": {
+        "/id": "create",
+        "/tenant": "acme",
+        "/marker": "TB-DISPOSABLE-create"
+      },
+      "write": {
+        "scope": "/api/fixtures/tenantbreak/",
+        "fixture_pointer": "/marker",
+        "guard": {
+          "path": "/api/fixtures/tenantbreak/guard",
+          "disposable_pointer": "/disposable",
+          "match": {
+            "/id": "tenantbreak-lab",
+            "/tenant": "acme",
+            "/disposable": true
+          }
+        },
+        "before": {
+          "status": 404
+        },
+        "after": {
+          "status": 200,
+          "match": {
+            "/value": "after"
+          }
+        },
+        "request": {
+          "method": "POST",
+          "path": "/api/fixtures/tenantbreak/records",
+          "json": {
+            "id": "create",
+            "tenant": "acme",
+            "marker": "TB-DISPOSABLE-create",
+            "value": "after"
+          }
+        },
+        "reset": {
+          "method": "DELETE",
+          "path": "/api/fixtures/tenantbreak/records/create"
+        }
+      }
+    }
+  ],
+  "kind": "write",
+  "disposable": true
+}

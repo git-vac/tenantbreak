@@ -226,7 +226,7 @@ def _from_openapi(document, *, base_url, name="API authorization policy", path_p
         "Only GET routes were extracted. Server URLs, credentials, response examples and access rules were not copied.",
         "Use --path-prefix for API version prefixes; per-operation server overrides are not applied.",
         "Configure required authentication headers or cookies explicitly. Other required headers and querystring bodies are not generated.",
-        "Collection endpoints need evidence supported by the current exact-object checks; route import does not add collection scanning.",
+        "Configure collection arrays, fixture identification and pagination explicitly; route import does not infer these fields or write fixtures.",
     ])
     return draft
 

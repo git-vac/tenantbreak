@@ -1,0 +1,42 @@
+
+TENANTBREAK / AUTHORIZATION EVIDENCE
+LedgerCloud disposable write authorization | demo-vulnerable
+Target: http://127.0.0.1:52146
+Identities verified: 4/4 | Owner controls: 3/3
+
+RESOURCE                IDENTITY       EXPECTED  HTTP  RESULT
+---------------------------------------------------------------------------
+update                  alice          allow     200   ALLOW
+update                  bob            deny      200   WRITE
+update                  charlie        deny      200   WRITE
+update                  admin-acme     allow     200   ALLOW
+delete                  alice          allow     200   ALLOW
+delete                  bob            deny      200   WRITE
+delete                  charlie        deny      200   WRITE
+delete                  admin-acme     allow     200   ALLOW
+create                  alice          allow     201   ALLOW
+create                  bob            deny      201   WRITE
+create                  charlie        deny      201   WRITE
+create                  admin-acme     allow     201   ALLOW
+
+12 checks | 6 confirmed writes | 6 expected outcomes | 0 need attention
+  update:alice: cleanup verified
+  WRITE bob -> update: forbidden state change observed
+  update:bob: cleanup verified
+  WRITE charlie -> update: forbidden state change observed
+  update:charlie: cleanup verified
+  update:admin-acme: cleanup verified
+  delete:alice: cleanup verified
+  WRITE bob -> delete: forbidden state change observed
+  delete:bob: cleanup verified
+  WRITE charlie -> delete: forbidden state change observed
+  delete:charlie: cleanup verified
+  delete:admin-acme: cleanup verified
+  create:alice: cleanup verified
+  WRITE bob -> create: forbidden state change observed
+  create:bob: cleanup verified
+  WRITE charlie -> create: forbidden state change observed
+  create:charlie: cleanup verified
+  create:admin-acme: cleanup verified
+
+A passing run covers only this policy's configured operations and evidence assertions.

@@ -9,48 +9,8 @@ from .config import PolicyError, fingerprint, origin, validate
 from .auth import distinct, guard_secrets, refresh_one, supplied
 from .selection import case_fingerprint, dependencies, select
 from .transport import Response, Transport
-
-
-def assertions(data, expected):
-    results = []
-    for pointer, wanted in expected.items():
-        current = data
-        present = True
-        for token in pointer[1:].split("/"):
-            token = token.replace("~1", "/").replace("~0", "~")
-            if isinstance(current, dict) and token in current:
-                current = current[token]
-            elif isinstance(current, list) and token.isascii() and token.isdigit() and (token == "0" or not token.startswith("0")) and len(token) < 10 and int(token) < len(current):
-                current = current[int(token)]
-            else:
-                present = False
-                break
-        # Python's bool is an int; JSON true must never match numeric 1.
-        same_type = type(current) is type(wanted) or (type(current) in (int, float) and type(wanted) in (int, float))
-        results.append({"pointer": pointer, "present": present, "matched": present and same_type and current == wanted})
-    return results
-
-
-def matched(checks):
-    return bool(checks) and all(check["matched"] for check in checks)
-
-
-def evidence(response, checks):
-    return {"http_status": response.status, "response_sha256": response.digest,
-            "response_bytes": response.size, "elapsed_ms": response.elapsed_ms,
-            "assertions": checks, "transport_error": response.error}
-
-
-def _scrub(value, secrets):
-    if isinstance(value, str):
-        for secret in secrets:
-            value = value.replace(secret, "[REDACTED]")
-        return value
-    if isinstance(value, list):
-        return [_scrub(item, secrets) for item in value]
-    if isinstance(value, dict):
-        return {key: _scrub(item, secrets) for key, item in value.items()}
-    return value
+from .evidence import assertions, evidence, matched, _scrub
+from .collections import assess_read, read as read_collection
 
 
 def assess(*, allowed, identity_valid, control_valid, http_status, checks, transport_error):
@@ -75,12 +35,8 @@ def assess(*, allowed, identity_valid, control_valid, http_status, checks, trans
     return "inconclusive", "expected-access-not-demonstrated" if allowed else "response-does-not-prove-denial-or-leak"
 
 
-def run(policy, tokens, *, base_url=None, timeout=5.0, max_seconds=120.0, allow_http=False, mode="run",
-        identity_ids=None, resource_ids=None, case_ids=None, refresh_auth=False, refresh_sink=None):
-    validate(policy)
-    if mode not in {"run", "demo-vulnerable", "demo-fixed"}:
-        raise ValueError("unsupported run mode")
-    selected = select(policy, identity_ids=identity_ids, resource_ids=resource_ids, case_ids=case_ids)
+def prepare(policy, tokens, selected, *, base_url=None, timeout=5.0, max_seconds=120.0, allow_http=False,
+            refresh_auth=False, refresh_sink=None):
     needed = dependencies(policy, selected)
     tokens = supplied(policy, tokens, needed, refresh_auth)
     if refresh_auth and not callable(refresh_sink):
@@ -112,16 +68,38 @@ def run(policy, tokens, *, base_url=None, timeout=5.0, max_seconds=120.0, allow_
                                  "refresh_status": ("failed" if identity["id"] in refresh_errors else "succeeded") if credential.refresh else "not-requested",
                                  "valid": valid, **evidence(response, checks)})
     verified = {item["id"]: item["valid"] for item in identity_results}
+    return base_url, transport, tokens, identity_results, verified
+
+
+def read_resource(transport, resource, headers):
+    if "collection" in resource:
+        return read_collection(transport, resource, headers)
+    response = transport.get(resource["path"], headers)
+    item = evidence(response, assertions(response.data, resource["match"]))
+    if "leak_match" in resource:
+        item["leak_assertions"] = assertions(response.data, resource["leak_match"])
+    return item
+
+
+def run(policy, tokens, *, base_url=None, timeout=5.0, max_seconds=120.0, allow_http=False, mode="run",
+        identity_ids=None, resource_ids=None, case_ids=None, refresh_auth=False, refresh_sink=None):
+    validate(policy)
+    if policy.get("kind") == "write":
+        raise PolicyError("write policies require tenantbreak write with --enable-writes")
+    if mode not in {"run", "demo-vulnerable", "demo-fixed"}:
+        raise ValueError("unsupported run mode")
+    selected = select(policy, identity_ids=identity_ids, resource_ids=resource_ids, case_ids=case_ids)
+    base_url, transport, tokens, identity_results, verified = prepare(policy, tokens, selected, base_url=base_url,
+        timeout=timeout, max_seconds=max_seconds, allow_http=allow_http, refresh_auth=refresh_auth, refresh_sink=refresh_sink)
     controls, cases = [], []
     for resource in policy["resources"]:
         if not any(case.startswith(resource["id"] + ":") for case in selected):
             continue
         controller = resource["control_identity"]
         if verified[controller]:
-            response = transport.get(resource["path"], tokens[controller].headers)
-            checks = assertions(response.data, resource["match"])
-            valid = not response.error and response.status == 200 and matched(checks)
-            control = {"resource": resource["id"], "identity": controller, "valid": valid, **evidence(response, checks)}
+            item = read_resource(transport, resource, tokens[controller].headers)
+            valid = not item["transport_error"] and item["http_status"] == 200 and matched(item["assertions"]) and item.get("coverage_complete", True)
+            control = {"resource": resource["id"], "identity": controller, "valid": valid, **item}
         else:
             control = {"resource": resource["id"], "identity": controller, "valid": False,
                        "http_status": None, "assertions": [], "transport_error": "control-identity-unverified"}
@@ -140,11 +118,8 @@ def run(policy, tokens, *, base_url=None, timeout=5.0, max_seconds=120.0, allow_
                 case.update(status="inconclusive", reason="identity-unverified" if not verified[identity["id"]] else "owner-control-failed",
                             http_status=None, assertions=[], transport_error=None)
             else:
-                response = transport.get(resource["path"], tokens[identity["id"]].headers)
-                checks = assertions(response.data, resource["match"])
-                case.update(evidence(response, checks))
-                status, reason = assess(allowed=allowed, identity_valid=True, control_valid=True,
-                                        http_status=response.status, checks=checks, transport_error=response.error)
+                case.update(read_resource(transport, resource, tokens[identity["id"]].headers))
+                status, reason = assess_read(allowed=allowed, identity_valid=True, control_valid=True, item=case)
                 case.update(status=status, reason=reason)
             cases.append(case)
     report = {"schema_version": 2, "tool": "TenantBreak", "version": __version__, "name": policy["name"],
@@ -165,8 +140,12 @@ def run(policy, tokens, *, base_url=None, timeout=5.0, max_seconds=120.0, allow_
 
 
 def exit_code(report):
+    if report.get("interrupted"):
+        return 130
     if any(not i["valid"] for i in report["identities"]) or any(not c["valid"] for c in report["controls"]):
         return 2
     if any(c["status"] in {"error", "inconclusive"} for c in report["cases"]):
         return 2
-    return 1 if any(c["status"] == "confirmed-leak" for c in report["cases"]) else 0
+    if any(not c.get("coverage_complete", True) or not c.get("cleanup_verified", True) or not c.get("execution_complete", True) for c in report["cases"]):
+        return 2
+    return 1 if any(c["status"] in {"confirmed-leak", "confirmed-write"} for c in report["cases"]) else 0

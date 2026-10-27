@@ -43,7 +43,7 @@ Edit only the draft's `policy` object for execution. The review notes and operat
 
 For the bundled invoice lab, resolve `/api/invoices/{invoiceId}` to `/api/invoices/inv-a104`, set its tenant to `acme`, configure Alice/Bob using `/api/me`, allow Alice, and set identifying resource evidence from the synthetic invoice fixture. [The complete demo policy](../examples/policy.json) illustrates a larger user/tenant/role matrix.
 
-An OpenAPI security scheme describes a mechanism, not which test account owns a resource. The importer does not copy security-scheme descriptions, credential examples, response examples or allow lists. It starts with bearer placeholders; replace each identity's `token_env` with an `auth` object for [custom headers, cookies or optional refresh](authentication.md). Required headers, cookies, querystring bodies and GET request bodies are not generated. Collection endpoints still require checks supported by the current exact-object evidence model. Omit operations incompatible with the configured GET runner.
+An OpenAPI security scheme describes a mechanism, not which test account owns a resource. The importer does not copy security-scheme descriptions, credential examples, response examples or allow lists. It starts with bearer placeholders; replace each identity's `token_env` with an `auth` object for [custom headers, cookies or optional refresh](authentication.md). Required headers, cookies, querystring bodies and GET request bodies are not generated. Configure [collection and field checks](collections.md) explicitly for list operations. The importer extracts GET routes only; [disposable write policies](writes.md) require separate configuration.
 
 ## Finalize and run
 

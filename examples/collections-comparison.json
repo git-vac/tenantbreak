@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "kind": "comparison",
+  "tool": "TenantBreak",
+  "created_at": "2026-10-27T08:45:29.489014+00:00",
+  "before": {
+    "name": "LedgerCloud collection authorization",
+    "created_at": "2026-10-27T08:45:28.333957+00:00",
+    "mode": "demo-vulnerable",
+    "base_url": "http://127.0.0.1:52063",
+    "policy_sha256": "71f2117ee4b22ca7522b9cff4d64a0fc35e304e9bedbeba96f27102e12d88c13",
+    "limits": {
+      "timeout": 5.0,
+      "max_seconds": 120.0
+    },
+    "source_sha256": null,
+    "kind": "read",
+    "selected_cases": 16,
+    "total_cases": 16
+  },
+  "after": {
+    "name": "LedgerCloud collection authorization",
+    "created_at": "2026-10-27T08:45:28.962837+00:00",
+    "mode": "demo-fixed",
+    "base_url": "http://127.0.0.1:52118",
+    "policy_sha256": "71f2117ee4b22ca7522b9cff4d64a0fc35e304e9bedbeba96f27102e12d88c13",
+    "limits": {
+      "timeout": 5.0,
+      "max_seconds": 120.0
+    },
+    "source_sha256": null,
+    "kind": "read",
+    "selected_cases": 16,
+    "total_cases": 16
+  },
+  "target_change_acknowledged": false,
+  "issues": [],
+  "rows": [
+    {
+      "id": "alice-invoice:alice",
+      "resource": "alice-invoice",
+      "identity": "alice",
+      "label": "Alice's private invoice",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    },
+    {
+      "id": "alice-invoice:bob",
+      "resource": "alice-invoice",
+      "identity": "bob",
+      "label": "Alice's private invoice",
+      "before": "confirmed-leak",
+      "after": "denied",
+      "status": "resolved-leak",
+      "reason": "forbidden-read-now-denied"
+    },
+    {
+      "id": "alice-invoice:charlie",
+      "resource": "alice-invoice",
+      "identity": "charlie",
+      "label": "Alice's private invoice",
+      "before": "confirmed-leak",
+      "after": "denied",
+      "status": "resolved-leak",
+      "reason": "forbidden-read-now-denied"
+    },
+    {
+      "id": "alice-invoice:admin-acme",
+      "resource": "alice-invoice",
+      "identity": "admin-acme",
+      "label": "Alice's private invoice",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    },
+    {
+      "id": "bob-invoice:alice",
+      "resource": "bob-invoice",
+      "identity": "alice",
+      "label": "Bob's private invoice",
+      "before": "confirmed-leak",
+      "after": "denied",
+      "status": "resolved-leak",
+      "reason": "forbidden-read-now-denied"
+    },
+    {
+      "id": "bob-invoice:bob",
+      "resource": "bob-invoice",
+      "identity": "bob",
+      "label": "Bob's private invoice",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    },
+    {
+      "id": "bob-invoice:charlie",
+      "resource": "bob-invoice",
+      "identity": "charlie",
+      "label": "Bob's private invoice",
+      "before": "confirmed-leak",
+      "after": "denied",
+      "status": "resolved-leak",
+      "reason": "forbidden-read-now-denied"
+    },
+    {
+      "id": "bob-invoice:admin-acme",
+      "resource": "bob-invoice",
+      "identity": "admin-acme",
+      "label": "Bob's private invoice",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    },
+    {
+      "id": "charlie-invoice:alice",
+      "resource": "charlie-invoice",
+      "identity": "alice",
+      "label": "Charlie's private invoice",
+      "before": "confirmed-leak",
+      "after": "denied",
+      "status": "resolved-leak",
+      "reason": "forbidden-read-now-denied"
+    },
+    {
+      "id": "charlie-invoice:bob",
+      "resource": "charlie-invoice",
+      "identity": "bob",
+      "label": "Charlie's private invoice",
+      "before": "confirmed-leak",
+      "after": "denied",
+      "status": "resolved-leak",
+      "reason": "forbidden-read-now-denied"
+    },
+    {
+      "id": "charlie-invoice:charlie",
+      "resource": "charlie-invoice",
+      "identity": "charlie",
+      "label": "Charlie's private invoice",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    },
+    {
+      "id": "charlie-invoice:admin-acme",
+      "resource": "charlie-invoice",
+      "identity": "admin-acme",
+      "label": "Charlie's private invoice",
+      "before": "confirmed-leak",
+      "after": "denied",
+      "status": "resolved-leak",
+      "reason": "forbidden-read-now-denied"
+    },
+    {
+      "id": "alice-summary:alice",
+      "resource": "alice-summary",
+      "identity": "alice",
+      "label": "Alice's invoice fields",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    },
+    {
+      "id": "alice-summary:bob",
+      "resource": "alice-summary",
+      "identity": "bob",
+      "label": "Alice's invoice fields",
+      "before": "confirmed-leak",
+      "after": "denied",
+      "status": "resolved-leak",
+      "reason": "forbidden-read-now-denied"
+    },
+    {
+      "id": "alice-summary:charlie",
+      "resource": "alice-summary",
+      "identity": "charlie",
+      "label": "Alice's invoice fields",
+      "before": "confirmed-leak",
+      "after": "denied",
+      "status": "resolved-leak",
+      "reason": "forbidden-read-now-denied"
+    },
+    {
+      "id": "alice-summary:admin-acme",
+      "resource": "alice-summary",
+      "identity": "admin-acme",
+      "label": "Alice's invoice fields",
+      "before": "allowed",
+      "after": "allowed",
+      "status": "unchanged",
+      "reason": "expected-access-unchanged"
+    }
+  ],
+  "counts": {
+    "unchanged": 7,
+    "resolved-leak": 9
+  }
+}

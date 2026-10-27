@@ -1,0 +1,49 @@
+
+TENANTBREAK / AUTHORIZATION EVIDENCE
+LedgerCloud collection authorization | demo-vulnerable
+Target: http://127.0.0.1:52063
+Identities verified: 4/4 | Owner controls: 4/4
+
+RESOURCE                IDENTITY       EXPECTED  HTTP  RESULT
+---------------------------------------------------------------------------
+alice-invoice           alice          allow     200   ALLOW
+alice-invoice           bob            deny      200   LEAK
+alice-invoice           charlie        deny      200   LEAK
+alice-invoice           admin-acme     allow     200   ALLOW
+bob-invoice             alice          deny      200   LEAK
+bob-invoice             bob            allow     200   ALLOW
+bob-invoice             charlie        deny      200   LEAK
+bob-invoice             admin-acme     allow     200   ALLOW
+charlie-invoice         alice          deny      200   LEAK
+charlie-invoice         bob            deny      200   LEAK
+charlie-invoice         charlie        allow     200   ALLOW
+charlie-invoice         admin-acme     deny      200   LEAK
+alice-summary           alice          allow     200   ALLOW
+alice-summary           bob            deny      200   LEAK
+alice-summary           charlie        deny      200   LEAK
+alice-summary           admin-acme     allow     200   ALLOW
+
+16 checks | 9 confirmed leaks | 7 expected outcomes | 0 need attention
+  alice-invoice:alice: collection pages 3; records 3; coverage complete
+  LEAK bob -> alice-invoice: protected-resource-returned
+  alice-invoice:bob: collection pages 3; records 3; coverage complete
+  LEAK charlie -> alice-invoice: protected-resource-returned
+  alice-invoice:charlie: collection pages 3; records 3; coverage complete
+  alice-invoice:admin-acme: collection pages 3; records 3; coverage complete
+  LEAK alice -> bob-invoice: protected-resource-returned
+  bob-invoice:alice: collection pages 3; records 3; coverage complete
+  bob-invoice:bob: collection pages 3; records 3; coverage complete
+  LEAK charlie -> bob-invoice: protected-resource-returned
+  bob-invoice:charlie: collection pages 3; records 3; coverage complete
+  bob-invoice:admin-acme: collection pages 3; records 3; coverage complete
+  LEAK alice -> charlie-invoice: protected-resource-returned
+  charlie-invoice:alice: collection pages 3; records 3; coverage complete
+  LEAK bob -> charlie-invoice: protected-resource-returned
+  charlie-invoice:bob: collection pages 3; records 3; coverage complete
+  charlie-invoice:charlie: collection pages 3; records 3; coverage complete
+  LEAK admin-acme -> charlie-invoice: protected-resource-returned
+  charlie-invoice:admin-acme: collection pages 3; records 3; coverage complete
+  LEAK bob -> alice-summary: protected-fields-returned
+  LEAK charlie -> alice-summary: protected-fields-returned
+
+A passing run covers only this policy's configured operations and evidence assertions.

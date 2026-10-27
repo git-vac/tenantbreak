@@ -18,6 +18,7 @@ from .onboarding import finalize, from_openapi, load_draft, read_spec, starter
 from .report import html, junit, terminal
 from .saved import load_report, replay_cases
 from .selection import dependencies, select
+from .writes import run_writes
 
 
 def positive_seconds(value):
@@ -87,6 +88,9 @@ def main(argv=None):
     demo = sub.add_parser("demo", help="run against a temporary loopback API with synthetic data")
     demo.add_argument("--mode", choices=["vulnerable", "fixed"], default="vulnerable")
     demo.add_argument("--auth", choices=["bearer", "headers", "cookies"], default="bearer")
+    demo.add_argument("--scenario", choices=["objects", "collections", "writes"], default="objects")
+    demo.add_argument("--enable-writes", action="store_true", help="explicitly enable disposable fixture mutations")
+    demo.add_argument("--cleanup-seconds", type=positive_seconds, default=10.0)
     output_options(demo)
     selector_options(demo)
     live = sub.add_parser("run", help="evaluate your explicit read-only policy")
@@ -96,6 +100,15 @@ def main(argv=None):
     output_options(live)
     selector_options(live)
     auth_options(live)
+    writer = sub.add_parser("write", help="test explicitly disposable fixture mutations and verify cleanup")
+    writer.add_argument("policy", type=Path)
+    writer.add_argument("--enable-writes", action="store_true", help="required opt-in for mutation requests")
+    writer.add_argument("--cleanup-seconds", type=positive_seconds, default=10.0, help="separate cleanup budget per attempt, 1..120 seconds")
+    writer.add_argument("--base-url")
+    writer.add_argument("--allow-http", action="store_true")
+    output_options(writer)
+    selector_options(writer)
+    auth_options(writer)
     replay = sub.add_parser("replay", help="rerun recorded cases using a matching policy and fresh environment credentials")
     replay.add_argument("policy", type=Path)
     replay.add_argument("saved", type=Path)
@@ -129,6 +142,7 @@ def main(argv=None):
     lab = sub.add_parser("lab", help="serve the synthetic API on loopback for manual experiments")
     lab.add_argument("--mode", choices=["vulnerable", "fixed"], default="vulnerable")
     lab.add_argument("--auth", choices=["bearer", "headers", "cookies", "refresh"], default="bearer")
+    lab.add_argument("--scenario", choices=["objects", "collections", "writes"], default="objects")
     lab.add_argument("--port", type=int, default=8080)
     lab.add_argument("--credentials-out", type=Path, required=True,
                      help="new private .sh or .ps1 file for the lab's generated environment variables")
@@ -152,6 +166,8 @@ def main(argv=None):
             print(f"Policy valid: {len(policy['identities'])} identities x {len(policy['resources'])} resources. No requests made.")
             return 0
         if args.command == "lab":
+            if args.scenario != "objects" and args.auth == "refresh":
+                raise PolicyError("advanced lab scenarios support bearer, headers or cookies; refresh uses the objects lab")
             if not 1 <= args.port <= 65535:
                 raise PolicyError("port must be between 1 and 65535")
             if args.credentials_out.suffix not in {".sh", ".ps1"}:
@@ -160,7 +176,7 @@ def main(argv=None):
             if private_root.is_symlink() or not args.credentials_out.resolve().is_relative_to(private_root):
                 raise PolicyError("generated lab credentials must stay inside the current directory's private/ folder")
             args.credentials_out.parent.mkdir(parents=True, exist_ok=True)
-            with server(args.mode, args.port, auth=args.auth) as address:
+            with server(args.mode, args.port, auth=args.auth, scenario=args.scenario) as address:
                 lines = []
                 for identity in demo_policy()["identities"]:
                     key, value = identity["token_env"], TOKENS[identity["id"]]
@@ -185,15 +201,29 @@ def main(argv=None):
             print(comparison.terminal(result))
             return comparison.exit_code(result)
         if args.command == "demo":
-            policy = demo_policy(args.auth)
+            from .scenarios import collection_policy, write_policy
+            policy = collection_policy() if args.scenario == "collections" else write_policy() if args.scenario == "writes" else demo_policy(args.auth)
+            if args.scenario != "objects" and args.auth != "bearer":
+                # Apply the existing credential definitions to advanced fixtures.
+                for identity, configured in zip(policy["identities"], demo_policy(args.auth)["identities"]):
+                    identity.pop("token_env", None)
+                    identity["auth"] = configured["auth"]
+            if args.scenario == "writes" and not args.enable_writes:
+                raise PolicyError("the disposable write demo requires --enable-writes")
             selected = select(policy, identity_ids=args.identity_ids, resource_ids=args.resource_ids, case_ids=args.case_ids)
             tokens = credentials(policy, demo_environment(), dependencies(policy, selected))
-            with server(args.mode, auth=args.auth) as address:
-                report = run(policy, tokens, base_url=address, timeout=args.timeout,
+            with server(args.mode, auth=args.auth, scenario=args.scenario) as address:
+                runner = run_writes if args.scenario == "writes" else run
+                extra = {"enable_writes": args.enable_writes, "cleanup_seconds": args.cleanup_seconds} if args.scenario == "writes" else {}
+                report = runner(policy, tokens, base_url=address, timeout=args.timeout,
                              max_seconds=args.max_seconds, mode="demo-" + args.mode,
-                             identity_ids=args.identity_ids, resource_ids=args.resource_ids, case_ids=args.case_ids)
+                             identity_ids=args.identity_ids, resource_ids=args.resource_ids, case_ids=args.case_ids, **extra)
         else:
             policy = load(args.policy)
+            if args.command == "run" and policy.get("kind") == "write":
+                raise PolicyError("write policies require tenantbreak write with --enable-writes")
+            if args.command == "write" and (policy.get("kind") != "write" or not args.enable_writes or not 1 <= args.cleanup_seconds <= 120):
+                raise PolicyError("write requires a disposable write policy, --enable-writes and cleanup-seconds between 1 and 120")
             if args.refresh_auth != (args.refresh_out is not None):
                 raise PolicyError("use --refresh-auth together with --refresh-out private/NEW-FILE.json")
             if args.refresh_out and any(args.refresh_out.resolve() == path.resolve() for path in (args.html, args.json, args.junit) if path):
@@ -209,10 +239,12 @@ def main(argv=None):
             if args.credentials_file:
                 environment.update(read_credentials(args.credentials_file))
             tokens = credentials(policy, environment, dependencies(policy, selected), args.refresh_auth)
+            runner = run_writes if args.command == "write" else run
+            extra = {"enable_writes": True, "cleanup_seconds": args.cleanup_seconds} if args.command == "write" else {}
             with refresh_output(args.refresh_out) if args.refresh_out else nullcontext(None) as save:
-                report = run(policy, tokens, base_url=target, timeout=args.timeout,
+                report = runner(policy, tokens, base_url=target, timeout=args.timeout,
                              max_seconds=args.max_seconds, allow_http=args.allow_http, case_ids=selected,
-                             refresh_auth=args.refresh_auth, refresh_sink=save)
+                             refresh_auth=args.refresh_auth, refresh_sink=save, **extra)
             if args.refresh_out:
                 print("Refreshed credential state saved privately. The file contains secrets; do not share it. Identity verification results follow.")
             if source_sha:

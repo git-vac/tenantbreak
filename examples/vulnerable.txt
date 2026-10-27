@@ -1,7 +1,7 @@
 
 TENANTBREAK / AUTHORIZATION EVIDENCE
 LedgerCloud authorization lab | demo-vulnerable
-Target: http://127.0.0.1:50205
+Target: http://127.0.0.1:51929
 Identities verified: 4/4 | Owner controls: 4/4
 
 RESOURCE                IDENTITY       EXPECTED  HTTP  RESULT
@@ -24,14 +24,14 @@ acme-export             charlie        deny      403   DENY
 acme-export             admin-acme     allow     200   ALLOW
 
 16 checks | 9 confirmed leaks | 7 expected outcomes | 0 need attention
-  LEAK bob -> alice-invoice: all 3 protected-resource assertions matched
-  LEAK charlie -> alice-invoice: all 3 protected-resource assertions matched
-  LEAK alice -> bob-invoice: all 3 protected-resource assertions matched
-  LEAK charlie -> bob-invoice: all 3 protected-resource assertions matched
-  LEAK alice -> charlie-invoice: all 3 protected-resource assertions matched
-  LEAK bob -> charlie-invoice: all 3 protected-resource assertions matched
-  LEAK admin-acme -> charlie-invoice: all 3 protected-resource assertions matched
-  LEAK alice -> acme-export: all 3 protected-resource assertions matched
-  LEAK bob -> acme-export: all 3 protected-resource assertions matched
+  LEAK bob -> alice-invoice: protected-resource-returned
+  LEAK charlie -> alice-invoice: protected-resource-returned
+  LEAK alice -> bob-invoice: protected-resource-returned
+  LEAK charlie -> bob-invoice: protected-resource-returned
+  LEAK alice -> charlie-invoice: protected-resource-returned
+  LEAK bob -> charlie-invoice: protected-resource-returned
+  LEAK admin-acme -> charlie-invoice: protected-resource-returned
+  LEAK alice -> acme-export: protected-resource-returned
+  LEAK bob -> acme-export: protected-resource-returned
 
-A passing run covers only this policy's configured reads and evidence assertions.
+A passing run covers only this policy's configured operations and evidence assertions.

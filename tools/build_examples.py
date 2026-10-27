@@ -14,6 +14,9 @@ from tenantbreak.lab import TOKENS, demo_environment, demo_policy, server
 from tenantbreak.config import credentials
 from tenantbreak.onboarding import from_openapi, read_spec
 from tenantbreak.report import html, junit, terminal
+from tenantbreak.saved import normalize
+from tenantbreak.scenarios import collection_policy, write_policy
+from tenantbreak.writes import run_writes
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -99,7 +102,29 @@ def main():
             report = run(policy, tokens, base_url=address, refresh_auth=auth == "refresh", refresh_sink=lambda *_: None)
         if exit_code(report) != 0 or report["counts"] != {"allowed": 6, "denied": 10}:
             raise RuntimeError("lab authentication workflow failed")
-    print("Verified HTTP lab: 9 leaks before; 6 allowed + 10 denied after; 9 resolutions; focused case retains controls. Examples regenerated.")
+    for scenario, policy, runner, confirmed, resolved in (("collections", collection_policy(), run, "confirmed-leak", "resolved-leak"),
+                                                         ("writes", write_policy(), run_writes, "confirmed-write", "resolved-write")):
+        pair = []
+        (destination / f"policy.{scenario}.json").write_text(json.dumps(policy, indent=2) + "\n", encoding="utf-8", newline="\n")
+        for mode in ("vulnerable", "fixed"):
+            with server(mode, scenario=scenario) as address:
+                report = runner(policy, TOKENS, base_url=address, mode="demo-" + mode, **({"enable_writes": True} if scenario == "writes" else {}))
+            pair.append(report)
+            for extension, content in (("json", json.dumps(report, indent=2) + "\n"), ("html", html(report)), ("xml", junit(report)), ("txt", terminal(report))):
+                (destination / f"{scenario}-{mode}.{extension}").write_text(content, encoding="utf-8", newline="\n")
+            if exit_code(report) != (1 if mode == "vulnerable" else 0):
+                attention = ", ".join(case["id"] + ":" + case["reason"] for case in report["cases"] if case["status"] in {"error", "inconclusive"})
+                raise RuntimeError(f"{scenario} {mode} returned incomplete or unexpected evidence: {attention}")
+            if normalize(report)["counts"] != report["counts"]:
+                raise RuntimeError("saved scenario evidence was inconsistent")
+        expected = 9 if scenario == "collections" else 6
+        difference = comparison.compare(*pair)
+        if pair[0]["counts"].get(confirmed) != expected or difference["counts"].get(resolved) != expected or comparison.exit_code(difference) != 0:
+            raise RuntimeError("advanced experiment did not establish the expected resolutions")
+        for extension, content in (("json", json.dumps(difference, indent=2) + "\n"), ("html", comparison.html(difference)),
+                                   ("xml", comparison.junit(difference)), ("txt", comparison.terminal(difference))):
+            (destination / f"{scenario}-comparison.{extension}").write_text(content, encoding="utf-8", newline="\n")
+    print("Verified HTTP labs: 9 object leaks, 9 collection/field leaks and 6 forbidden writes resolved; focused checks and cleanup verified. Examples regenerated.")
 
 
 if __name__ == "__main__":

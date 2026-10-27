@@ -1,7 +1,7 @@
 
 TENANTBREAK / AUTHORIZATION EVIDENCE
 LedgerCloud authorization lab | demo-fixed
-Target: http://127.0.0.1:50239
+Target: http://127.0.0.1:51954
 Identities verified: 4/4 | Owner controls: 4/4
 
 RESOURCE                IDENTITY       EXPECTED  HTTP  RESULT
@@ -25,4 +25,4 @@ acme-export             admin-acme     allow     200   ALLOW
 
 16 checks | 0 confirmed leaks | 16 expected outcomes | 0 need attention
 
-A passing run covers only this policy's configured reads and evidence assertions.
+A passing run covers only this policy's configured operations and evidence assertions.

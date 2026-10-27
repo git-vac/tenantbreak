@@ -8,13 +8,15 @@
   </picture>
 </p>
 
-**Prove which users can read which API resources. Keep authorization bugs from coming back.**
+**Test API read and write authorization across users, roles and tenants.**
 
-TenantBreak runs an explicit access matrix across users, roles and tenants. A finding requires a verified identity, a successful owner control, and matching resource evidence in a forbidden response. A `200 OK` alone never establishes a leak.
+TenantBreak runs an explicit access matrix with verified identities and owner controls. It checks individual objects, known records inside collections and configured field exposure. Optional disposable write tests verify actual state changes and cleanup through independent reads. HTTP success alone never establishes access or an effect.
 
 ![Synthetic lab: nine leaks before the fix, zero after](examples/overview.svg)
 
 [Vulnerable report](examples/vulnerable.html) · [Fixed report](examples/fixed.html) · [Run comparison](examples/comparison.html) · [Focused finding](examples/focused.html) · [Example policy](examples/policy.json)
+
+[Collection experiment](examples/collections-comparison.html) · [Write experiment](examples/writes-comparison.html)
 
 ## Try the complete experiment
 
@@ -116,6 +118,34 @@ tenantbreak run private/policy.json --refresh-auth --refresh-out private/refresh
 
 Credentials stay fixed during access probes. An expired session remains a test error. [Authentication configuration and refresh workflow](docs/authentication.md) includes complete policy examples, client authentication options and private credential reuse.
 
+## Check lists and partial exposure
+
+Collection resources locate a known fixture within an explicit record array, following bounded next-page paths on the same endpoint. Fields from different rows cannot combine into a finding. A complete scan that excludes the target can establish a denial; truncated or failed scans remain incomplete.
+
+An optional `leak_match` declares a specific subset of record fields sufficient to prove exposure. Full owner evidence remains required.
+
+```bash
+tenantbreak demo --scenario collections --json reports/collections-before.json
+tenantbreak demo --scenario collections --mode fixed --json reports/collections-after.json
+tenantbreak compare reports/collections-before.json reports/collections-after.json --html reports/collections-change.html
+```
+
+The first command intentionally exits 1 with nine findings; the fixed run and comparison exit 0. [Collection and field-exposure configuration](docs/collections.md).
+
+## Test disposable writes
+
+Write tests use a separate `kind: write` policy and require explicit opt-in. An allowed control first proves the operation and restoration work. Each probe then checks the real effect as an independent observer and restores the declared fixture state. Failed cleanup stops subsequent mutations. Use isolated disposable fixtures with exclusive access during the run.
+
+```bash
+tenantbreak demo --scenario writes --enable-writes --json reports/writes-before.json
+tenantbreak demo --scenario writes --mode fixed --enable-writes --json reports/writes-after.json
+tenantbreak compare reports/writes-before.json reports/writes-after.json --html reports/writes-change.html
+# With your own explicitly disposable policy:
+tenantbreak write private/write-policy.json --enable-writes --case update:bob --html reports/write.html
+```
+
+The vulnerable demo intentionally exits 1 with six confirmed forbidden state changes; the fixed run and comparison exit 0. Ordinary `run` and `replay` reject write policies. A selected write case still executes the owner's positive control and cleanup. [Write policy, execution and recovery details](docs/writes.md).
+
 ## Test your own API
 
 Use an API and test accounts you are authorized to examine. Start with staging fixtures whose ownership is known.
@@ -167,15 +197,16 @@ Identity `verify` assertions should independently check the authenticated subjec
 
 | Result | Meaning |
 | --- | --- |
-| `confirmed-leak` | An expected-deny response matched **every** configured resource assertion, after identity and owner verification. Even a 403 containing the complete protected record is a leak. |
-| `allowed` | Expected access returned HTTP 200 and all resource assertions matched. |
-| `denied` | Expected-deny response returned 403/404 without matching protected resource assertions. Non-JSON denials are accepted by status only. |
+| `confirmed-leak` | A forbidden response matched the complete resource evidence or an explicit `leak_match` subset, after identity and owner verification. Collection evidence must come from one record. |
+| `confirmed-write` | Independent observations established a forbidden state change after verified preconditions. A denial response cannot hide an actual effect. |
+| `allowed` | Expected access returned HTTP 200 with matching resource evidence, or an expected write effect was independently observed. |
+| `denied` | Verified explicit read denial, complete collection absence, or an explicit write denial with independently verified unchanged state. Non-JSON read denials are assessed by status only. |
 | `inconclusive` | A control failed, only some evidence matched, an expected resource was absent, or the response did not establish access or denial. |
 | `error` | Authentication expired, a redirect was refused, the API failed, JSON was malformed, or a transport limit was reached. |
 
 An expired token, missing resource, login redirect or generic HTTP 200 error page cannot produce a clean passing run. JSON evidence is exact and structural: fields outside the configured assertions, encoded data and non-JSON response contents are not assessed for leakage.
 
-Exit **0**: all configured checks matched policy. Exit **1**: confirmed leak(s), with complete controls/results. Exit **2**: error or incomplete evidence, including when leaks were also observed; those findings remain in the report. Exit **130**: interrupted.
+Exit **0**: all selected checks matched policy with complete evidence. Exit **1**: confirmed leaks/writes with complete controls/results. Exit **2**: error, incomplete coverage/execution or unverified cleanup, including when findings were also observed. Exit **130**: interrupted; a write interrupted after dispatch attempts cleanup first.
 
 ## Put the policy in CI
 
@@ -189,9 +220,9 @@ The repository's [CI workflow](.github/workflows/tests.yml) installs the package
 
 ## Scope and limits
 
-Resource tests use explicit **GET requests**, bearer/header/cookie credentials, HTTP 200 owner controls, 403/404 denials and JSON equality assertions. Optional pre-run OAuth refresh makes a bounded POST to the configured same-origin token endpoint; it does not add resource write testing. The setup tools create drafts from local OpenAPI documents or a starter template. Access rules and ownership evidence require explicit configuration. The runner does not discover accounts, enumerate IDs, change resource state or automate browser logins.
+Read tests use explicit GET requests and bearer/header/cookie credentials. Optional pre-run OAuth refresh uses a bounded same-origin POST. Disposable write policies separately support POST/PUT/PATCH/DELETE with independent observations and bounded cleanup. The setup tools extract GET routes from local OpenAPI documents; they do not infer collection semantics, write fixtures, ownership or permissions. The runner does not discover accounts, enumerate IDs or automate browser logins.
 
-Every policy is limited to 32 identities, 64 resources and 16 assertions per identity/resource. Policy JSON and responses are bounded to 1 MiB, saved reports to 16 MiB, and OpenAPI input to 8 MiB. Requests run sequentially. The socket timeout defaults to 5 seconds; a 120-second run budget is checked before requests and between response chunks. A blocking operation can overrun that budget by up to its socket timeout, and OS DNS resolution may take longer. Results are observations over time, not an atomic snapshot.
+Policies are limited to 32 identities, 64 read resources (or eight write fixtures) and 16 assertions per identity/resource. Collections are limited to 20 pages and 5000 inspected records per scan; write request bodies to 16 KiB. Policy JSON and responses are bounded to 1 MiB, saved-report loading to 16 MiB, and OpenAPI input to 8 MiB. Requests run sequentially. The default socket timeout is 5 seconds and normal run budget 120 seconds; writes add a separate cleanup budget. Blocking operations and OS DNS resolution can overrun these limits. Results are observations over time, not an atomic snapshot or a guarantee of rollback.
 
 Reports omit raw bodies, headers and cookies and redact exact supplied/returned credential values. Encoded/transformed values are not a general redaction guarantee. Paths, tenant labels and response digests can still describe your application. Saved reports are structurally checked and their outcomes recomputed before replay/comparison; they are not authenticated attestations. Refresh snapshots contain credentials and must stay private. `reports/`, `private/` and `.env*` are Git-ignored. Output files must be new; existing files and symlink targets are refused.
 

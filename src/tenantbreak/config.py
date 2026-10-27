@@ -81,6 +81,9 @@ def _matches(value, label):
 
 
 def validate(policy):
+    if isinstance(policy, dict) and policy.get("kind") == "write":
+        from .writes import validate_write
+        return validate_write(policy)
     _object(policy, {"version", "name", "base_url", "identity_check", "identities", "resources"},
             {"version", "name", "base_url", "identity_check", "identities", "resources"}, "policy")
     if type(policy["version"]) is not int or policy["version"] != 1:
@@ -117,7 +120,7 @@ def validate(policy):
         raise PolicyError("resources: supply 1 to 64 explicit read-only resources")
     resource_ids = set()
     for resource in resources:
-        _object(resource, {"id", "label", "tenant", "path", "allow", "control_identity", "match"},
+        _object(resource, {"id", "label", "tenant", "path", "allow", "control_identity", "match", "leak_match", "collection"},
                 {"id", "label", "tenant", "path", "allow", "control_identity", "match"}, "resource")
         _slug(resource["id"], "resource id")
         if resource["id"] in resource_ids:
@@ -135,6 +138,8 @@ def validate(policy):
         _matches(resource["match"], "resource match")
         if len(resource["match"]) < 2:
             raise PolicyError("resource match: assert at least two identifying fields, such as id and tenant")
+        from .collections import validate_read
+        validate_read(resource)
     if all(len(r["allow"]) == len(ids) for r in resources):
         raise PolicyError("policy must contain at least one expected denial")
     return policy
