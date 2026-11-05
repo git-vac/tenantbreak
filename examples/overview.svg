@@ -1,1 +1,91 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="660" viewBox="0 0 1280 660" role="img" aria-labelledby="title desc"><title id="title">TenantBreak authorization test results</title><desc id="desc">The same four identities and four resources produce nine confirmed leaks against the vulnerable lab and zero against the fixed lab.</desc><rect width="1280" height="660" rx="18" fill="#0b1220"/><g font-family="system-ui,Segoe UI,sans-serif"><text x="40" y="46" fill="#72e6ba" font-family="monospace" font-size="13" letter-spacing="3">TENANTBREAK / AUTHORIZATION EVIDENCE</text><text x="40" y="103" fill="#e8eef7" font-size="36" font-weight="700">Authorization results before and after the fix</text><text x="40" y="138" fill="#a8b8ce" font-size="17">Actual HTTP requests / invented fixture records / verified identities and owner controls</text><rect x="40" y="177" width="580" height="413" rx="12" fill="#111c2e" stroke="#26354b"/><text x="64" y="215" fill="#ff939e" font-size="13" font-weight="700" letter-spacing="1.5">VULNERABLE API</text><text x="64" y="272" fill="#ff939e" font-size="42" font-weight="700">9</text><text x="128" y="268" fill="#e8eef7" font-size="19">confirmed forbidden reads</text><text x="64" y="304" fill="#a8b8ce" font-size="14">4 identities verified / 4 owner controls passed / 16 checks</text><text x="278" y="349" text-anchor="middle" fill="#a8b8ce" font-size="13">alice</text><text x="366" y="349" text-anchor="middle" fill="#a8b8ce" font-size="13">bob</text><text x="454" y="349" text-anchor="middle" fill="#a8b8ce" font-size="13">charlie</text><text x="542" y="349" text-anchor="middle" fill="#a8b8ce" font-size="13">admin</text><text x="64" y="390" fill="#e8eef7" font-size="14">alice-invoice</text><rect x="242" y="368" width="72" height="31" rx="5" fill="#15322e"/><text x="278" y="389" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">ALLOW</text><rect x="330" y="368" width="72" height="31" rx="5" fill="#392331"/><text x="366" y="389" text-anchor="middle" fill="#ff939e" font-family="monospace" font-size="13" font-weight="700">LEAK</text><rect x="418" y="368" width="72" height="31" rx="5" fill="#392331"/><text x="454" y="389" text-anchor="middle" fill="#ff939e" font-family="monospace" font-size="13" font-weight="700">LEAK</text><rect x="506" y="368" width="72" height="31" rx="5" fill="#15322e"/><text x="542" y="389" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">ALLOW</text><text x="64" y="438" fill="#e8eef7" font-size="14">bob-invoice</text><rect x="242" y="416" width="72" height="31" rx="5" fill="#392331"/><text x="278" y="437" text-anchor="middle" fill="#ff939e" font-family="monospace" font-size="13" font-weight="700">LEAK</text><rect x="330" y="416" width="72" height="31" rx="5" fill="#15322e"/><text x="366" y="437" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">ALLOW</text><rect x="418" y="416" width="72" height="31" rx="5" fill="#392331"/><text x="454" y="437" text-anchor="middle" fill="#ff939e" font-family="monospace" font-size="13" font-weight="700">LEAK</text><rect x="506" y="416" width="72" height="31" rx="5" fill="#15322e"/><text x="542" y="437" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">ALLOW</text><text x="64" y="486" fill="#e8eef7" font-size="14">charlie-invoice</text><rect x="242" y="464" width="72" height="31" rx="5" fill="#392331"/><text x="278" y="485" text-anchor="middle" fill="#ff939e" font-family="monospace" font-size="13" font-weight="700">LEAK</text><rect x="330" y="464" width="72" height="31" rx="5" fill="#392331"/><text x="366" y="485" text-anchor="middle" fill="#ff939e" font-family="monospace" font-size="13" font-weight="700">LEAK</text><rect x="418" y="464" width="72" height="31" rx="5" fill="#15322e"/><text x="454" y="485" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">ALLOW</text><rect x="506" y="464" width="72" height="31" rx="5" fill="#392331"/><text x="542" y="485" text-anchor="middle" fill="#ff939e" font-family="monospace" font-size="13" font-weight="700">LEAK</text><text x="64" y="534" fill="#e8eef7" font-size="14">acme-export</text><rect x="242" y="512" width="72" height="31" rx="5" fill="#392331"/><text x="278" y="533" text-anchor="middle" fill="#ff939e" font-family="monospace" font-size="13" font-weight="700">LEAK</text><rect x="330" y="512" width="72" height="31" rx="5" fill="#392331"/><text x="366" y="533" text-anchor="middle" fill="#ff939e" font-family="monospace" font-size="13" font-weight="700">LEAK</text><rect x="418" y="512" width="72" height="31" rx="5" fill="#15322e"/><text x="454" y="533" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">DENY</text><rect x="506" y="512" width="72" height="31" rx="5" fill="#15322e"/><text x="542" y="533" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">ALLOW</text><rect x="660" y="177" width="580" height="413" rx="12" fill="#111c2e" stroke="#26354b"/><text x="684" y="215" fill="#72e6ba" font-size="13" font-weight="700" letter-spacing="1.5">FIXED API</text><text x="684" y="272" fill="#72e6ba" font-size="42" font-weight="700">0</text><text x="748" y="268" fill="#e8eef7" font-size="19">confirmed forbidden reads</text><text x="684" y="304" fill="#a8b8ce" font-size="14">4 identities verified / 4 owner controls passed / 16 checks</text><text x="898" y="349" text-anchor="middle" fill="#a8b8ce" font-size="13">alice</text><text x="986" y="349" text-anchor="middle" fill="#a8b8ce" font-size="13">bob</text><text x="1074" y="349" text-anchor="middle" fill="#a8b8ce" font-size="13">charlie</text><text x="1162" y="349" text-anchor="middle" fill="#a8b8ce" font-size="13">admin</text><text x="684" y="390" fill="#e8eef7" font-size="14">alice-invoice</text><rect x="862" y="368" width="72" height="31" rx="5" fill="#15322e"/><text x="898" y="389" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">ALLOW</text><rect x="950" y="368" width="72" height="31" rx="5" fill="#15322e"/><text x="986" y="389" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">DENY</text><rect x="1038" y="368" width="72" height="31" rx="5" fill="#15322e"/><text x="1074" y="389" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">DENY</text><rect x="1126" y="368" width="72" height="31" rx="5" fill="#15322e"/><text x="1162" y="389" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">ALLOW</text><text x="684" y="438" fill="#e8eef7" font-size="14">bob-invoice</text><rect x="862" y="416" width="72" height="31" rx="5" fill="#15322e"/><text x="898" y="437" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">DENY</text><rect x="950" y="416" width="72" height="31" rx="5" fill="#15322e"/><text x="986" y="437" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">ALLOW</text><rect x="1038" y="416" width="72" height="31" rx="5" fill="#15322e"/><text x="1074" y="437" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">DENY</text><rect x="1126" y="416" width="72" height="31" rx="5" fill="#15322e"/><text x="1162" y="437" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">ALLOW</text><text x="684" y="486" fill="#e8eef7" font-size="14">charlie-invoice</text><rect x="862" y="464" width="72" height="31" rx="5" fill="#15322e"/><text x="898" y="485" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">DENY</text><rect x="950" y="464" width="72" height="31" rx="5" fill="#15322e"/><text x="986" y="485" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">DENY</text><rect x="1038" y="464" width="72" height="31" rx="5" fill="#15322e"/><text x="1074" y="485" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">ALLOW</text><rect x="1126" y="464" width="72" height="31" rx="5" fill="#15322e"/><text x="1162" y="485" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">DENY</text><text x="684" y="534" fill="#e8eef7" font-size="14">acme-export</text><rect x="862" y="512" width="72" height="31" rx="5" fill="#15322e"/><text x="898" y="533" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">DENY</text><rect x="950" y="512" width="72" height="31" rx="5" fill="#15322e"/><text x="986" y="533" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">DENY</text><rect x="1038" y="512" width="72" height="31" rx="5" fill="#15322e"/><text x="1074" y="533" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">DENY</text><rect x="1126" y="512" width="72" height="31" rx="5" fill="#15322e"/><text x="1162" y="533" text-anchor="middle" fill="#72e6ba" font-family="monospace" font-size="13" font-weight="700">ALLOW</text><text x="40" y="628" fill="#a8b8ce" font-size="14">A result covers the configured identities, resources and assertions. No general security score.</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="580" viewBox="0 0 1200 580" role="img" aria-labelledby="title desc">
+<!-- Design method: Unslop by Damir Sokolovsky (@heydamir), CC BY 4.0. https://github.com/heydamir/unslop -->
+<title id="title">TenantBreak: API authorization before and after the fix</title>
+<desc id="desc">The synthetic HTTP lab found 9 forbidden reads before the fix and 0 after. For each resource and identity, the left cell is before and the right cell is after.</desc>
+<style>
+text{font-family:system-ui,Segoe UI,sans-serif;fill:#252422;font-variant-numeric:tabular-nums}
+.mono{font-family:Consolas,Menlo,monospace}.meta{fill:#625c55}.rule{stroke:#d8d2c9}.leak{fill:#913525}
+</style>
+<rect x="0.5" y="0.5" width="1199" height="579" rx="16" fill="#f7f4ee" stroke="#d8d2c9"/>
+<text x="40" y="43" font-size="18" font-weight="600">TenantBreak</text>
+<text x="1160" y="43" text-anchor="end" class="mono meta" font-size="16">Synthetic HTTP lab</text>
+<path d="M40 60H1160" class="rule"/>
+<text x="40" y="110" font-size="42" font-weight="500">API authorization before and after the fix</text>
+<text x="40" y="180" class="mono leak" font-size="52">9</text>
+<path d="M83 162h30m-8-7 8 7-8 7" fill="none" stroke="#777068" stroke-width="1.5"/>
+<text x="130" y="180" class="mono" font-size="52">0</text>
+<text x="184" y="174" font-size="22">Confirmed forbidden reads</text>
+<text x="1160" y="150" text-anchor="end" class="meta" font-size="17">16 checks per run</text>
+<text x="1160" y="176" text-anchor="end" class="meta" font-size="17">4 verified identities · 4 passing owner controls per run</text>
+<rect x="40" y="208" width="1120" height="296" rx="12" fill="#fdfbf7"/>
+<path d="M52 208H1148Q1160 208 1160 220V280H40V220Q40 208 52 208Z" fill="#ede8df"/>
+<text x="60" y="252" font-size="18" font-weight="500">Resource</text>
+<text x="390" y="236" text-anchor="middle" class="mono" font-size="19">alice</text>
+<text x="335" y="264" text-anchor="middle" class="meta" font-size="16">Before</text>
+<text x="445" y="264" text-anchor="middle" class="meta" font-size="16">After</text>
+<path d="M280 208V504M390 248V504" class="rule"/>
+<text x="610" y="236" text-anchor="middle" class="mono" font-size="19">bob</text>
+<text x="555" y="264" text-anchor="middle" class="meta" font-size="16">Before</text>
+<text x="665" y="264" text-anchor="middle" class="meta" font-size="16">After</text>
+<path d="M500 208V504M610 248V504" class="rule"/>
+<text x="830" y="236" text-anchor="middle" class="mono" font-size="19">charlie</text>
+<text x="775" y="264" text-anchor="middle" class="meta" font-size="16">Before</text>
+<text x="885" y="264" text-anchor="middle" class="meta" font-size="16">After</text>
+<path d="M720 208V504M830 248V504" class="rule"/>
+<text x="1050" y="236" text-anchor="middle" class="mono" font-size="19">admin-acme</text>
+<text x="995" y="264" text-anchor="middle" class="meta" font-size="16">Before</text>
+<text x="1105" y="264" text-anchor="middle" class="meta" font-size="16">After</text>
+<path d="M940 208V504M1050 248V504" class="rule"/>
+<text x="60" y="315" class="mono" font-size="18">alice-invoice</text>
+<text x="335" y="315" text-anchor="middle" class="" font-size="18">Allow</text>
+<text x="445" y="315" text-anchor="middle" class="" font-size="18">Allow</text>
+<rect x="501" y="281" width="109" height="55" fill="#f4ded4"/>
+<text x="555" y="315" text-anchor="middle" class="leak" font-size="18">Leak</text>
+<text x="665" y="315" text-anchor="middle" class="meta" font-size="18">Deny</text>
+<rect x="721" y="281" width="109" height="55" fill="#f4ded4"/>
+<text x="775" y="315" text-anchor="middle" class="leak" font-size="18">Leak</text>
+<text x="885" y="315" text-anchor="middle" class="meta" font-size="18">Deny</text>
+<text x="995" y="315" text-anchor="middle" class="" font-size="18">Allow</text>
+<text x="1105" y="315" text-anchor="middle" class="" font-size="18">Allow</text>
+<path d="M40 280H1160" class="rule"/>
+<text x="60" y="371" class="mono" font-size="18">bob-invoice</text>
+<rect x="281" y="337" width="109" height="55" fill="#f4ded4"/>
+<text x="335" y="371" text-anchor="middle" class="leak" font-size="18">Leak</text>
+<text x="445" y="371" text-anchor="middle" class="meta" font-size="18">Deny</text>
+<text x="555" y="371" text-anchor="middle" class="" font-size="18">Allow</text>
+<text x="665" y="371" text-anchor="middle" class="" font-size="18">Allow</text>
+<rect x="721" y="337" width="109" height="55" fill="#f4ded4"/>
+<text x="775" y="371" text-anchor="middle" class="leak" font-size="18">Leak</text>
+<text x="885" y="371" text-anchor="middle" class="meta" font-size="18">Deny</text>
+<text x="995" y="371" text-anchor="middle" class="" font-size="18">Allow</text>
+<text x="1105" y="371" text-anchor="middle" class="" font-size="18">Allow</text>
+<path d="M40 336H1160" class="rule"/>
+<text x="60" y="427" class="mono" font-size="18">charlie-invoice</text>
+<rect x="281" y="393" width="109" height="55" fill="#f4ded4"/>
+<text x="335" y="427" text-anchor="middle" class="leak" font-size="18">Leak</text>
+<text x="445" y="427" text-anchor="middle" class="meta" font-size="18">Deny</text>
+<rect x="501" y="393" width="109" height="55" fill="#f4ded4"/>
+<text x="555" y="427" text-anchor="middle" class="leak" font-size="18">Leak</text>
+<text x="665" y="427" text-anchor="middle" class="meta" font-size="18">Deny</text>
+<text x="775" y="427" text-anchor="middle" class="" font-size="18">Allow</text>
+<text x="885" y="427" text-anchor="middle" class="" font-size="18">Allow</text>
+<rect x="941" y="393" width="109" height="55" fill="#f4ded4"/>
+<text x="995" y="427" text-anchor="middle" class="leak" font-size="18">Leak</text>
+<text x="1105" y="427" text-anchor="middle" class="meta" font-size="18">Deny</text>
+<path d="M40 392H1160" class="rule"/>
+<text x="60" y="483" class="mono" font-size="18">acme-export</text>
+<rect x="281" y="449" width="109" height="55" fill="#f4ded4"/>
+<text x="335" y="483" text-anchor="middle" class="leak" font-size="18">Leak</text>
+<text x="445" y="483" text-anchor="middle" class="meta" font-size="18">Deny</text>
+<rect x="501" y="449" width="109" height="55" fill="#f4ded4"/>
+<text x="555" y="483" text-anchor="middle" class="leak" font-size="18">Leak</text>
+<text x="665" y="483" text-anchor="middle" class="meta" font-size="18">Deny</text>
+<text x="775" y="483" text-anchor="middle" class="meta" font-size="18">Deny</text>
+<text x="885" y="483" text-anchor="middle" class="meta" font-size="18">Deny</text>
+<text x="995" y="483" text-anchor="middle" class="" font-size="18">Allow</text>
+<text x="1105" y="483" text-anchor="middle" class="" font-size="18">Allow</text>
+<path d="M40 448H1160" class="rule"/>
+<rect x="40" y="208" width="1120" height="296" rx="12" fill="none" class="rule"/>
+<text x="40" y="548" class="leak" font-size="17">Leak = a forbidden read confirmed</text>
+<text x="1160" y="548" text-anchor="end" class="meta" font-size="17">Real HTTP requests against invented records</text>
+</svg>

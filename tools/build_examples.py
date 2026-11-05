@@ -22,40 +22,72 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def overview(before, after):
-    e = escape
-    svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="660" viewBox="0 0 1280 660" role="img" aria-labelledby="title desc">',
-           '<title id="title">TenantBreak authorization test results</title>',
-           '<desc id="desc">The same four identities and four resources produce nine confirmed leaks against the vulnerable lab and zero against the fixed lab.</desc>',
-           '<rect width="1280" height="660" rx="18" fill="#0b1220"/>',
-           '<g font-family="system-ui,Segoe UI,sans-serif">',
-           '<text x="40" y="46" fill="#72e6ba" font-family="monospace" font-size="13" letter-spacing="3">TENANTBREAK / AUTHORIZATION EVIDENCE</text>',
-           '<text x="40" y="103" fill="#e8eef7" font-size="36" font-weight="700">Authorization results before and after the fix</text>',
-           '<text x="40" y="138" fill="#a8b8ce" font-size="17">Actual HTTP requests / invented fixture records / verified identities and owner controls</text>']
-    for x, report, title, accent in ((40, before, "VULNERABLE API", "#ff939e"), (660, after, "FIXED API", "#72e6ba")):
-        leak_count = sum(case["status"] == "confirmed-leak" for case in report["cases"])
-        svg.extend([f'<rect x="{x}" y="177" width="580" height="413" rx="12" fill="#111c2e" stroke="#26354b"/>',
-                    f'<text x="{x+24}" y="215" fill="{accent}" font-size="13" font-weight="700" letter-spacing="1.5">{title}</text>',
-                    f'<text x="{x+24}" y="272" fill="{accent}" font-size="42" font-weight="700">{leak_count}</text>',
-                    f'<text x="{x+88}" y="268" fill="#e8eef7" font-size="19">confirmed forbidden reads</text>',
-                    f'<text x="{x+24}" y="304" fill="#a8b8ce" font-size="14">4 identities verified / 4 owner controls passed / 16 checks</text>'])
-        for column, identity in enumerate(report["identities"]):
-            label = identity["id"].replace("admin-acme", "admin")
-            svg.append(f'<text x="{x+238+column*88}" y="349" text-anchor="middle" fill="#a8b8ce" font-size="13">{e(label)}</text>')
-        resources = list(dict.fromkeys(case["resource"] for case in report["cases"]))
-        lookup = {(case["resource"], case["identity"]): case for case in report["cases"]}
-        for row, resource in enumerate(resources):
-            y = 383 + row * 48
-            svg.append(f'<text x="{x+24}" y="{y+7}" fill="#e8eef7" font-size="14">{e(resource)}</text>')
-            for column, identity in enumerate(report["identities"]):
-                case = lookup[(resource, identity["id"])]
-                leak = case["status"] == "confirmed-leak"
-                label = "LEAK" if leak else "ALLOW" if case["status"] == "allowed" else "DENY"
-                color = "#ff939e" if leak else "#72e6ba"
-                fill = "#392331" if leak else "#15322e"
-                cx = x + 238 + column * 88
-                svg.append(f'<rect x="{cx-36}" y="{y-15}" width="72" height="31" rx="5" fill="{fill}"/><text x="{cx}" y="{y+6}" text-anchor="middle" fill="{color}" font-family="monospace" font-size="13" font-weight="700">{label}</text>')
-    svg.extend(['<text x="40" y="628" fill="#a8b8ce" font-size="14">A result covers the configured identities, resources and assertions. No general security score.</text>', '</g></svg>'])
-    return "".join(svg)
+    identities = [item["id"] for item in before["identities"]]
+    resources = list(dict.fromkeys(case["resource"] for case in before["cases"]))
+    matrices = [
+        {(case["resource"], case["identity"]): case["status"] for case in report["cases"]}
+        for report in (before, after)
+    ]
+    expected = {(resource, identity) for resource in resources for identity in identities}
+    if len(resources) != 4 or len(identities) != 4 or any(m.keys() != expected for m in matrices):
+        raise ValueError("showcase requires matching four-by-four demo matrices")
+    leaks = [sum(status == "confirmed-leak" for status in m.values()) for m in matrices]
+    controls = [sum(item["valid"] for item in report["controls"]) for report in (before, after)]
+    verified = [sum(item["valid"] for item in report["identities"]) for report in (before, after)]
+    if controls != [4, 4] or verified != [4, 4]:
+        raise ValueError("showcase requires verified identities and passing owner controls")
+
+    svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="580" viewBox="0 0 1200 580" role="img" aria-labelledby="title desc">',
+           '<!-- Design method: Unslop by Damir Sokolovsky (@heydamir), CC BY 4.0. https://github.com/heydamir/unslop -->',
+           '<title id="title">TenantBreak: API authorization before and after the fix</title>',
+           f'<desc id="desc">The synthetic HTTP lab found {leaks[0]} forbidden reads before the fix and {leaks[1]} after. For each resource and identity, the left cell is before and the right cell is after.</desc>',
+           '<style>',
+           'text{font-family:system-ui,Segoe UI,sans-serif;fill:#252422;font-variant-numeric:tabular-nums}',
+           '.mono{font-family:Consolas,Menlo,monospace}.meta{fill:#625c55}.rule{stroke:#d8d2c9}.leak{fill:#913525}',
+           '</style>',
+           '<rect x="0.5" y="0.5" width="1199" height="579" rx="16" fill="#f7f4ee" stroke="#d8d2c9"/>',
+           '<text x="40" y="43" font-size="18" font-weight="600">TenantBreak</text>',
+           '<text x="1160" y="43" text-anchor="end" class="mono meta" font-size="16">Synthetic HTTP lab</text>',
+           '<path d="M40 60H1160" class="rule"/>',
+           '<text x="40" y="110" font-size="42" font-weight="500">API authorization before and after the fix</text>',
+           f'<text x="40" y="180" class="mono leak" font-size="52">{leaks[0]}</text>',
+           '<path d="M83 162h30m-8-7 8 7-8 7" fill="none" stroke="#777068" stroke-width="1.5"/>',
+           f'<text x="130" y="180" class="mono" font-size="52">{leaks[1]}</text>',
+           '<text x="184" y="174" font-size="22">Confirmed forbidden reads</text>',
+           f'<text x="1160" y="150" text-anchor="end" class="meta" font-size="17">{len(expected)} checks per run</text>',
+           f'<text x="1160" y="176" text-anchor="end" class="meta" font-size="17">{verified[0]} verified identities · {controls[0]} passing owner controls per run</text>',
+           '<rect x="40" y="208" width="1120" height="296" rx="12" fill="#fdfbf7"/>',
+           '<path d="M52 208H1148Q1160 208 1160 220V280H40V220Q40 208 52 208Z" fill="#ede8df"/>',
+           '<text x="60" y="252" font-size="18" font-weight="500">Resource</text>']
+    labels = {"confirmed-leak": "Leak", "allowed": "Allow", "denied": "Deny"}
+    for col, identity in enumerate(identities):
+        x = 280 + col * 220
+        svg.extend([
+            f'<text x="{x+110}" y="236" text-anchor="middle" class="mono" font-size="19">{escape(identity)}</text>',
+            f'<text x="{x+55}" y="264" text-anchor="middle" class="meta" font-size="16">Before</text>',
+            f'<text x="{x+165}" y="264" text-anchor="middle" class="meta" font-size="16">After</text>',
+            f'<path d="M{x} 208V504M{x+110} 248V504" class="rule"/>',
+        ])
+    for row, resource in enumerate(resources):
+        y = 280 + row * 56
+        svg.append(f'<text x="60" y="{y+35}" class="mono" font-size="18">{escape(resource)}</text>')
+        for col, identity in enumerate(identities):
+            for side, matrix in enumerate(matrices):
+                x = 280 + col * 220 + side * 110
+                status = matrix[resource, identity]
+                label = labels[status]
+                color = "leak" if status == "confirmed-leak" else "meta" if status == "denied" else ""
+                if status == "confirmed-leak":
+                    svg.append(f'<rect x="{x+1}" y="{y+1}" width="109" height="55" fill="#f4ded4"/>')
+                svg.append(f'<text x="{x+55}" y="{y+35}" text-anchor="middle" class="{color}" font-size="18">{label}</text>')
+        svg.append(f'<path d="M40 {y}H1160" class="rule"/>')
+    svg.extend([
+        '<rect x="40" y="208" width="1120" height="296" rx="12" fill="none" class="rule"/>',
+        '<text x="40" y="548" class="leak" font-size="17">Leak = a forbidden read confirmed</text>',
+        '<text x="1160" y="548" text-anchor="end" class="meta" font-size="17">Real HTTP requests against invented records</text>',
+        '</svg>',
+    ])
+    return "\n".join(svg) + "\n"
 
 
 def main():
