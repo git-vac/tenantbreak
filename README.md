@@ -12,7 +12,7 @@
 
 TenantBreak runs an explicit access matrix with verified identities and owner controls. It checks individual objects, known records inside collections and configured field exposure. Optional disposable write tests verify actual state changes and cleanup through independent reads. HTTP success alone never establishes access or an effect.
 
-![Synthetic lab: nine leaks before the fix, zero after](examples/overview.svg)
+![TenantBreak access matrix: nine confirmed forbidden reads before the fix and zero after, across four identities and four resources](examples/overview.svg)
 
 [Vulnerable report](examples/vulnerable.html) · [Fixed report](examples/fixed.html) · [Run comparison](examples/comparison.html) · [Focused finding](examples/focused.html) · [Example policy](examples/policy.json)
 
